@@ -29,6 +29,7 @@
     @foreach(\Laravel\Nova\Nova::themeStyles() as $publicPath)
         <link rel="stylesheet" href="{{ $publicPath }}">
     @endforeach
+{{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.17/tailwind.min.css">--}}
 </head>
 <body class="min-w-site bg-40 text-90 font-medium min-h-full">
     <div id="nova">
@@ -52,11 +53,24 @@
                     <a v-if="@json(\Laravel\Nova\Nova::name() !== null)" href="{{ \Illuminate\Support\Facades\Config::get('nova.url') }}" class="no-underline dim font-bold text-90 mr-6">
                         {{ \Laravel\Nova\Nova::name() }}
                     </a>
+                    <ul class="list-reset flex">
+                        <li class="leading-tight ml-8 text-sm">
+                            <a class="text-black text-justify no-underline dim" href="{{ config('APP_URL').config('nova.path') }}/resources/customers">Müştərilər</a>
+                        </li>
+                        <li class="leading-tight ml-8 text-sm">
+                            <a class="text-black text-justify no-underline dim" href="#">Tranzaksiyalar</a>
+                        </li>
+                        <li class="leading-tight ml-8 text-sm">
+                            <a class="text-black text-justify no-underline dim" href="#">Mühasibatlıq</a>
+                        </li>
+                        <li class="leading-tight ml-8 text-sm">
+                            <a class="text-black text-justify no-underline dim" href="#">Hesabatlar</a>
+                        </li>
+                    </ul>
+{{--                    @if (count(\Laravel\Nova\Nova::globallySearchableResources(request())) > 0)--}}
 
-                    @if (count(\Laravel\Nova\Nova::globallySearchableResources(request())) > 0)
-
-                        <global-search dusk="global-search-component"></global-search>
-                    @endif
+{{--                        <global-search dusk="global-search-component"></global-search>--}}
+{{--                    @endif--}}
                     <dropdown class="ml-auto h-9 flex items-center dropdown-right">
                         @include('nova::partials.user')
                     </dropdown>

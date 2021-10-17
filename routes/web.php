@@ -14,5 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    //Redirect user to nova login page
+    return redirect()->to('/nova');
 });
