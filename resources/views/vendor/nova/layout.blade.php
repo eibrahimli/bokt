@@ -50,12 +50,12 @@
             <!-- Content -->
             <div class="content">
                 <div class="flex items-center relative shadow h-header bg-white z-20 px-view">
-                    <a v-if="@json(\Laravel\Nova\Nova::name() !== null)" href="{{ \Illuminate\Support\Facades\Config::get('nova.url') }}" class="no-underline dim font-bold text-90 mr-6">
-                        {{ \Laravel\Nova\Nova::name() }}
+                    <a v-if="@json(\Laravel\Nova\Nova::name() !== null)" href="{{ config('app.url') }}" class="no-underline font-bold text-90 mr-6">
+                        <img src="{{ asset('storage/logo.png') }}" width="{{ $width ?? '126' }}" height="{{ $height ?? '24' }}">
                     </a>
                     <ul class="list-reset flex">
                         <li class="leading-tight ml-8 text-sm">
-                            <a class="text-black text-justify no-underline dim" href="{{ config('APP_URL').config('nova.path') }}/resources/customers">Müştərilər</a>
+                            <a class="text-black text-justify no-underline dim" href="{{ config('app.url') }}/resources/customers">Müştərilər</a>
                         </li>
                         <li class="leading-tight ml-8 text-sm">
                             <a class="text-black text-justify no-underline dim" href="#">Tranzaksiyalar</a>

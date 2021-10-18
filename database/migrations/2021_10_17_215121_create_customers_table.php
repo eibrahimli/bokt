@@ -27,6 +27,8 @@ class CreateCustomersTable extends Migration
             $table->string('contact_phone_1')->nullable()->comment('Contact number #1');
             $table->string('contact_phone_2')->nullable()->comment('Contact number #2');
             $table->string('contact_phone_3')->nullable()->comment('Contact number #3');
+            $table->boolean('is_immigrant')->default(0)->comment('Məcburi Köçkün');
+            $table->enum('maritial_status',['married', 'single'])->default('single')->comment('Ailə Vəziyyəti');
             $table->text('attachments')->nullable()->comment('Attachments');
             $table->date('date_of_birth')->nullable()->comment('Doğum tarixi');
             $table->string('birthplace')->nullable()->comment('Doğum yeri');

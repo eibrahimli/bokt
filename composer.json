@@ -6,13 +6,19 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "bissolli/nova-phone-field": "^0.0.4",
         "ebess/advanced-nova-media-library": "^3.6",
+        "eibrahimli/contact-phones-fields": "*",
+        "eibrahimli/hidden-field": "*",
+        "eminiarts/nova-tabs": "^1.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.54",
         "laravel/nova": "*",
         "laravel/sanctum": "^2.11",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "spatie/laravel-medialibrary": "^9.8",
+        "yassi/nova-nested-form": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -65,6 +71,14 @@
         {
             "type": "path",
             "url": "./nova"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/ContactPhonesFields"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/HiddenField"
         }
     ]
 }

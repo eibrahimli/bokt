@@ -1,1 +1,75 @@
+@media (min-width:769px) {
 
+    .card.mb-6.py-3.px-6,
+    .mb-8 .card:first-of-type {
+        display: flex;
+        flex-wrap: wrap
+    }
+
+    .card.mb-6.py-3.px-6 .flex.border-b.border-40,
+    .mb-8 .card:first-of-type .flex.border-b.border-40 {
+        display: block !important;
+        width: 33%
+    }
+
+    .card.mb-6.py-3.px-6 .flex.border-b.border-40 .fr-box,
+    .mb-8 .card:first-of-type .flex.border-b.border-40 .fr-box {
+        width: 375%
+    }
+
+    .card.mb-6.py-3.px-6 .flex.border-b.border-40 .w-1\/5.px-8.py-6,
+    .mb-8 .card:first-of-type .flex.border-b.border-40 .w-1\/5.px-8.py-6 {
+        width: 100%
+    }
+
+    .card.mb-6.py-3.px-6 .flex.border-b.border-40 .py-6,
+    .mb-8 .card:first-of-type .flex.border-b.border-40 .py-6 {
+        padding-bottom: .25rem !important;
+        padding-top: .25rem !important
+    }
+
+    .card.mb-6.py-3.px-6 .flex.border-b.border-40 .py-6.px-8.w-1\/2,
+    .card.mb-6.py-3.px-6 .text-right.py-3.px-2.remove-bottom-border,
+    .card.mb-6.py-3.px-6 .w-1\/4,
+    .card.mb-6.py-3.px-6 .w-3\/4,
+    .mb-8 .card:first-of-type .flex.border-b.border-40 .py-6.px-8.w-1\/2,
+    .mb-8 .card:first-of-type .text-right.py-3.px-2.remove-bottom-border,
+    .mb-8 .card:first-of-type .w-1\/4,
+    .mb-8 .card:first-of-type .w-3\/4 {
+        width: 100%
+    }
+}
+
+.w-full.form-control.form-input.form-input-bordered.border-danger+input {
+    border-color: var(--danger)
+}
+
+.sidebar-hidden {
+    overflow: hidden
+}
+
+.content {
+    max-width: unset !important
+}
+
+.nova-sidebar {
+    height: 100vh;
+    overflow-y: auto;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0
+}
+
+.w-100 {
+    width: 100% !important
+}
+
+.no-resize {
+    resize: none !important
+}
+
+.w-1\/2 .expanded-field,
+.w-1\/2 .multiselect-field,
+.w-1\/2 .select2.select2-container {
+    width: 100% !important
+}
