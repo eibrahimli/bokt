@@ -3,16 +3,11 @@
 namespace App\Nova;
 
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
-use Ebess\AdvancedNovaMediaLibrary\Fields\Media;
-use Eminiarts\Tabs\Tab;
-use Eminiarts\Tabs\Tabs;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
@@ -26,11 +21,12 @@ class Customer extends Resource
 
     public static $model = \App\Models\Customer::class;
 
-    public static $title = 'id';
+    public static $title = 'title';
 
     public static $search = [
         'id','name', 'surname', 'fathername','fin'
     ];
+
 
     public static function label(): string
     {
@@ -56,7 +52,7 @@ class Customer extends Resource
             Select::make('Cins','gender')->options([
                 'male' => 'Kişi',
                 'female' => 'Qadın'
-            ]),
+            ])->displayUsing(function () { return $this->maritial_status == 'female' ? 'Qadın' : 'Kişi'; }),
             HiddenField::make('', 'contact_phone_1'),
             HiddenField::make('', 'contact_phone_2'),
             HiddenField::make('', 'contact_phone_3'),
@@ -69,7 +65,6 @@ class Customer extends Resource
             Files::make('Əlavələr','main')->hideFromIndex(),
             Date::make('Doğum tarixi','date_of_birth'),
             Text::make('Doğum yeri','birthplace'),
-            NestedForm::make('Zaminlər','guarantors', Guarantor::class),
             HasMany::make('Zaminlər','guarantors', Guarantor::class),
             HasMany::make('Kreditlər', 'loans', Loan::class),
         ];

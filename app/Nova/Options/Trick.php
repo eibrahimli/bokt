@@ -2,7 +2,7 @@
 
 namespace App\Nova\Options;
 
-use App\Nova\CommonResource;
+use App\Models\Options\CommonResource;
 
 class Trick extends CommonResource
 {

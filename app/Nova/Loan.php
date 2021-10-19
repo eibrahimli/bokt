@@ -51,27 +51,39 @@ class Loan extends Resource implements Wizard
             (new Step('Kredit', [
 
                 ID::make(__('ID'), 'id')->sortable(),
-                NovaBelongsToDepend::make('Məhsulun adı','product',Product::class)
+                NovaBelongsToDepend::make('Məhsulun adı', 'product', Product::class)
                     ->options(\App\Models\Product::all()),
                 Number::make('Faiz', 'percentage'),
-                Number::make('Müddət (Ay)','month'),
-                Currency::make('Qiymət','price'),
+                Number::make('Müddət (Ay)', 'month'),
+                Currency::make('Qiymət', 'price'),
 
             ]))->withToolbar(),
             new Step('Qirov haqqında məlumat', [
                 Text::make('Girov Adı', 'collateral_name'),
-                BelongsTo::make('Əyyar','trick', Trick::class)->showCreateRelationButton(),
+                BelongsTo::make('Əyyar', 'trick', Trick::class)->showCreateRelationButton(),
                 Text::make('Qram', 'gram'),
-                Currency::make('Dəyər','collateral_price')->sortable(),
+                Currency::make('Dəyər', 'collateral_price')->sortable(),
             ]),
             new Step('Müştərinin biznes sahəsi', [
-                BelongsTo::make('İstehlak','consumption', Consumption::class)->showCreateRelationButton(),
-                BelongsTo::make('İstehsal','production', Production::class)->showCreateRelationButton(),
-                BelongsTo::make('Kənd Təsərrüfatı','agriculture', Agriculture::class)->showCreateRelationButton(),
-                BelongsTo::make('Ticarət','trade', Trade::class)->showCreateRelationButton(),
-                BelongsTo::make('Xidmət','service', Service::class)->showCreateRelationButton(),
-                BelongsTo::make('Nəqliyyat','transportation', Transportation::class)->showCreateRelationButton(),
-                Boolean::make("Kredit prosesini təsdiqləmək",'status')->rules(['required'])
+                BelongsTo::make('İstehlak', 'consumption', Consumption::class)
+                    ->hideFromIndex()
+                    ->showCreateRelationButton(),
+                BelongsTo::make('İstehsal', 'production', Production::class)
+                    ->hideFromIndex()
+                    ->showCreateRelationButton(),
+                BelongsTo::make('Kənd Təsərrüfatı', 'agriculture', Agriculture::class)
+                    ->hideFromIndex()
+                    ->showCreateRelationButton(),
+                BelongsTo::make('Ticarət', 'trade', Trade::class)
+                    ->hideFromIndex()
+                    ->showCreateRelationButton(),
+                BelongsTo::make('Xidmət', 'service', Service::class)
+                    ->hideFromIndex()
+                    ->showCreateRelationButton(),
+                BelongsTo::make('Nəqliyyat', 'transportation', Transportation::class)
+                    ->hideFromIndex()
+                    ->showCreateRelationButton(),
+                Boolean::make("Kredit prosesini təsdiqləmək", 'status')->rules(['required'])
             ])
 
         ];

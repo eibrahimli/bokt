@@ -17,6 +17,11 @@ class Customer extends Model implements HasMedia
         'date_of_birth' => 'date',
     ];
 
+    public function getTitleAttribute(): string
+    {
+        return implode('-', [$this->id,"$this->name $this->surname",$this->fin]);
+    }
+
     public function guarantors(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Guarantor::class);

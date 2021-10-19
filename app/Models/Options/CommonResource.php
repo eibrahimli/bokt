@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nova;
+namespace App\Models\Options;
 use App\Models\Loan;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\HasMany;
@@ -13,22 +13,12 @@ class CommonResource extends \App\Nova\Resource
     use DisplaysInResourceGroupMenu;
 
     public static $displayInNavigation = false;
-
-    public static $model = \App\Models\Common::class;
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
     public static $title = 'name';
 
     public static $group = 'Seçimlər';
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
+    public static $subGroup = 'Seçimlər';
+
     public static $search = [
         'id', 'name'
     ];
