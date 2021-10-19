@@ -13,12 +13,16 @@
         "eminiarts/nova-tabs": "^1.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "koss-shtukert/laravel-nova-select2-auto-complete": "^1.21",
         "laravel/framework": "^8.54",
         "laravel/nova": "*",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "orlyapps/nova-belongsto-depend": "^3.0",
+        "saintsystems/nova-resource-group-menu": "^0.1.0",
         "spatie/laravel-medialibrary": "^9.8",
-        "yassi/nova-nested-form": "^3.0"
+        "yassi/nova-nested-form": "^3.0",
+        "zareismail/nova-wizard": "^0.1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

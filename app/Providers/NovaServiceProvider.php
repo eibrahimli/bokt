@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use SaintSystems\Nova\ResourceGroupMenu\ResourceGroupMenu;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -75,7 +76,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
-//            new \ClassicO\NovaMediaLibrary\NovaMediaLibrary(),
+            new ResourceGroupMenu
         ];
     }
 

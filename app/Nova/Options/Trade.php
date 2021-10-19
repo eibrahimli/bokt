@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Nova\Options;
+
+use App\Nova\CommonResource;
+
+class Trade extends CommonResource
+{
+
+    public static $model = \App\Models\Options\Trade::class;
+
+    public static function singularLabel(): string
+    {
+        return 'Ticarət';
+    }
+    public static function label(): string
+    {
+        return 'Ticarətlər';
+    }
+}

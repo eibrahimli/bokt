@@ -21,4 +21,9 @@ class Customer extends Model implements HasMedia
     {
         return $this->hasMany(Guarantor::class);
     }
+
+    public function loans(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Loan::class);
+    }
 }

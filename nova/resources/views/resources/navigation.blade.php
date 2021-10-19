@@ -8,7 +8,8 @@
 {{--    </h3>--}}
 
     @foreach($navigation as $group => $resources)
-        @if (count($groups) > 1)
+
+        @if (count($groups) > 1 && $group != 'Other')
             <h4 class="ml-8 mb-4 text-xs text-white-50% uppercase tracking-wide">{{ $group }}</h4>
         @endif
 

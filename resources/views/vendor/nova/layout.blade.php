@@ -41,10 +41,13 @@
                        @include('nova::partials.logo')
                     </div>
                 </a>
-
-                @foreach (\Laravel\Nova\Nova::availableTools(request()) as $tool)
-                    {!! $tool->renderNavigation() !!}
-                @endforeach
+                <div class="navigation-elements">
+                    @foreach (\Laravel\Nova\Nova::availableTools(request()) as $tool)
+                        @if(!($tool instanceof \SaintSystems\Nova\ResourceGroupMenu\ResourceGroupMenu))
+                            {!! $tool->renderNavigation() !!}
+                        @endif
+                    @endforeach
+                </div>
             </div>
 
             <!-- Content -->

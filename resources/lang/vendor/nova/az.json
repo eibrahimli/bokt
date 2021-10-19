@@ -382,5 +382,11 @@
     "Zimbabwe": "Zimbabve",
     "There was a problem submitting the form.": "Bütün tələb olunan sütunları doldurmamısınız.",
     "Update Related :resource" : ":resource əlavə edin və ya yeniləyin",
-    "No related :resource yet." : ":resource əlavə edilməyib"
+    "No related :resource yet." : ":resource əlavə edilməyib",
+    "Press enter to remove" : "Silmək üçün kliklə",
+    "Press enter to select" : "Seçmək üçün kliklə",
+    "Selected" : "Seçilmiş",
+    "List is empty" : "List boşdur",
+    "Oops! No elements found. Consider changing the search query" : "Axtarışa uyğun nəticə tapılmadı",
+    "Select" : "Seç"
 }

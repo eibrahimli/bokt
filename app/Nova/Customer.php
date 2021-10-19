@@ -69,7 +69,9 @@ class Customer extends Resource
             Files::make('Əlavələr','main')->hideFromIndex(),
             Date::make('Doğum tarixi','date_of_birth'),
             Text::make('Doğum yeri','birthplace'),
-            NestedForm::make('Zaminlər','guarantors', Guarantor::class)
+            NestedForm::make('Zaminlər','guarantors', Guarantor::class),
+            HasMany::make('Zaminlər','guarantors', Guarantor::class),
+            HasMany::make('Kreditlər', 'loans', Loan::class),
         ];
     }
 

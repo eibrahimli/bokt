@@ -4,9 +4,11 @@ namespace App\Nova;
 
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource as NovaResource;
+use SaintSystems\Nova\ResourceGroupMenu\DisplaysInResourceGroupMenu;
 
 abstract class Resource extends NovaResource
 {
+    use DisplaysInResourceGroupMenu;
     /**
      * Build an "index" query for the given resource.
      *

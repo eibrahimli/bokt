@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bd4c8dfad53442aae44a1ba0c878a25c",
+    "content-hash": "b970793c3966d3d04eedc6e7fd56cf54",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1746,17 +1746,62 @@
             "time": "2021-10-03T14:17:12+00:00"
         },
         {
-            "name": "laravel/framework",
-            "version": "v8.64.0",
+            "name": "koss-shtukert/laravel-nova-select2-auto-complete",
+            "version": "v1.21",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "3337c029e1bb31d9712d27437cc27010ba302c9e"
+                "url": "https://github.com/koss-shtukert/laravel-nova-select2-auto-complete.git",
+                "reference": "3c19d147eb36bd89389efbac1076d1a63fccd253"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3337c029e1bb31d9712d27437cc27010ba302c9e",
-                "reference": "3337c029e1bb31d9712d27437cc27010ba302c9e",
+                "url": "https://api.github.com/repos/koss-shtukert/laravel-nova-select2-auto-complete/zipball/3c19d147eb36bd89389efbac1076d1a63fccd253",
+                "reference": "3c19d147eb36bd89389efbac1076d1a63fccd253",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "KossShtukert\\LaravelNovaSelect2\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "KossShtukert\\LaravelNovaSelect2\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova field.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/koss-shtukert/laravel-nova-select2-auto-complete/issues",
+                "source": "https://github.com/koss-shtukert/laravel-nova-select2-auto-complete/tree/master"
+            },
+            "time": "2020-02-28T14:23:03+00:00"
+        },
+        {
+            "name": "laravel/framework",
+            "version": "v8.65.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "6db59afadca28dfdb2f719e7d79f93885ede17e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/6db59afadca28dfdb2f719e7d79f93885ede17e4",
+                "reference": "6db59afadca28dfdb2f719e7d79f93885ede17e4",
                 "shasum": ""
             },
             "require": {
@@ -1914,7 +1959,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-10-12T13:43:13+00:00"
+            "time": "2021-10-19T13:59:41+00:00"
         },
         {
             "name": "laravel/nova",
@@ -3309,6 +3354,51 @@
             "time": "2021-04-09T13:42:10+00:00"
         },
         {
+            "name": "orlyapps/nova-belongsto-depend",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orlyapps/nova-belongsto-depend.git",
+                "reference": "ede8be90fe959eb59d459eaee0090dcd4e768244"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orlyapps/nova-belongsto-depend/zipball/ede8be90fe959eb59d459eaee0090dcd4e768244",
+                "reference": "ede8be90fe959eb59d459eaee0090dcd4e768244",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Orlyapps\\NovaBelongsToDepend\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Orlyapps\\NovaBelongsToDepend\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova field.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/orlyapps/nova-belongsto-depend/issues",
+                "source": "https://github.com/orlyapps/nova-belongsto-depend/tree/3.0.0"
+            },
+            "time": "2021-05-25T11:31:04+00:00"
+        },
+        {
             "name": "paragonie/constant_time_encoding",
             "version": "v2.4.0",
             "source": {
@@ -4323,6 +4413,57 @@
             "time": "2021-09-25T23:10:38+00:00"
         },
         {
+            "name": "saintsystems/nova-resource-group-menu",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saintsystems/nova-resource-group-menu.git",
+                "reference": "65d75ebfb86327a3ce018707ffc3f21c84430360"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saintsystems/nova-resource-group-menu/zipball/65d75ebfb86327a3ce018707ffc3f21c84430360",
+                "reference": "65d75ebfb86327a3ce018707ffc3f21c84430360",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "SaintSystems\\Nova\\ResourceGroupMenu\\ToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SaintSystems\\Nova\\ResourceGroupMenu\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Saint Systems"
+                }
+            ],
+            "description": "Resource group sub-menus for Laravel Nova.",
+            "keywords": [
+                "laravel",
+                "nova",
+                "resources"
+            ],
+            "support": {
+                "issues": "https://github.com/saintsystems/nova-resource-group-menu/issues",
+                "source": "https://github.com/saintsystems/nova-resource-group-menu/tree/0.1.0"
+            },
+            "time": "2020-05-12T16:13:23+00:00"
+        },
+        {
             "name": "spatie/image",
             "version": "1.10.5",
             "source": {
@@ -4393,22 +4534,22 @@
         },
         {
             "name": "spatie/image-optimizer",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/image-optimizer.git",
-                "reference": "c22202fdd57856ed18a79cfab522653291a6e96a"
+                "reference": "1b3585c3da2cc8872141fce40fbd17e07e6655d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/image-optimizer/zipball/c22202fdd57856ed18a79cfab522653291a6e96a",
-                "reference": "c22202fdd57856ed18a79cfab522653291a6e96a",
+                "url": "https://api.github.com/repos/spatie/image-optimizer/zipball/1b3585c3da2cc8872141fce40fbd17e07e6655d1",
+                "reference": "1b3585c3da2cc8872141fce40fbd17e07e6655d1",
                 "shasum": ""
             },
             "require": {
                 "ext-fileinfo": "*",
                 "php": "^7.2|^8.0",
-                "psr/log": "^1.0",
+                "psr/log": "^1.0 | ^2.0 | ^3.0",
                 "symfony/process": "^4.2|^5.0"
             },
             "require-dev": {
@@ -4441,22 +4582,22 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/image-optimizer/issues",
-                "source": "https://github.com/spatie/image-optimizer/tree/1.4.0"
+                "source": "https://github.com/spatie/image-optimizer/tree/1.5.0"
             },
-            "time": "2021-04-22T06:17:27+00:00"
+            "time": "2021-10-11T15:44:16+00:00"
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "9.8.2",
+            "version": "9.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "b87d7695bb190f5947ef6c892d0a167e6e1c03f9"
+                "reference": "687e769a7ba17e49d183947fe058e357ed3c615f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/b87d7695bb190f5947ef6c892d0a167e6e1c03f9",
-                "reference": "b87d7695bb190f5947ef6c892d0a167e6e1c03f9",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/687e769a7ba17e49d183947fe058e357ed3c615f",
+                "reference": "687e769a7ba17e49d183947fe058e357ed3c615f",
                 "shasum": ""
             },
             "require": {
@@ -4536,7 +4677,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-medialibrary/issues",
-                "source": "https://github.com/spatie/laravel-medialibrary/tree/9.8.2"
+                "source": "https://github.com/spatie/laravel-medialibrary/tree/9.8.3"
             },
             "funding": [
                 {
@@ -4548,7 +4689,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-10-12T22:33:09+00:00"
+            "time": "2021-10-18T22:57:53+00:00"
         },
         {
             "name": "spatie/once",
@@ -4665,16 +4806,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v6.2.7",
+            "version": "v6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "15f7faf8508e04471f666633addacf54c0ab5933"
+                "reference": "8a5d5072dca8f48460fce2f4131fcc495eec654c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/15f7faf8508e04471f666633addacf54c0ab5933",
-                "reference": "15f7faf8508e04471f666633addacf54c0ab5933",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/8a5d5072dca8f48460fce2f4131fcc495eec654c",
+                "reference": "8a5d5072dca8f48460fce2f4131fcc495eec654c",
                 "shasum": ""
             },
             "require": {
@@ -4686,7 +4827,7 @@
             },
             "require-dev": {
                 "mockery/mockery": "^1.0",
-                "symfony/phpunit-bridge": "^4.4|^5.0"
+                "symfony/phpunit-bridge": "^4.4|^5.4"
             },
             "suggest": {
                 "ext-intl": "Needed to support internationalized email addresses"
@@ -4724,7 +4865,7 @@
             ],
             "support": {
                 "issues": "https://github.com/swiftmailer/swiftmailer/issues",
-                "source": "https://github.com/swiftmailer/swiftmailer/tree/v6.2.7"
+                "source": "https://github.com/swiftmailer/swiftmailer/tree/v6.3.0"
             },
             "funding": [
                 {
@@ -4736,7 +4877,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-03-09T12:30:35+00:00"
+            "time": "2021-10-18T15:26:12+00:00"
         },
         {
             "name": "symfony/console",
@@ -7394,6 +7535,51 @@
                 "source": "https://github.com/yassipad/laravel-nova-nested-form/tree/v3.0.12"
             },
             "time": "2021-05-26T14:40:19+00:00"
+        },
+        {
+            "name": "zareismail/nova-wizard",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zareismail/nova-wizard.git",
+                "reference": "e830e7c991fc83599d35a7f1833cbea4a16938bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zareismail/nova-wizard/zipball/e830e7c991fc83599d35a7f1833cbea4a16938bf",
+                "reference": "e830e7c991fc83599d35a7f1833cbea4a16938bf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Zareismail\\NovaWizard\\ToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zareismail\\NovaWizard\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova tool.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/zareismail/nova-wizard/issues",
+                "source": "https://github.com/zareismail/nova-wizard/tree/master"
+            },
+            "time": "2020-05-16T10:37:59+00:00"
         }
     ],
     "packages-dev": [
