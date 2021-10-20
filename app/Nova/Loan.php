@@ -9,7 +9,10 @@ use App\Nova\Options\Service;
 use App\Nova\Options\Trade;
 use App\Nova\Options\Transportation;
 use App\Nova\Options\Trick;
+use App\Rules\BooleanHasToBeTrue;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\RequiredIf;
 use KossShtukert\LaravelNovaSelect2\Select2;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -22,11 +25,10 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
-use Zareismail\NovaWizard\Contracts\Wizard;
-use Zareismail\NovaWizard\Step;
 
-class Loan extends Resource implements Wizard
+class Loan extends Resource
 {
+
     public static $model = \App\Models\Loan::class;
 
     public static $title = 'id';
@@ -48,23 +50,22 @@ class Loan extends Resource implements Wizard
     public function fields(Request $request): array
     {
         return [
-            (new Step('Kredit', [
+            ID::make(__('ID'), 'id')->sortable(),
 
-                ID::make(__('ID'), 'id')->sortable(),
                 NovaBelongsToDepend::make('Məhsulun adı', 'product', Product::class)
                     ->options(\App\Models\Product::all()),
                 Number::make('Faiz', 'percentage'),
                 Number::make('Müddət (Ay)', 'month'),
-                Currency::make('Qiymət', 'price'),
+                Currency::make('Qiymət', 'price')->currency('AZN'),
 
-            ]))->withToolbar(),
-            new Step('Qirov haqqında məlumat', [
+            new Panel('Qirov haqqında məlumat', [
                 Text::make('Girov Adı', 'collateral_name'),
                 BelongsTo::make('Əyyar', 'trick', Trick::class)->showCreateRelationButton(),
                 Text::make('Qram', 'gram'),
-                Currency::make('Dəyər', 'collateral_price')->sortable(),
+                Currency::make('Dəyər', 'collateral_price')->currency('AZN')->sortable(),
             ]),
-            new Step('Müştərinin biznes sahəsi', [
+            new Panel('Müştərinin biznes sahəsi', [
+
                 BelongsTo::make('İstehlak', 'consumption', Consumption::class)
                     ->hideFromIndex()
                     ->showCreateRelationButton(),
@@ -74,6 +75,7 @@ class Loan extends Resource implements Wizard
                 BelongsTo::make('Kənd Təsərrüfatı', 'agriculture', Agriculture::class)
                     ->hideFromIndex()
                     ->showCreateRelationButton(),
+
                 BelongsTo::make('Ticarət', 'trade', Trade::class)
                     ->hideFromIndex()
                     ->showCreateRelationButton(),
@@ -83,7 +85,8 @@ class Loan extends Resource implements Wizard
                 BelongsTo::make('Nəqliyyat', 'transportation', Transportation::class)
                     ->hideFromIndex()
                     ->showCreateRelationButton(),
-                Boolean::make("Kredit prosesini təsdiqləmək", 'status')->rules(['required'])
+                Boolean::make("Kredit prosesini təsdiqləmək", 'status')
+                    ->rules(['required', new BooleanHasToBeTrue('Kredit prosesini təsdiqləməlisiniz')])
             ])
 
         ];

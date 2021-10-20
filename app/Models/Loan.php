@@ -17,6 +17,8 @@ class Loan extends Model
 {
     use HasFactory,SoftDeletes;
 
+    protected $fillable = ['status'];
+
     public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Product::class);

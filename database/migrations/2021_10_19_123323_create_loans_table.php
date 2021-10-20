@@ -15,24 +15,24 @@ class CreateLoansTable extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id')->nullable();
-            $table->integer('percentage')->nullable()->comment('Faiz');
-            $table->integer('month')->nullable()->comment('Ay (Müddət)');
-            $table->unsignedBigInteger('user_id')->nullable()->comment('User (Credit officer');
-            $table->unsignedBigInteger('customer_id')->nullable()->comment('Müştəri');
-            $table->double('price')->nullable()->comment('Məbləğ');
-            $table->string('collateral_name')->nullable()->comment('Girov adi');
-            $table->unsignedBigInteger('trick_id')->nullable()->comment('Əyyar');
-            $table->unsignedBigInteger('service_id')->nullable()->comment('Xidmetler');
-            $table->unsignedBigInteger('consumption_id')->nullable()->comment('Istehlak');
-            $table->unsignedBigInteger('agriculture_id')->nullable()->comment('Kənd Təsərüffatı');
-            $table->unsignedBigInteger('production_id')->nullable()->comment('İstehsal');
-            $table->unsignedBigInteger('trade_id')->nullable()->comment('Ticaret');
-            $table->unsignedBigInteger('transportation_id')->nullable()->comment('Nəqliyyat');
-            $table->double('gram')->nullable()->comment('Girov qram');
-            $table->double('collateral_price')->nullable()->comment('Girov Dəyər');
+            $table->unsignedBigInteger('product_id');
+            $table->integer('percentage')->comment('Faiz');
+            $table->integer('month')->comment('Ay (Müddət)');
+            $table->unsignedBigInteger('user_id')->comment('User (Credit officer');
+            $table->unsignedBigInteger('customer_id')->comment('Müştəri');
+            $table->double('price')->comment('Məbləğ');
+            $table->string('collateral_name')->comment('Girov adi');
+            $table->unsignedBigInteger('trick_id')->comment('Əyyar');
+            $table->unsignedBigInteger('service_id')->comment('Xidmetler');
+            $table->unsignedBigInteger('consumption_id')->comment('Istehlak');
+            $table->unsignedBigInteger('agriculture_id')->comment('Kənd Təsərüffatı');
+            $table->unsignedBigInteger('production_id')->comment('İstehsal');
+            $table->unsignedBigInteger('trade_id')->comment('Ticaret');
+            $table->unsignedBigInteger('transportation_id')->comment('Nəqliyyat');
+            $table->double('gram')->comment('Girov qram');
+            $table->double('collateral_price')->comment('Girov Dəyər');
             $table->boolean('approved')->default(0)->comment('Təsdiq');
-            $table->boolean('status')->default(0)->comment('Supervisor tesdiq etdi');
+            $table->boolean('status')->comment('Supervisor tesdiq etdi');
 
             $table->foreign('trick_id')->on('tricks')->references('id');
             $table->foreign('service_id')->on('services')->references('id');

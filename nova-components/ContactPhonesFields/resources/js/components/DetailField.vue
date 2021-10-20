@@ -1,5 +1,5 @@
 <template>
-  <div class="flex border-b border-40 -mx-6 px-6">
+  <div>
     <panel-item
       v-for="(f, i) in fieldsToShow"
       class="w-100"
