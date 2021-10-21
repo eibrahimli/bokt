@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\NewLoan;
 use App\Nova\Options\Agriculture;
 use App\Nova\Options\Consumption;
 use App\Nova\Options\Production;
@@ -32,6 +33,7 @@ class Loan extends Resource
     public static $model = \App\Models\Loan::class;
 
     public static $title = 'id';
+    public static $displayInNavigation = false;
 
     public static $search = [
         'id',
@@ -51,12 +53,12 @@ class Loan extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-
-                NovaBelongsToDepend::make('Məhsulun adı', 'product', Product::class)
-                    ->options(\App\Models\Product::all()),
-                Number::make('Faiz', 'percentage'),
-                Number::make('Müddət (Ay)', 'month'),
-                Currency::make('Qiymət', 'price')->currency('AZN'),
+            BelongsTo::make('Müştəri','customer', Customer::class),
+            NovaBelongsToDepend::make('Məhsulun adı', 'product', Product::class)
+                ->options(\App\Models\Product::all()),
+            Number::make('Faiz', 'percentage'),
+            Number::make('Müddət (Ay)', 'month'),
+            Currency::make('Qiymət', 'price')->currency('AZN'),
 
             new Panel('Qirov haqqında məlumat', [
                 Text::make('Girov Adı', 'collateral_name'),
@@ -86,7 +88,8 @@ class Loan extends Resource
                     ->hideFromIndex()
                     ->showCreateRelationButton(),
                 Boolean::make("Kredit prosesini təsdiqləmək", 'status')
-                    ->rules(['required', new BooleanHasToBeTrue('Kredit prosesini təsdiqləməlisiniz')])
+                    ->rules(['required', new BooleanHasToBeTrue('Kredit prosesini təsdiqləməlisiniz')]),
+                HasMany::make('Tranzaksiyalar', 'transactions', Transaction::class)
             ])
 
         ];
@@ -94,7 +97,9 @@ class Loan extends Resource
 
     public function cards(Request $request): array
     {
-        return [];
+        return [
+            new NewLoan()
+        ];
     }
 
     public function filters(Request $request): array

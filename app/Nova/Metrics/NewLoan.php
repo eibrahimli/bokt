@@ -37,8 +37,13 @@ class NewLoan extends Value
         // return now()->addMinutes(5);
     }
 
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'new-loan';
+    }
+
+    public function name(): string
+    {
+        return 'Yeni Kreditlər';
     }
 }

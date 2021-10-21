@@ -13,6 +13,7 @@ class Customer extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes,InteractsWithMedia;
 
+
     protected $casts = [
         'date_of_birth' => 'date',
     ];
@@ -30,5 +31,9 @@ class Customer extends Model implements HasMedia
     public function loans(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Loan::class);
+    }
+    public function transactions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Transaction::class);
     }
 }

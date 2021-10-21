@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CustomerObserver
@@ -10,13 +11,13 @@ class CustomerObserver
 
     public function created(Customer $customer)
     {
-        Log::info($customer);
+
     }
 
 
     public function updated(Customer $customer)
     {
-        Log::info($customer);
+
     }
 
     public function deleted(Customer $customer)

@@ -6,7 +6,7 @@ use App\Models\Options\CommonResource;
 
 class Service extends CommonResource
 {
-    public static $displayInNavigation= true;
+    public static $displayInNavigation= false;
     public static $model = \App\Models\Options\Service::class;
 
     public static $group = 'Seçimlər';

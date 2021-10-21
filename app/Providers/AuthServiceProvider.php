@@ -25,6 +25,17 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // Disable all restriction to admin
+        Gate::before(function ($user, $abilty) {
+            return ($user->role == 'admin' || ($user->group && $user->group->priority == 0)) ? true : null;
+        });
+
+        Gate::define('is-admin', function ($user) {
+            return $user->group && $user->group->priority == 0;
+        });
+
+        Gate::define('disable', function () {
+            return false;
+        });
     }
 }

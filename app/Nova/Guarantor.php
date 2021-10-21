@@ -28,6 +28,7 @@ class Guarantor extends Resource
      * @var string
      */
     public static $title = 'id';
+    public static $displayInNavigation = false;
 
     public static function label() :string
     {

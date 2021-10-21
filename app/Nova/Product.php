@@ -15,6 +15,7 @@ class Product extends Resource
     public static $model = \App\Models\Product::class;
 
     public static $title = 'name';
+    public static $displayInNavigation = false;
 
     public static function singularLabel(): string
     {
