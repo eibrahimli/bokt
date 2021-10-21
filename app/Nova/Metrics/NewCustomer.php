@@ -22,7 +22,8 @@ class NewCustomer extends Value
 
     public function calculate(NovaRequest $request)
     {
-        $model = $this->resource::$model;
+        $this->resource !== Customer::class ? $model = $this->resource::$model: $model = $this->resource;
+
         $query = $model::query();
 
         if ($request->range) {

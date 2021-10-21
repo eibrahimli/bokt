@@ -32,6 +32,9 @@ class CreateCustomersTable extends Migration
             $table->text('attachments')->nullable()->comment('Attachments');
             $table->date('date_of_birth')->nullable()->comment('Doğum tarixi');
             $table->string('birthplace')->nullable()->comment('Doğum yeri');
+
+            $table->unsignedBigInteger('user_id')->nullable()->comment('Əlavə edən');
+            $table->foreign('user_id')->on('users')->references('id');
             $table->softDeletes();
             $table->timestamps();
         });

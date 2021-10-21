@@ -75,7 +75,6 @@ class Customer extends Resource
             Text::make('Doğum yeri','birthplace'),
             HasMany::make('Zaminlər','guarantors', Guarantor::class),
             HasMany::make('Kreditlər', 'loans', Loan::class),
-            NestedForm::make('Zaminlər','guarantors',Guarantor::class)
         ];
     }
 

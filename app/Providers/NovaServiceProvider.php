@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Nova\Dashboards\LoanDashboards;
+use App\Nova\Metrics\LoanIsApproved;
+use App\Nova\Metrics\NewCustomer;
+use Coroowicaksono\ChartJsIntegration\AreaChart;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
@@ -54,7 +58,26 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-//            new Help,
+            new LoanIsApproved(null,'Təsdiqlənmiş kreditlər',true),
+            new LoanIsApproved(null,'Təsdiqlənməmiş kreditlər',false),
+            new NewCustomer(),
+            (new AreaChart())
+                ->title('Kreditlər')
+                ->animations([
+                    'enabled' => true,
+                    'easing' => 'easeinout',
+                ])
+                ->series(array([
+                    'barPercentage' => 0.5,
+                    'label' => 'Ortalama Kredit',
+                    'backgroundColor' => '#f7a35c',
+                    'data' => [80, 90, 80, 40, 62, 79, 79, 90, 90, 90, 92, 91],
+                ]))
+                ->options([
+                    'xaxis' => [
+                        'categories' => [ 'Jan', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct' ]
+                    ],
+                ]),
         ];
     }
 
@@ -65,7 +88,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function dashboards()
     {
-        return [];
+        return [
+            new LoanDashboards(),
+        ];
     }
 
     /**

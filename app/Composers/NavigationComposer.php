@@ -28,13 +28,13 @@ class NavigationComposer
 //        $this->shortcuts = array_filter($this->shortcuts, $checkPermissionsCallback, ARRAY_FILTER_USE_KEY);
 
         $this->groups = [
-            'loans' => \App\Nova\Loan::class,
             'customers' => \App\Nova\Customer::class,
+            'transactions' => \App\Nova\Transaction::class,
+            'loans' => \App\Nova\Loan::class,
             'products' => \App\Nova\Product::class,
             'guarantors' => \App\Nova\Guarantor::class,
             'users' => \App\Nova\User::class,
             'user-groups' => \App\Nova\UserGroup::class,
-            'transactions' => \App\Nova\Transaction::class,
         ];
 
         $this->groups = array_filter($this->groups, $checkPermissionsCallback, ARRAY_FILTER_USE_KEY);

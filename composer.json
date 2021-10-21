@@ -11,9 +11,11 @@
         "php": "^7.3|^8.0",
         "ext-json": "*",
         "bissolli/nova-phone-field": "^0.0.4",
+        "coroowicaksono/chart-js-integration": "^0.3.5",
         "ebess/advanced-nova-media-library": "^3.6",
         "eibrahimli/column-permissions-field": "*",
         "eibrahimli/contact-phones-fields": "*",
+        "eibrahimli/customer-loan-field": "*",
         "eibrahimli/hidden-field": "*",
         "eminiarts/nova-tabs": "^1.4",
         "epartment/nova-dependency-container": "^1.3",
@@ -29,8 +31,7 @@
         "saintsystems/nova-resource-group-menu": "^0.1.0",
         "spatie/laravel-medialibrary": "^9.8",
         "yassi/nova-nested-form": "^3.0",
-        "zareismail/nova-wizard": "^0.1.0",
-        "eibrahimli/customer-loan-field": "*"
+        "zareismail/nova-wizard": "^0.1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

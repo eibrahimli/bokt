@@ -11,13 +11,21 @@ class CustomerObserver
 
     public function created(Customer $customer)
     {
+        $customer->user_id = Auth::id();
 
+        $customer->unsetEventDispatcher();
+
+        $customer->save();
     }
 
 
     public function updated(Customer $customer)
     {
+        $customer->user_id = Auth::id();
 
+        $customer->unsetEventDispatcher();
+
+        $customer->save();
     }
 
     public function deleted(Customer $customer)
