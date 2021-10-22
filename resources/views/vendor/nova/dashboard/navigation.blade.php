@@ -27,9 +27,9 @@
 
 <div class="list-reset mb-8">
     <div class="leading-wide mb-4">
-{{--        <div class="text-white no-underline">--}}
-{{--            Menu--}}
-{{--        </div>--}}
+        {{--        <div class="text-white no-underline">--}}
+        {{--            Menu--}}
+        {{--        </div>--}}
         <ul class="list-reset mb-8">
             @foreach ($documentGroups as $group)
                 <li class="leading-wide mb-4 ml-8 text-sm">
@@ -47,6 +47,81 @@
                     </div>
                 </li>
             @endforeach
+        </ul>
+    </div>
+</div>
+<div class="list-reset mb-8">
+    <div class="leading-wide mb-4">
+        <div class="text-white ml-1 no-underline">
+            Hesabatlar
+        </div>
+        <ul class="list-reset mb-8">
+            <div class="py-2">
+                <li class="leading-wide mb-4 ml-8 text-sm">
+                    <a href="{{ url('/resources/reports') }}" class="text-white text-justify no-underline dim">
+                        Maliyyə vəziyyəti haqqında hesabat (Balans)
+                    </a>
+                </li>
+                <li class="leading-wide mb-4 ml-8 text-sm">
+                    <a href="{{ url('/resources/reports') }}" class="text-white text-justify no-underline dim">
+                        Gəlir və xərclər haqqında hesabat
+                    </a>
+                </li>
+                <li class="leading-wide mb-4 ml-8 text-sm">
+                    <a href="{{ url('/resources/reports') }}" class="text-white text-justify no-underline dim">
+                        Pul vəsaitlərin hərəkəri haqqında hesabat
+                    </a>
+                </li>
+                <li class="leading-wide mb-4 ml-8 text-sm">
+                    <a href="{{ url('/resources/reports') }}" class="text-white text-justify no-underline dim">
+                        Kapitalda dəyişikliklər haqqında hesabat
+                    </a>
+                </li>
+                <li class="leading-wide mb-4 ml-8 text-sm">
+                    <a href="{{ url('/resources/reports') }}" class="text-white text-justify no-underline dim">
+                        Mərkəzi banka təqdim edilən hesabat
+                    </a>
+                </li>
+            </div>
+
+        </ul>
+    </div>
+</div>
+
+<div class="list-reset mb-8">
+    <div class="leading-wide mb-4">
+        <div class="text-white ml-1 no-underline">
+            Mühasibatlıq
+        </div>
+        <ul class="list-reset mb-8">
+            <div class="py-2">
+                <li class="leading-wide mb-4 ml-8 text-sm">
+                    <a href="#" class="text-white text-justify no-underline dim">
+                        Təchizatçılar
+                    </a>
+                </li>
+                <li class="leading-wide mb-4 ml-8 text-sm">
+                    <a href="#" class="text-white text-justify no-underline dim">
+                        Əməliyyatlar (Dt/Kr)
+                    </a>
+                </li>
+                <li class="leading-wide mb-4 ml-8 text-sm">
+                    <a href="#" class="text-white text-justify no-underline dim">
+                        İş və xidmətlər
+                    </a>
+                </li>
+                <li class="leading-wide mb-4 ml-8 text-sm">
+                    <a href="#" class="text-white text-justify no-underline dim">
+                        Əsas vəsaitlər və QMA
+                    </a>
+                </li>
+                <li class="leading-wide mb-4 ml-8 text-sm">
+                    <a href="#" class="text-white text-justify no-underline dim">
+                        Bank əməliyyatları
+                    </a>
+                </li>
+            </div>
+
         </ul>
     </div>
 </div>

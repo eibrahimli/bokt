@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Metrics\NewTransaction;
+use Coroowicaksono\ChartJsIntegration\LineChart;
 use Eibrahimli\CustomerLoanField\CustomerLoanField;
 use Epartment\NovaDependencyContainer\HasDependencies;
 use Epartment\NovaDependencyContainer\NovaDependencyContainer;
@@ -15,6 +16,7 @@ use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Transaction extends Resource
 {
@@ -76,40 +78,46 @@ class Transaction extends Resource
     public function cards(Request $request)
     {
         return [
-            new NewTransaction()
+            new NewTransaction(),
+            (new LineChart())
+                ->title('Tranzaksiyalar')
+                ->animations([
+                    'enabled' => true,
+                    'easing' => 'easeinout',
+                ])
+                ->series(array([
+                    'barPercentage' => 0.5,
+                    'label' => 'Oratala Satış #1',
+                    'borderColor' => '#f7a35c',
+                    'data' => [80, 90, 80, 40, 62, 79, 79, 90, 90, 90, 92, 91],
+                ],[
+                    'barPercentage' => 0.5,
+                    'label' => 'Ortalama Satış #2',
+                    'borderColor' => '#90ed7d',
+                    'data' => [90, 80, 40, 22, 79, 129, 30, 40, 90, 92, 91, 80],
+                ]))
+                ->options([
+                    'xaxis' => [
+                        'categories' => [ 'Jan', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct' ]
+                    ],
+                ]),
         ];
     }
 
-    /**
-     * Get the filters available for the resource.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return array
-     */
     public function filters(Request $request)
     {
         return [];
     }
 
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return array
-     */
     public function lenses(Request $request)
     {
         return [];
     }
 
-    /**
-     * Get the actions available for the resource.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return array
-     */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel())->withFilename('Tranzaksiyalar'.time().'xlsx')->withHeadings()->allFields()
+        ];
     }
 }

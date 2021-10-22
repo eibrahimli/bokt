@@ -56,7 +56,7 @@
             <div class="flex items-center relative shadow h-header bg-white z-20 px-view">
                 <a v-if="@json(\Laravel\Nova\Nova::name() !== null)" href="{{ config('app.url') }}"
                    class="no-underline font-bold text-90 mr-6">
-                    <img src="{{ asset('storage/logo.png') }}" width="{{ $width ?? '126' }}"
+                    <img src="{{ asset('storage/logo2.png') }}" width="{{ $width ?? '126' }}"
                          height="{{ $height ?? '24' }}">
                 </a>
                 <ul class="list-reset flex items-center">
@@ -93,27 +93,10 @@
                                         aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117"
                                         role="menu">
                                         <div class="px-4 py-3">
-                                            <p class="text-sm leading-5">Signed in as</p>
+                                            <p class="text-sm leading-5">Gəlir və xərclər haqqında hesabat </p>
                                             <p class="text-sm font-medium leading-5 text-gray-900 truncate">
                                                 tom@example.com</p>
                                         </div>
-                                        <div class="py-1">
-                                            <a href="javascript:void(0)" tabindex="0"
-                                               class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"
-                                               role="menuitem">Account settings</a>
-                                            <a href="javascript:void(0)" tabindex="1"
-                                               class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"
-                                               role="menuitem">Support</a>
-                                            <span role="menuitem" tabindex="-1"
-                                                  class="flex justify-between w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 cursor-not-allowed opacity-50"
-                                                  aria-disabled="true">New feature (soon)</span>
-                                            <a href="javascript:void(0)" tabindex="2"
-                                               class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"
-                                               role="menuitem">License</a></div>
-                                        <div class="py-1">
-                                            <a href="javascript:void(0)" tabindex="3"
-                                               class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"
-                                               role="menuitem">Sign out</a></div>
                                     </div>
                                 </div>
                             </div>

@@ -2,10 +2,18 @@
 
 namespace App\Providers;
 
+use App\Models\Customer;
+use App\Models\Options\Trade;
+use App\Models\Transaction;
 use App\Nova\Dashboards\LoanDashboards;
+use App\Nova\Metrics\FakeReceivedTransaction;
+use App\Nova\Metrics\FakeTotalTransaction;
 use App\Nova\Metrics\LoanIsApproved;
 use App\Nova\Metrics\NewCustomer;
 use Coroowicaksono\ChartJsIntegration\AreaChart;
+use Coroowicaksono\ChartJsIntegration\BarChart;
+use Coroowicaksono\ChartJsIntegration\LineChart;
+use Coroowicaksono\ChartJsIntegration\StackedChart;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
@@ -61,6 +69,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             new LoanIsApproved(null,'Təsdiqlənmiş kreditlər',true),
             new LoanIsApproved(null,'Təsdiqlənməmiş kreditlər',false),
             new NewCustomer(),
+            new NewCustomer(null, Customer::class,null,'Aktiv Müştərilər'),
+            new FakeReceivedTransaction(null,Transaction::class,'Qəbul edilən ödənişlər', 76896),
+            new FakeTotalTransaction(),
             (new AreaChart())
                 ->title('Kreditlər')
                 ->animations([
@@ -78,6 +89,50 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         'categories' => [ 'Jan', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct' ]
                     ],
                 ]),
+            (new LineChart())
+                ->title('Tranzaksiyalar')
+                ->animations([
+                    'enabled' => true,
+                    'easing' => 'easeinout',
+                ])
+                ->series(array([
+                    'barPercentage' => 0.5,
+                    'label' => 'Oratala Satış #1',
+                    'borderColor' => '#f7a35c',
+                    'data' => [80, 90, 80, 40, 62, 79, 79, 90, 90, 90, 92, 91],
+                ],[
+                    'barPercentage' => 0.5,
+                    'label' => 'Ortalama Satış #2',
+                    'borderColor' => '#90ed7d',
+                    'data' => [90, 80, 40, 22, 79, 129, 30, 40, 90, 92, 91, 80],
+                ]))
+                ->options([
+                    'xaxis' => [
+                        'categories' => [ 'Jan', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct' ]
+                    ],
+                ]),
+            (new BarChart())
+                ->title('Ayda ödənilən kapital')
+                ->animations([
+                    'enabled' => true,
+                    'easing' => 'easeinout',
+                ])
+                ->series(array([
+                    'barPercentage' => 0.5,
+                    'label' => 'Average Sales',
+                    'backgroundColor' => '#999',
+                    'data' => [80, 90, 80, 40, 62, 79, 79, 90, 90, 90, 92, 91],
+                ],[
+                    'barPercentage' => 0.5,
+                    'label' => 'Average Sales 2',
+                    'backgroundColor' => '#F87900',
+                    'data' => [40, 62, 79, 80, 90, 79, 90, 90, 90, 92, 91, 80],
+                ]))
+                ->options([
+                    'xaxis' => [
+                        'categories' => [ 'Jan', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct' ]
+                    ],
+                ])
         ];
     }
 

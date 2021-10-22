@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\LoanIsApproved;
 use App\Nova\Metrics\NewLoan;
 use App\Nova\Options\Agriculture;
 use App\Nova\Options\Consumption;
@@ -11,6 +12,7 @@ use App\Nova\Options\Trade;
 use App\Nova\Options\Transportation;
 use App\Nova\Options\Trick;
 use App\Rules\BooleanHasToBeTrue;
+use Coroowicaksono\ChartJsIntegration\StackedChart;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
@@ -25,6 +27,7 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 
 class Loan extends Resource
@@ -98,7 +101,27 @@ class Loan extends Resource
     public function cards(Request $request): array
     {
         return [
-            new NewLoan()
+            new NewLoan(),
+            new LoanIsApproved(null,'Təsdiqlənmiş kreditlər',true),
+            new LoanIsApproved(null,'Təsdiqlənməmiş kreditlər',false),
+            (new StackedChart())
+                ->title('Kreditlər')
+                ->series(array([
+                    'barPercentage' => 0.5,
+                    'label' => 'Kredit #1',
+                    'backgroundColor' => '#ffcc5c',
+                    'data' => [30, 70, 80],
+                ],[
+                    'barPercentage' => 0.5,
+                    'label' => 'Kredit #2',
+                    'backgroundColor' => '#ff6f69',
+                    'data' => [40, 62, 79],
+                ]))
+                ->options([
+                    'xaxis' => [
+                        'categories' => [ 'Aug', 'Sen', 'Okt' ]
+                    ],
+                ]),
         ];
     }
 
@@ -114,6 +137,8 @@ class Loan extends Resource
 
     public function actions(Request $request): array
     {
-        return [];
+        return [
+            (new DownloadExcel())->withFilename('Kreditlər'.time().'xlsx')->withHeadings()->allFields()
+        ];
     }
 }

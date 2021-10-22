@@ -5,14 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
+use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Customer extends Model implements HasMedia
+class Customer extends Model implements HasMedia, Chartable
 {
-    use HasFactory, SoftDeletes,InteractsWithMedia;
-
+    use HasFactory, SoftDeletes,InteractsWithMedia,HasChart;
+    public static function getNovaChartjsSettings(): array
+    {
+        return [
+            'default' => [
+                'type' => 'line',
+                'titleProp' => 'name',
+                'identProp' => 'id',
+                'height' => 400,
+                'indexColor' => '#999999',
+                'color' => '#FF0000',
+                'parameters' => ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                'options' => ['responsive' => true, 'maintainAspectRatio' => false],
+            ]
+        ];
+    }
 
     protected $casts = [
         'date_of_birth' => 'date',

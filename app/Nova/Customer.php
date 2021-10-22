@@ -2,12 +2,20 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\ExportPDF;
 use App\Nova\Metrics\ModelPerDay;
 use App\Nova\Metrics\NewCustomer;
+use Coroowicaksono\ChartJsIntegration\DoughnutChart;
+use Coroowicaksono\ChartJsIntegration\PolarAreaChart;
+use Coroowicaksono\ChartJsIntegration\StackedChart;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Illuminate\Http\Request;
+use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
+use KirschbaumDevelopment\NovaChartjs\InlinePanel;
+use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
@@ -16,11 +24,14 @@ use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Eibrahimli\HiddenField\HiddenField;
 use Eibrahimli\ContactPhonesFields\ContactPhonesFields;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use NrmlCo\NovaBigFilter\NovaBigFilter;
+use OptimistDigital\NovaInputFilter\InputFilter;
 use Yassi\NestedForm\NestedForm;
 
 class Customer extends Resource
 {
-
+    use HasChart;
     public static $model = \App\Models\Customer::class;
 
     public static $title = 'title';
@@ -75,6 +86,7 @@ class Customer extends Resource
             Text::make('Doğum yeri','birthplace'),
             HasMany::make('Zaminlər','guarantors', Guarantor::class),
             HasMany::make('Kreditlər', 'loans', Loan::class),
+            DateTime::make('Əlavə Edilmə tarixi','created_at')->onlyOnIndex(),
         ];
     }
 
@@ -82,15 +94,44 @@ class Customer extends Resource
     public function cards(Request $request) :array
     {
         return [
+
             new NewCustomer(null,$this),
-            new ModelPerDay(null,$this,'Aylıq statistika')
+            new ModelPerDay(null,$this,'Aylıq statistika'),
+            (new DoughnutChart())
+                ->title('Müştərilər')
+                ->series(array([
+                    'data' => [10, 10, 10, 10, 10, 10, 10, 10],
+                    'backgroundColor' => ["#ffcc5c","#91e8e1","#ff6f69","#88d8b0","#b088d8","#d8b088", "#88b0d8", "#6f69ff"],
+                ]))
+                ->options([
+                    'xaxis' => [
+                        'categories' => ['Portion 1','Portion 2','Portion 3','Portion 4','Portion 5','Portion 6','Portion 7','Portion 8']
+                    ],
+                ]),
+            (new PolarAreaChart())
+                ->title('Müştərilər Statistika')
+                ->series(array([
+                    'data' => [170, 180, 130, 190, 121, 90, 180, 110],
+                    'backgroundColor' => ["#ffcc5c","#91e8e1","#ff6f69","#88d8b0","#b088d8","#d8b088", "#88b0d8", "#6f69ff"],
+                ]))
+                ->options([
+                    'xaxis' => [
+                        'categories' => ['Portion 1','Portion 2','Portion 3','Portion 4','Portion 5','Portion 6','Portion 7','Portion 8']
+                    ],
+                ]),
+            (new StackedChart())
+                ->title('Müştərilər')
+                ->model('\App\Models\Customer'),
+            new NovaBigFilter(),
         ];
     }
 
 
     public function filters(Request $request) :array
     {
-        return [];
+        return [
+
+        ];
     }
 
 
@@ -102,7 +143,10 @@ class Customer extends Resource
 
     public function actions(Request $request) :array
     {
-        return [];
+        return [
+            (new DownloadExcel())->withFilename('Müştərilər'.time().'xlsx')->withHeadings()->allFields(),
+            ExportPDF::make()
+        ];
     }
 
     private function contactFields() :array {

@@ -6,7 +6,7 @@ use App\Models\Options\CommonResource;
 
 class Agriculture extends CommonResource
 {
-
+    public static $displayInNavigation = true;
     public static $model = \App\Models\Options\Agriculture::class;
 
     public static function singularLabel(): string
