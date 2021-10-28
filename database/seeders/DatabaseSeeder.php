@@ -19,14 +19,14 @@ class DatabaseSeeder extends Seeder
     {
         Product::factory(100)->create();
          \App\Models\User::factory(100)->create();
-//         \App\Models\User::create([
-//             'name' => 'Elvir',
-//             'surname' => 'ibrahimli',
-//             'role' => 'admin',
-//             'email' => 'ibrahimlielvir@gmail.com',
-//             'password' => bcrypt('Sensen1997')
-//         ]);
+         \App\Models\User::create([
+             'name' => 'Elvir',
+             'surname' => 'ibrahimli',
+             'role' => 'admin',
+             'email' => 'ibrahimlielvir@gmail.com',
+             'password' => bcrypt('Sensen1997')
+         ]);
          \App\Models\Customer::factory(300)->create();
-         \App\Models\Loan::factory(300)->create();
+//         \App\Models\Loan::factory(300)->create();
     }
 }
