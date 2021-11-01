@@ -50,9 +50,9 @@ class Loan extends Model
     {
         return $this->belongsTo(Transportation::class);
     }
-    public function trick(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function collaterals(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsTo(Trick::class);
+        return $this->hasMany(Collateral::class);
     }
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

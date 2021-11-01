@@ -54,4 +54,9 @@ class User extends Authenticatable
     public function group(): BelongsTo {
         return $this->belongsTo(UserGroup::class, 'user_group_id');
     }
+
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
+    }
 }

@@ -29,6 +29,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use Yassi\NestedForm\NestedForm;
 
 class Loan extends Resource
 {
@@ -64,10 +65,7 @@ class Loan extends Resource
             Currency::make('Qiymət', 'price')->currency('AZN'),
 
             new Panel('Qirov haqqında məlumat', [
-                Text::make('Girov Adı', 'collateral_name'),
-                BelongsTo::make('Əyyar', 'trick', Trick::class)->showCreateRelationButton(),
-                Text::make('Qram', 'gram'),
-                Currency::make('Dəyər', 'collateral_price')->currency('AZN')->sortable(),
+                NestedForm::make('Girovlar', 'collaterals', Collateral::class),
             ]),
             new Panel('Müştərinin biznes sahəsi', [
 
@@ -92,7 +90,8 @@ class Loan extends Resource
                     ->showCreateRelationButton(),
                 Boolean::make("Kredit prosesini təsdiqləmək", 'status')
                     ->rules(['required', new BooleanHasToBeTrue('Kredit prosesini təsdiqləməlisiniz')]),
-                HasMany::make('Tranzaksiyalar', 'transactions', Transaction::class)
+                HasMany::make('Tranzaksiyalar', 'transactions', Transaction::class),
+                HasMany::make('Girovlar', 'collaterals', Collateral::class),
             ])
 
         ];

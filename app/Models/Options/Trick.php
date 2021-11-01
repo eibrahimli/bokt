@@ -2,10 +2,17 @@
 
 namespace App\Models\Options;
 
-use App\Models\Common;
+use App\Models\Collateral;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Trick extends Common
+class Trick extends Model
 {
-    protected $table = 'tricks';
-    protected $requestKeyName = 'trick_id';
+    use SoftDeletes, HasFactory;
+
+    public function collaterals(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Collateral::class);
+    }
 }

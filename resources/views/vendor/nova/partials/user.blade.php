@@ -1,3 +1,4 @@
+
 <dropdown-trigger class="h-9 flex items-center">
     @isset($user->email)
         <img

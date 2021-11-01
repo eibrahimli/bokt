@@ -5,6 +5,7 @@ namespace App\Composers;
 
 
 use App\Helpers\PermissionsHelper;
+use App\Nova\Branch;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -35,6 +36,7 @@ class NavigationComposer
             'guarantors' => \App\Nova\Guarantor::class,
             'users' => \App\Nova\User::class,
             'user-groups' => \App\Nova\UserGroup::class,
+            'branchs' => Branch::class,
         ];
 
         $this->groups = array_filter($this->groups, $checkPermissionsCallback, ARRAY_FILTER_USE_KEY);

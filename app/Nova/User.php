@@ -61,6 +61,8 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
+
+            BelongsTo::make('Filial', 'branch', \App\Nova\Branch::class)->showCreateRelationButton(),
             BelongsTo::make('İstifadəçi qrupu','group',UserGroup::class)->showCreateRelationButton()
         ];
     }

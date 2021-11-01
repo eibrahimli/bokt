@@ -66,6 +66,7 @@ class PermissionsHelper
             'new_users' => new ColumnPermission("new_users", "Yeni İstifadəçi"),
             'new_user-groups' => new ColumnPermission("new_user-groups", "Yeni İstifadəçi Qrupu"),
             'new_transactions' => new ColumnPermission("new_transactions", "Yeni Tranzaksiya"),
+            'new_branch' => new ColumnPermission("new_branch", "Yeni Filial"),
 
             'loans' => new ColumnPermission("loans", "Kreditlər"),
             'customers' => new ColumnPermission("customers", "Müştərilər"),
@@ -74,6 +75,7 @@ class PermissionsHelper
             'products' => new ColumnPermission("products", "Məhsullar"),
             'user-groups' => new ColumnPermission("user-groups", "İstifadəçi Qrupları"),
             'transactions' => new ColumnPermission("transactions", "Tranzaksiyalar"),
+            'branchs' => new ColumnPermission("branchs", "Filiallar"),
         ];
     }
 
