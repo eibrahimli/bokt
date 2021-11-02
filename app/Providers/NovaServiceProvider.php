@@ -14,6 +14,7 @@ use Coroowicaksono\ChartJsIntegration\AreaChart;
 use Coroowicaksono\ChartJsIntegration\BarChart;
 use Coroowicaksono\ChartJsIntegration\LineChart;
 use Coroowicaksono\ChartJsIntegration\StackedChart;
+use Eibrahimli\BranchsCard\BranchsCard;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;

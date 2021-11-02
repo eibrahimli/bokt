@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\Customer;
+use App\Models\Guarantor;
 use Illuminate\Contracts\Validation\Rule;
 
 class CheckGuarantorIsRelatedAnyCustomer implements Rule
@@ -10,7 +11,7 @@ class CheckGuarantorIsRelatedAnyCustomer implements Rule
     /**
      * @var Customer
      */
-    private $customer;
+    private $guarantor;
     private $column;
 
     /**
@@ -18,10 +19,10 @@ class CheckGuarantorIsRelatedAnyCustomer implements Rule
      *
      * @return void
      */
-    public function __construct(Customer $customer,$column)
+    public function __construct(Guarantor $guarantor,$column)
     {
 
-        $this->customer = $customer;
+        $this->guarantor = $guarantor;
         $this->column = $column;
     }
 
@@ -32,14 +33,9 @@ class CheckGuarantorIsRelatedAnyCustomer implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
-        return $this->customer->guarantors->filter(function ($guarantor) use($attribute,$value) {
-            if($guarantor->$attribute == $value) {
-                return false;
-            }
-            return true;
-        });
+        return !Guarantor::where($attribute, $value)->count();
     }
 
     public function message(): string

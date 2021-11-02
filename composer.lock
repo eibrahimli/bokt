@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c646429c0a6564051adbc1caaf7ce526",
+    "content-hash": "08455d8dfba15eab75c840b099f958ff",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1128,6 +1128,42 @@
             "time": "2020-12-29T14:50:06+00:00"
         },
         {
+            "name": "eibrahimli/branchs-card",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./nova-components/BranchsCard",
+                "reference": "b675b9dbff0a0e15b11e7594a8404fee2553ce33"
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Eibrahimli\\BranchsCard\\CardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Eibrahimli\\BranchsCard\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova card.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "eibrahimli/column-permissions-field",
             "version": "dev-main",
             "dist": {
@@ -1257,6 +1293,42 @@
             "autoload": {
                 "psr-4": {
                     "Eibrahimli\\HiddenField\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova field.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "eibrahimli/nova-unique-ajax-field",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./nova-components/nova-unique-ajax-field",
+                "reference": "f1d3eeeee87024e1edb00c5e4018c6a7e86e44f3"
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Eibrahimli\\NovaUniqueField\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Eibrahimli\\NovaUniqueField\\": "src/"
                 }
             },
             "license": [
@@ -11105,5 +11177,5 @@
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

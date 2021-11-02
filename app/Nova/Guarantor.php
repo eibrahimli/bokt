@@ -6,6 +6,8 @@ use App\Rules\CheckGuarantorIsRelatedAnyCustomer;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Eibrahimli\ContactPhonesFields\ContactPhonesFields;
 use Eibrahimli\HiddenField\HiddenField;
+use Eibrahimli\NovaUniqueField\Unique;
+use Epartment\NovaUniqueAjaxField\UniqueAjax;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -50,12 +52,6 @@ class Guarantor extends Resource
         'id','name','surname', 'fathername', 'fin'
     ];
 
-    /**
-     * Get the fields displayed by the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
     public function fields(Request $request): array
     {
         return [
@@ -63,7 +59,10 @@ class Guarantor extends Resource
             Text::make("Ad", 'name')->sortable(),
             Text::make('Soyad','surname')->sortable(),
             Text::make('Ata Adı', 'fathername')->sortable(),
-            Text::make('Fin', 'fin')->sortable()
+            Unique::make('Fin', 'fin')
+                ->actOn(Unique::KEY_UP)
+                ->notUniqueMessage('Vətəndaş digər bir müştəriyə zamin durub.')
+                ->keyUpDelay(100)
                 ->rules(['nullable', 'string', 'size:7',new CheckGuarantorIsRelatedAnyCustomer($this->model(),'fin')]),
             Text::make('Ş.V. Seriya №', 'identity_number')->sortable(),
             Textarea::make('Qeydiyyat ünvanı','registration_address')->hideFromIndex(),

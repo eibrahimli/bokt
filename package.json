@@ -9,7 +9,9 @@
         "prod": "npm run production",
         "production": "mix --production",
         "build-customer-loan-field": "cd nova-components/CustomerLoanField && npm run dev",
-        "build-customer-loan-field-prod": "cd nova-components/CustomerLoanField && npm run prod"
+        "build-customer-loan-field-prod": "cd nova-components/CustomerLoanField && npm run prod",
+        "build-branchs-card": "cd nova-components/BranchsCard && npm run dev",
+        "build-branchs-card-prod": "cd nova-components/BranchsCard && npm run prod"
     },
     "devDependencies": {
         "axios": "^0.21",

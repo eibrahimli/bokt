@@ -3,6 +3,7 @@
 namespace App\Nova\Dashboards;
 
 use App\Nova\Metrics\LoanIsApproved;
+use Eibrahimli\BranchsCard\BranchsCard;
 use Laravel\Nova\Dashboard;
 
 class LoanDashboards extends Dashboard
@@ -15,6 +16,7 @@ class LoanDashboards extends Dashboard
     public function cards()
     {
         return [
+            new BranchsCard(),
             new LoanIsApproved()
         ];
     }
