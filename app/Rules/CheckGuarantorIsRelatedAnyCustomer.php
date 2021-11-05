@@ -8,17 +8,10 @@ use Illuminate\Contracts\Validation\Rule;
 
 class CheckGuarantorIsRelatedAnyCustomer implements Rule
 {
-    /**
-     * @var Customer
-     */
+
     private $guarantor;
     private $column;
 
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
     public function __construct(Guarantor $guarantor,$column)
     {
 
@@ -26,13 +19,6 @@ class CheckGuarantorIsRelatedAnyCustomer implements Rule
         $this->column = $column;
     }
 
-    /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
-     */
     public function passes($attribute, $value): bool
     {
         return !Guarantor::where($attribute, $value)->count();

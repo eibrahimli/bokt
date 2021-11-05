@@ -18,7 +18,7 @@ class BranchsCard extends Card
      *
      * @return string
      */
-    public function component()
+    public function component(): string
     {
         return 'branchs-card';
     }

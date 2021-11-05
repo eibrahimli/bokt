@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/endpoint', function (Request $request) {
-//     //
-// });
+ Route::get('/test', function (Request $request) {
+
+     return response()->json(\App\Models\Branch::all());
+ });

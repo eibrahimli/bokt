@@ -23,21 +23,11 @@ use SaintSystems\Nova\ResourceGroupMenu\ResourceGroupMenu;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
     public function boot()
     {
         parent::boot();
     }
 
-    /**
-     * Register the Nova routes.
-     *
-     * @return void
-     */
     protected function routes()
     {
         Nova::routes()
@@ -45,13 +35,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ->register();
     }
 
-    /**
-     * Register the Nova gate.
-     *
-     * This gate determines who can access Nova in non-local environments.
-     *
-     * @return void
-     */
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
@@ -59,20 +42,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         });
     }
 
-    /**
-     * Get the cards that should be displayed on the default Nova dashboard.
-     *
-     * @return array
-     */
-    protected function cards()
+    protected function cards(): array
     {
         return [
-            new LoanIsApproved(null,'Təsdiqlənmiş kreditlər',true),
-            new LoanIsApproved(null,'Təsdiqlənməmiş kreditlər',false),
-            new NewCustomer(),
-            new NewCustomer(null, Customer::class,null,'Aktiv Müştərilər'),
-            new FakeReceivedTransaction(null,Transaction::class,'Qəbul edilən ödənişlər', 76896),
-            new FakeTotalTransaction(),
+
+            new BranchsCard(),
             (new AreaChart())
                 ->title('Kreditlər')
                 ->animations([
@@ -133,39 +107,25 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     'xaxis' => [
                         'categories' => [ 'Jan', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct' ]
                     ],
-                ])
+                ]),
+
         ];
     }
 
-    /**
-     * Get the extra dashboards that should be displayed on the Nova dashboard.
-     *
-     * @return array
-     */
-    protected function dashboards()
+    protected function dashboards(): array
     {
         return [
             new LoanDashboards(),
         ];
     }
 
-    /**
-     * Get the tools that should be listed in the Nova sidebar.
-     *
-     * @return array
-     */
-    public function tools()
+    public function tools(): array
     {
         return [
             new ResourceGroupMenu
         ];
     }
 
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
     public function register()
     {
         //

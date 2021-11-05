@@ -249,12 +249,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['card'],
+    data: function data() {
+        return {
+            openTab: 1,
+            branchs: []
+        };
+    },
+
+    methods: {
+        toggleTabs: function toggleTabs(tabNumber) {
+            this.openTab = tabNumber;
+        }
+    },
 
     mounted: function mounted() {
-        //
+        var _this = this;
+
+        axios.get('/nova-vendor/branchs-card/test').then(function (data) {
+            _this.branchs = data.data;
+            console.log(_this.branchs);
+        }).catch(function (er) {
+            console.log(er);
+        });
     }
 });
 
@@ -270,9 +298,40 @@ var render = function() {
     "card",
     { staticClass: "flex flex-col items-center justify-center" },
     [
-      _c("div", { staticClass: "px-3 py-3" }, [
-        _c("h1", { staticClass: "text-center text-3xl text-80 font-light" }, [
-          _vm._v("Branchs Card")
+      _c("div", { staticClass: "flex flex-wrap" }, [
+        _c("div", { staticClass: "w-full" }, [
+          _c(
+            "ul",
+            { staticClass: "flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row" },
+            _vm._l(_vm.branchs, function(branch) {
+              return _c(
+                "li",
+                { staticClass: "-mb-px mr-2 last:mr-0 flex-auto text-center" },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass:
+                        "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal",
+                      class: {
+                        "text-gray-600 bg-white": _vm.openTab !== branch.id,
+                        "text-white bg-gray-600": _vm.openTab === branch.id
+                      }
+                    },
+                    [
+                      _c("i", {
+                        staticClass: "fas fa-space-shuttle text-base mr-1"
+                      }),
+                      _vm._v(
+                        " " + _vm._s(branch.name) + "\n                    "
+                      )
+                    ]
+                  )
+                ]
+              )
+            }),
+            0
+          )
         ])
       ])
     ]

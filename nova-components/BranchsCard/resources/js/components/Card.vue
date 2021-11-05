@@ -1,7 +1,16 @@
 <template>
     <card class="flex flex-col items-center justify-center">
-        <div class="px-3 py-3">
-            <h1 class="text-center text-3xl text-80 font-light">Branchs Card</h1>
+        <div class="flex flex-wrap">
+            <div class="w-full">
+                <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
+                    <li class="-mb-px mr-2 last:mr-0 flex-auto text-center" v-for="branch in branchs">
+                        <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal" v-bind:class="{'text-gray-600 bg-white': openTab !== branch.id, 'text-white bg-gray-600': openTab === branch.id}">
+                            <i class="fas fa-space-shuttle text-base mr-1"></i> {{ branch.name }}
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
         </div>
     </card>
 </template>
@@ -16,9 +25,25 @@ export default {
         // 'resourceId',
         // 'resourceName',
     ],
+    data() {
+        return {
+            openTab: 1,
+            branchs: [],
+        }
+    },
+    methods: {
+        toggleTabs: function(tabNumber){
+            this.openTab = tabNumber
+        }
+    },
 
     mounted() {
-        //
+        axios.get('/nova-vendor/branchs-card/test').then(data => {
+            this.branchs = data.data
+            console.log(this.branchs)
+        }).catch(er => {
+            console.log(er)
+        })
     },
 }
 </script>
