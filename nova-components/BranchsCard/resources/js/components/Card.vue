@@ -4,11 +4,10 @@
             <div class="w-full">
                 <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
                     <li class="-mb-px mr-2 last:mr-0 flex-auto text-center" v-for="branch in branchs">
-                        <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal" v-bind:class="{'text-gray-600 bg-white': openTab !== branch.id, 'text-white bg-gray-600': openTab === branch.id}">
+                        <a @click.prevent="redirectToBranchDashboard" class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal" v-bind:class="{'text-gray-600 bg-white': openTab !== branch.id, 'text-white bg-gray-600': openTab === branch.id}">
                             <i class="fas fa-space-shuttle text-base mr-1"></i> {{ branch.name }}
                         </a>
                     </li>
-
                 </ul>
             </div>
         </div>
@@ -34,6 +33,9 @@ export default {
     methods: {
         toggleTabs: function(tabNumber){
             this.openTab = tabNumber
+        },
+        redirectToBranchDashboard() {
+            this.$router.push('/dashboards/loan-cards')
         }
     },
 

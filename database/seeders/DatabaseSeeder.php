@@ -28,5 +28,6 @@ class DatabaseSeeder extends Seeder
          ]);
          \App\Models\Customer::factory(300)->create();
 //         \App\Models\Loan::factory(300)->create();
+        $this->call([BranchSeeder::class]);
     }
 }
