@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "08455d8dfba15eab75c840b099f958ff",
+    "content-hash": "fc796ef8fdc36d27a75dd70542b9bfa5",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1133,7 +1133,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/BranchsCard",
-                "reference": "b675b9dbff0a0e15b11e7594a8404fee2553ce33"
+                "reference": "fd85eb950bf5c5601273b0a4704b04c32e88325f"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1169,7 +1169,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/ColumnPermissionsField",
-                "reference": "8debc1357e96362eacfb23727a332ee77b2d619b"
+                "reference": "f8147487407bffae3d14ee16d870f55ec5d6fcb7"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1205,7 +1205,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/ContactPhonesFields",
-                "reference": "0e406d05826d8a0e502305e337a795935aeaf84f"
+                "reference": "ac96b9477f1d8d036526d7f27d285bf2217c127c"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1241,7 +1241,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/CustomerLoanField",
-                "reference": "5d9b25423e35c5b9f4d4eb4949a5490fd50722af"
+                "reference": "5566855b114c1ae436d7bf917ef7df924b02162f"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1277,7 +1277,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/HiddenField",
-                "reference": "d836a4d24751cc49710f3b3e34bc2db4e5eb4c31"
+                "reference": "e7423b42618101f6cefd4c4bfff062fc3de5e491"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1313,7 +1313,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/nova-unique-ajax-field",
-                "reference": "f1d3eeeee87024e1edb00c5e4018c6a7e86e44f3"
+                "reference": "fa0d589d99c85bf5ed535b4e5c646e9f74ac3ed1"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -2145,16 +2145,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.68.1",
+            "version": "v8.69.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "abe985ff1fb82dd04aab03bc1dc56e83fe61a59f"
+                "reference": "545181da688db64fed6d8427e55f630a90ca0d32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/abe985ff1fb82dd04aab03bc1dc56e83fe61a59f",
-                "reference": "abe985ff1fb82dd04aab03bc1dc56e83fe61a59f",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/545181da688db64fed6d8427e55f630a90ca0d32",
+                "reference": "545181da688db64fed6d8427e55f630a90ca0d32",
                 "shasum": ""
             },
             "require": {
@@ -2313,7 +2313,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-10-27T12:31:46+00:00"
+            "time": "2021-11-02T13:53:22+00:00"
         },
         {
             "name": "laravel/nova",
@@ -2321,7 +2321,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova",
-                "reference": "6b794c171432307ae1adf269bf67cd6e5adc762b"
+                "reference": "c627c12fedce6ee367d36538e8a6886e4ed79e13"
             },
             "require": {
                 "brick/money": "^0.5.0",
@@ -2596,16 +2596,16 @@
         },
         {
             "name": "laravel/ui",
-            "version": "v3.3.0",
+            "version": "v3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/ui.git",
-                "reference": "07d725813350c695c779382cbd6dac0ab8665537"
+                "reference": "28f3d190fe270b6dcd6fdab4a77a392e693ceca5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/ui/zipball/07d725813350c695c779382cbd6dac0ab8665537",
-                "reference": "07d725813350c695c779382cbd6dac0ab8665537",
+                "url": "https://api.github.com/repos/laravel/ui/zipball/28f3d190fe270b6dcd6fdab4a77a392e693ceca5",
+                "reference": "28f3d190fe270b6dcd6fdab4a77a392e693ceca5",
                 "shasum": ""
             },
             "require": {
@@ -2648,9 +2648,9 @@
                 "ui"
             ],
             "support": {
-                "source": "https://github.com/laravel/ui/tree/v3.3.0"
+                "source": "https://github.com/laravel/ui/tree/v3.3.2"
             },
-            "time": "2021-05-25T16:45:33+00:00"
+            "time": "2021-11-05T08:25:44+00:00"
         },
         {
             "name": "laravie/serialize-queries",
@@ -3594,16 +3594,16 @@
         },
         {
             "name": "mpdf/mpdf",
-            "version": "v8.0.13",
+            "version": "v8.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mpdf/mpdf.git",
-                "reference": "42f145615cfe830fd432474da1d2e1f927efe402"
+                "reference": "ab362c8b11667813487be5d3da64b31c89d9d826"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/42f145615cfe830fd432474da1d2e1f927efe402",
-                "reference": "42f145615cfe830fd432474da1d2e1f927efe402",
+                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/ab362c8b11667813487be5d3da64b31c89d9d826",
+                "reference": "ab362c8b11667813487be5d3da64b31c89d9d826",
                 "shasum": ""
             },
             "require": {
@@ -3612,7 +3612,7 @@
                 "myclabs/deep-copy": "^1.7",
                 "paragonie/random_compat": "^1.4|^2.0|^9.99.99",
                 "php": "^5.6 || ^7.0 || ~8.0.0 || ~8.1.0",
-                "psr/log": "^1.0",
+                "psr/log": "^1.0 || ^2.0",
                 "setasign/fpdi": "^2.1"
             },
             "require-dev": {
@@ -3665,7 +3665,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2021-09-10T10:09:59+00:00"
+            "time": "2021-11-02T20:27:57+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -3787,16 +3787,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.53.1",
+            "version": "2.54.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "f4655858a784988f880c1b8c7feabbf02dfdf045"
+                "reference": "eed83939f1aed3eee517d03a33f5ec587ac529b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/f4655858a784988f880c1b8c7feabbf02dfdf045",
-                "reference": "f4655858a784988f880c1b8c7feabbf02dfdf045",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/eed83939f1aed3eee517d03a33f5ec587ac529b5",
+                "reference": "eed83939f1aed3eee517d03a33f5ec587ac529b5",
                 "shasum": ""
             },
             "require": {
@@ -3807,6 +3807,7 @@
                 "symfony/translation": "^3.4 || ^4.0 || ^5.0"
             },
             "require-dev": {
+                "doctrine/dbal": "^2.0 || ^3.0",
                 "doctrine/orm": "^2.7",
                 "friendsofphp/php-cs-fixer": "^3.0",
                 "kylekatarnls/multi-tester": "^2.0",
@@ -3877,7 +3878,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-06T09:29:23+00:00"
+            "time": "2021-11-01T21:22:20+00:00"
         },
         {
             "name": "nette/schema",
@@ -4028,16 +4029,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.13.0",
+            "version": "v4.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "50953a2691a922aa1769461637869a0a2faa3f53"
+                "reference": "63a79e8daa781cac14e5195e63ed8ae231dd10fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/50953a2691a922aa1769461637869a0a2faa3f53",
-                "reference": "50953a2691a922aa1769461637869a0a2faa3f53",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/63a79e8daa781cac14e5195e63ed8ae231dd10fd",
+                "reference": "63a79e8daa781cac14e5195e63ed8ae231dd10fd",
                 "shasum": ""
             },
             "require": {
@@ -4078,9 +4079,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.13.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.13.1"
             },
-            "time": "2021-09-20T12:20:58+00:00"
+            "time": "2021-11-03T20:52:16+00:00"
         },
         {
             "name": "nrml-co/nova-big-filter",
@@ -4258,6 +4259,72 @@
             "time": "2021-10-01T15:18:19+00:00"
         },
         {
+            "name": "optimistdigital/nova-table-field",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/optimistdigital/nova-table-field.git",
+                "reference": "9ac7d71cf5daa80dc9a184bc525fc2d704472d77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/optimistdigital/nova-table-field/zipball/9ac7d71cf5daa80dc9a184bc525fc2d704472d77",
+                "reference": "9ac7d71cf5daa80dc9a184bc525fc2d704472d77",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^1.0 || ^2.0 || ^3.0",
+                "optimistdigital/nova-tailwind": "^1.0",
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "OptimistDigital\\NovaTableField\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "OptimistDigital\\NovaTableField\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kaspar Rosin",
+                    "email": "kaspar.rosin@gmail.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Optimist Digital",
+                    "email": "info@optimistdigital.com",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Tarvo Reinpalu",
+                    "email": "tarvoreinpalu@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Table field for Laravel Nova",
+            "keywords": [
+                "laravel",
+                "nova",
+                "optimistdigital",
+                "tables"
+            ],
+            "support": {
+                "issues": "https://github.com/optimistdigital/nova-table-field/issues",
+                "source": "https://github.com/optimistdigital/nova-table-field/tree/1.0.2"
+            },
+            "time": "2020-09-04T09:06:54+00:00"
+        },
+        {
             "name": "optimistdigital/nova-tailwind",
             "version": "1.1.2",
             "source": {
@@ -4319,16 +4386,16 @@
         },
         {
             "name": "orlyapps/nova-belongsto-depend",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orlyapps/nova-belongsto-depend.git",
-                "reference": "ede8be90fe959eb59d459eaee0090dcd4e768244"
+                "reference": "a5d9ba0eaa08ccc63f0cefbf26fe88d4d8e21a4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orlyapps/nova-belongsto-depend/zipball/ede8be90fe959eb59d459eaee0090dcd4e768244",
-                "reference": "ede8be90fe959eb59d459eaee0090dcd4e768244",
+                "url": "https://api.github.com/repos/orlyapps/nova-belongsto-depend/zipball/a5d9ba0eaa08ccc63f0cefbf26fe88d4d8e21a4d",
+                "reference": "a5d9ba0eaa08ccc63f0cefbf26fe88d4d8e21a4d",
                 "shasum": ""
             },
             "require": {
@@ -4358,9 +4425,9 @@
             ],
             "support": {
                 "issues": "https://github.com/orlyapps/nova-belongsto-depend/issues",
-                "source": "https://github.com/orlyapps/nova-belongsto-depend/tree/3.0.0"
+                "source": "https://github.com/orlyapps/nova-belongsto-depend/tree/3.0.1"
             },
-            "time": "2021-05-25T11:31:04+00:00"
+            "time": "2021-11-06T17:28:40+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -4827,20 +4894,20 @@
         },
         {
             "name": "psr/container",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/container.git",
-                "reference": "8622567409010282b7aeebe4bb841fe98b58dcaf"
+                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/8622567409010282b7aeebe4bb841fe98b58dcaf",
-                "reference": "8622567409010282b7aeebe4bb841fe98b58dcaf",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/513e0666f7216c7459170d56df27dfcefe1689ea",
+                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2.0"
+                "php": ">=7.4.0"
             },
             "type": "library",
             "autoload": {
@@ -4869,9 +4936,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-fig/container/issues",
-                "source": "https://github.com/php-fig/container/tree/1.1.1"
+                "source": "https://github.com/php-fig/container/tree/1.1.2"
             },
-            "time": "2021-03-05T17:36:06+00:00"
+            "time": "2021-11-05T16:50:12+00:00"
         },
         {
             "name": "psr/event-dispatcher",
@@ -9176,16 +9243,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.12.2",
+            "version": "v1.12.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "1acae00ddb5c6ec4a2957fe42c0004f13cd17a7a"
+                "reference": "f335277677188b79d12f4caad88577cf76e54dfa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/1acae00ddb5c6ec4a2957fe42c0004f13cd17a7a",
-                "reference": "1acae00ddb5c6ec4a2957fe42c0004f13cd17a7a",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/f335277677188b79d12f4caad88577cf76e54dfa",
+                "reference": "f335277677188b79d12f4caad88577cf76e54dfa",
                 "shasum": ""
             },
             "require": {
@@ -9232,7 +9299,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2021-10-26T21:37:54+00:00"
+            "time": "2021-11-05T13:35:24+00:00"
         },
         {
             "name": "mockery/mockery",

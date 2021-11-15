@@ -14,4 +14,11 @@ class Branch extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function contracts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Models\Contract', 'branch_id', 'id');
+    }
+
+
 }
