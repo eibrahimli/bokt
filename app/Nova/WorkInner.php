@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Text;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
@@ -62,7 +63,8 @@ class WorkInner extends Resource
             Text::make(__("ƏDV"),"edv"),
             Text::make(__("Tam qiyməti"),"total_price"),
             Text::make(__("Debet"),"debet"),
-            Text::make(__("Kredit"),"kredit"),
+            Text::make(__("Kredit"),"credit"),
+            BelongsTo::make(__('İş haqqında'), 'work', Work::class),
 
         ];
     }

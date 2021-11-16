@@ -20,5 +20,15 @@ class Branch extends Model
         return $this->hasMany('App\Models\Contract', 'branch_id', 'id');
     }
 
+    public function expenseOperations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Models\ExpenseOperation', 'branch_id', 'id');
+    }
+
+    public function incomeOperations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Models\IncomeOperation', 'branch_id', 'id');
+    }
+
 
 }

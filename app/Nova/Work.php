@@ -7,9 +7,11 @@ use Eibrahimli\CalculatedField\ListenerField;
 use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use KossShtukert\LaravelNovaSelect2\Select2;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Select;
@@ -64,28 +66,23 @@ class Work extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make(__('Müqavilə'), 'contract', Contract::class),
+            BelongsTo::make(__('Müqavilə'), 'contract', Contract::class)->onlyOnIndex(),
+            Select2::make(__('Müqavilə'), 'contract_id')
+                ->options(\App\Models\Contract::all()->mapWithKeys(function ($contract) {
+                    return [$contract->id => $contract->supplier->name." ".$contract->branch->name." ".$contract->contract_number];
+                }))
+                ->displayUsingLabels(),
             Text::make(__("Hesab Faktura Nömrəsi"),"invoice_number"),
             Text::make(__("EQF Nömrəsi"),"einvoice_number"),
             Date::make(__("EQF Tarixi"),"einvoice_date"),
             Text::make(__("Cəmi məbləğ"),"price"),
             Text::make(__("ƏDV"),"edv"),
             Text::make(__("Yekun məbləğ"),"total_price"),
-            NestedForm::make('WorkInner'),
+            Boolean::make("Status","status")->trueValue('1')->falseValue( '0'),
+            NestedForm::make('WorkInner')->heading('İş və xidmət yarat'),
+            HasMany::make(__('İş və xidmətlər'), 'workInner', WorkInner::class)->onlyOnDetail(),
 
 
-            Select::make('Name format', 'name_format')->options([
-                0 => 'First Name',
-                1 => 'First Name / Last Name',
-                2 => 'Full Name'
-            ])->displayUsingLabels(),
-
-            NovaDependencyContainer::make([
-                Text::make('First Name', 'first_name')->default(function(){
-                    return "ddd ".$this->invoice_number;
-                }),
-
-            ])->dependsOnNot('name_format','0'),
         ];
     }
 

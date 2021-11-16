@@ -35,4 +35,19 @@ class Contract extends Model
     {
         return $this->hasMany('App\Models\Contract', 'contract_id', 'id');
     }
+
+    public function assets(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Models\MainAsset', 'contract_id', 'id');
+    }
+
+    public function expenseOperations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Models\ExpenseOperation', 'contract_id', 'id');
+    }
+
+    public function incomeOperations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Models\IncomeOperation', 'contract_id', 'id');
+    }
 }

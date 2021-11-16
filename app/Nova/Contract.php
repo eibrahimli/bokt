@@ -23,7 +23,12 @@ class Contract extends Resource
      *
      * @var string
      */
-    public static $title = 'contract_number';
+/*    public static $title = 'contract_number';*/
+
+    public function title()
+    {
+        return " {$this->supplier->name} {$this->branch->name} {$this->contract_number}";
+    }
 
     public static $group = 'Mühasibatlıq';
 

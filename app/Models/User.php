@@ -59,4 +59,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Branch::class);
     }
+    public function assets(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(MainAsset::class);
+    }
+
+
 }
