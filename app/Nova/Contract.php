@@ -5,6 +5,7 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -69,8 +70,8 @@ class Contract extends Resource
             BelongsTo::make(__('Valyuta'), 'currency', Currency::class),
             Date::make(__("Müqavilə tarixi"),"contract_date"),
             Date::make(__("Müqavilə başlayır"),"contract_begin"),
-            Date::make(__("Müqavilə bitir"),"contract_end")
-
+            Date::make(__("Müqavilə bitir"),"contract_end"),
+            HasMany::make('İş və xidmətlər', 'works', \App\Nova\Work::class),
         ];
     }
 

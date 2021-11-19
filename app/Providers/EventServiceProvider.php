@@ -5,11 +5,15 @@ namespace App\Providers;
 use App\Models\Customer;
 use App\Models\Guarantor;
 use App\Models\Loan;
+use App\Models\MainAsset;
 use App\Models\Transaction;
+use App\Models\Work;
 use App\Observers\CustomerObserver;
 use App\Observers\GuarantorObserver;
 use App\Observers\LoanObserver;
+use App\Observers\MainAssetObserver;
 use App\Observers\TransactionObserver;
+use App\Observers\WorkObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -39,5 +43,7 @@ class EventServiceProvider extends ServiceProvider
         Customer::observe(CustomerObserver::class);
         Transaction::observe(TransactionObserver::class);
         Loan::observe(LoanObserver::class);
+        Work::observe(WorkObserver::class);
+        MainAsset::observe(MainAssetObserver::class);
     }
 }

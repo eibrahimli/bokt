@@ -94,7 +94,7 @@
             Mühasibatlıq
         </div>
         <ul class="list-reset mb-8">
-            <div class="py-2">
+            {{--<div class="py-2">
                 <li class="leading-wide mb-4 ml-8 text-sm">
                     <a href="#" class="text-white text-justify no-underline dim">
                         Təchizatçılar
@@ -120,7 +120,7 @@
                         Bank əməliyyatları
                     </a>
                 </li>
-            </div>
+            </div>--}}
 
         </ul>
     </div>

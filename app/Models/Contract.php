@@ -33,7 +33,7 @@ class Contract extends Model
 
     public function works(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany('App\Models\Contract', 'contract_id', 'id');
+        return $this->hasMany('App\Models\Contract', 'id', 'contract_id');
     }
 
     public function assets(): \Illuminate\Database\Eloquent\Relations\HasMany
