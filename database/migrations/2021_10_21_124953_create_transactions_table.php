@@ -21,6 +21,7 @@ class CreateTransactionsTable extends Migration
             $table->string('surname')->nullable()->comment('Soyad');
             $table->string('fathername')->nullable()->comment('Ata Adı');
             $table->string('identity_number')->nullable()->comment('Ş.V. Seriya №');
+            $table->string('fin')->nullable()->comment('Fin');
 
             $table->double('main_price')->nullable()->comment('Əsas məbləğ üzrə');
             $table->double('interested_price')->nullable()->comment('Marağ faizi üzrə');

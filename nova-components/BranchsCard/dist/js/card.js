@@ -257,7 +257,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['card'],
@@ -271,6 +270,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         toggleTabs: function toggleTabs(tabNumber) {
             this.openTab = tabNumber;
+        },
+        redirectToBranchDashboard: function redirectToBranchDashboard() {
+            this.$router.push('/dashboards/loan-cards');
         }
     },
 
@@ -312,10 +314,19 @@ var render = function() {
                     "a",
                     {
                       staticClass:
-                        "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal",
+                        "cursor-pointer text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal",
                       class: {
                         "text-gray-600 bg-white": _vm.openTab !== branch.id,
                         "text-white bg-gray-600": _vm.openTab === branch.id
+                      },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.redirectToBranchDashboard.apply(
+                            null,
+                            arguments
+                          )
+                        }
                       }
                     },
                     [

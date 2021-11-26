@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Eibrahimli\EdvCalculation\EdvCalculation;
 use Illuminate\Http\Request;
 use KossShtukert\LaravelNovaSelect2\Select2;
 use Laravel\Nova\Fields\BelongsTo;
@@ -10,6 +11,7 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
 use Yassi\NestedForm\NestedForm;
 
 class MainAsset extends Resource
@@ -73,7 +75,9 @@ class MainAsset extends Resource
             BelongsTo::make(__('Məsul şəxs'), 'user', User::class),
             NestedForm::make('AssetInner')->heading('Malların siyahısı'),
             HasMany::make(__('Malların siyahısı'), 'AssetInner', AssetInner::class)->onlyOnDetail(),
-
+            new Panel('Ədv Hesabatı', [
+                EdvCalculation::make('Test')
+            ])
         ];
     }
 

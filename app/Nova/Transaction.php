@@ -45,12 +45,14 @@ class Transaction extends Resource
     {
         return array(
             ID::make(__('ID'), 'id')->sortable(),
-            CustomerLoanField::make('Dəyər', 'price')->sortable(),
+            CustomerLoanField::make('Dəyər', 'price')->rules(['required'])->sortable(),
             Boolean::make('Digər vətandaş tərəfindən ödəniş', 'is_civil'),
             NovaDependencyContainer::make(array(
                 Text::make("Ad", 'name')->sortable(),
                 Text::make('Soyad', 'surname')->sortable(),
                 Text::make('Ata Adı', 'fathername')->sortable(),
+                Text::make('Fin', 'fin')->sortable()->rules(['required','nullable', 'string', 'size:7']),
+                Text::make('Ş.V. Seriya №', 'identity_number')->sortable(),
             ))->dependsOn('is_civil', 1),
 
             Text::make("Əsas məbləğ üzrə", 'main_price')

@@ -2,6 +2,12 @@
 
 namespace App\Nova;
 
+use Eibrahimli\CalculatedField\BroadcasterField;
+use Eibrahimli\CalculatedField\ListenerField;
+use Eibrahimli\CalculationField\CalculationField;
+use Eibrahimli\CustomFieldHelpCalculation\CustomFieldHelpCalculation;
+use Eibrahimli\EdvCalculation\EdvCalculation;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
@@ -56,10 +62,11 @@ class AssetInner extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make(__("Adı"),"name"),
-            BelongsTo::make(__('Malların iş və xidmətlərin kateqoriyası'), 'assetCategory', AssetCategory::class),
+            BelongsTo::make(__('Malların iş və xidmətlərin kateqoriyası'), 'assetCategory', AssetCategory::class)->showCreateRelationButton(),
             Text::make(__("Ölçü vahidi"),"measure"),
-            Text::make(__("Qiyməti"),"unit_price"),
-            Text::make(__("Məbləği"),"price"),
+            CalculationField::make(__("Miqdar"),"quantity"),
+            CalculationField::make(__("Qiyməti"),"unit_price"),
+            CustomFieldHelpCalculation::make(__("Məbləği"),"price")->tax(false),
             Text::make(__("ƏDV"),"edv"),
             Text::make(__("Tam qiyməti"),"total_price"),
             Text::make(__("Debet"),"debet"),

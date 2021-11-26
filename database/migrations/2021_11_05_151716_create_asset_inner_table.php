@@ -20,6 +20,7 @@ class CreateAssetInnerTable extends Migration
             $table->string('type')->nullable()->comment('Malların iş və xidmətlərin növü');
             $table->integer('measure')->nullable()->comment('Ölçü vahidi');
             $table->double('unit_price')->nullable()->comment('Qiyməti');
+            $table->double('quantity')->nullable()->comment('Miqdar');
             $table->double('price')->nullable()->comment('Məbləği');
             $table->double('edv')->nullable()->comment('ƏDV');
             $table->double('total_price')->nullable()->comment('Tam qiyməti');

@@ -64,9 +64,6 @@ class Loan extends Resource
             Number::make('Müddət (Ay)', 'month'),
             Currency::make('Qiymət', 'price')->currency('AZN'),
 
-            new Panel('Qirov haqqında məlumat', [
-                NestedForm::make('Girovlar', 'collaterals', Collateral::class),
-            ]),
             new Panel('Müştərinin biznes sahəsi', [
 
                 BelongsTo::make('İstehlak', 'consumption', Consumption::class)
