@@ -185,9 +185,9 @@ module.exports = __webpack_require__(13);
 /***/ (function(module, exports, __webpack_require__) {
 
 Nova.booting(function (Vue, router, store) {
-  Vue.component('index-custom-field-help-calculation', __webpack_require__(3));
-  Vue.component('detail-custom-field-help-calculation', __webpack_require__(6));
-  Vue.component('form-custom-field-help-calculation', __webpack_require__(9));
+  Vue.component('index-CalculationForUnitPriceField', __webpack_require__(3));
+  Vue.component('detail-CalculationForUnitPriceField', __webpack_require__(6));
+  Vue.component('form-CalculationForUnitPriceField', __webpack_require__(9));
 });
 
 /***/ }),
@@ -424,6 +424,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -431,22 +432,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mixins: [__WEBPACK_IMPORTED_MODULE_0_laravel_nova__["FormField"], __WEBPACK_IMPORTED_MODULE_0_laravel_nova__["HandlesValidationErrors"]],
 
     props: ['resourceName', 'resourceId', 'field'],
-
-    data: function data() {
-        return {
-            timeout: null,
-            price: 0,
-            amount: 0,
-            currentAttr: ''
-        };
-    },
-
-
-    computed: {
-        children: function children() {
-            return this.$parent.$children;
-        }
-    },
 
     methods: {
         /*
@@ -463,42 +448,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fill: function fill(formData) {
             formData.append(this.field.attribute, this.value || '');
         },
-        handleProperFieldUpdate: function handleProperFieldUpdate(key, parent) {
-            console.log('price', this.price, '  amount', this.amount);
-            if (this.field.attribute === parent.attribute) {
-                this.value = this.price * this.amount;
-                this.price = this.amount = 0;
-            }
+        handleTyping: function handleTyping() {
+            clearTimeout(this.timeout);
+            var vm = this;
+            // Make a new timeout set to go off in 1000ms (1 second)
+            var current = vm.$parent.$children[6].field;
+            this.timeout = setTimeout(function () {
+                Nova.$emit('unit_price', [vm._props.field.attribute, vm.value, current]);
+            }, 1000);
         }
-    },
-
-    mounted: function mounted() {
-        var _this = this;
-
-        Nova.$on('unit_price', function (value) {
-            if (value[3] !== undefined) {
-                if (value[3]._props.field.originalAttribute === 'quantity') {
-                    _this.amount = value[3].value;
-                } else {
-                    _this.price = value[3].value;
-                }
-            }
-            _this.price = value[1];
-            if (_this.amount !== 0 && _this.price !== 0) {
-                _this.handleProperFieldUpdate(value[0], value[2]);
-            }
-        });
-        Nova.$on('amount', function (value) {
-            if (value[3] !== undefined) {
-                if (value[3]._props.field.originalAttribute === 'unit_price') {
-                    _this.price = value[3].value;
-                }
-            }
-            _this.amount = value[1];
-            if (_this.amount !== 0 && _this.price !== 0) {
-                _this.handleProperFieldUpdate(value[0], value[2]);
-            }
-        });
     }
 });
 
@@ -26873,6 +26831,10 @@ var render = function() {
           },
           domProps: { value: _vm.value },
           on: {
+            keyup: function($event) {
+              $event.preventDefault()
+              return _vm.handleTyping.apply(null, arguments)
+            },
             input: function($event) {
               if ($event.target.composing) {
                 return

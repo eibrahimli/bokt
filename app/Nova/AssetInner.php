@@ -5,6 +5,7 @@ namespace App\Nova;
 use Eibrahimli\CalculatedField\BroadcasterField;
 use Eibrahimli\CalculatedField\ListenerField;
 use Eibrahimli\CalculationField\CalculationField;
+use Eibrahimli\CalculationForUnitPriceField\CalculationForUnitPriceField;
 use Eibrahimli\CustomFieldHelpCalculation\CustomFieldHelpCalculation;
 use Eibrahimli\EdvCalculation\EdvCalculation;
 use Illuminate\Database\Eloquent\Collection;
@@ -57,7 +58,7 @@ class AssetInner extends Resource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),

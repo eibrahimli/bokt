@@ -432,6 +432,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     props: ['resourceName', 'resourceId', 'field'],
 
+    computed: {
+        amount: function amount() {
+            return this.$parent.$children.find(function (child) {
+                if (child._props.field.originalAttribute === 'quantity') {
+                    return child.value;
+                }
+            });
+        },
+        unit_price: function unit_price() {
+            return this.$parent.$children.find(function (child) {
+                if (child._props.field.originalAttribute === 'unit_price') {
+                    return child.value;
+                }
+            });
+        }
+    },
+
     methods: {
         /*
          * Set the initial, internal value for the field.
@@ -452,13 +469,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     updated: function updated() {
         clearTimeout(this.timeout);
         var vm = this;
-
         // Make a new timeout set to go off in 1000ms (1 second)
+
+        // Current price field | this will be dynamic  in future
+        var current = vm.$parent.$children[6].field;
         this.timeout = setTimeout(function () {
             if (vm.field.originalAttribute == 'unit_price') {
-                Nova.$emit('unit_price', [vm._props.field.attribute, vm.value]);
+                Nova.$emit('unit_price', [vm._props.field.attribute, vm.value, current, vm.amount]);
             } else {
-                Nova.$emit('amount', [vm._props.field.attribute, vm.value]);
+                Nova.$emit('amount', [vm._props.field.attribute, vm.value, current, vm.unit_price]);
             }
         }, 1000);
     }

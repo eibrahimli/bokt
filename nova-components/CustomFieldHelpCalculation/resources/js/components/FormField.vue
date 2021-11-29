@@ -31,7 +31,7 @@ export default {
     },
 
     computed: {
-        children () {
+        children() {
             return this.$parent.$children
         },
     },
@@ -51,34 +51,41 @@ export default {
             formData.append(this.field.attribute, this.value || '')
         },
 
-        emptyValue() {
-            this.value = 0
-        },
-
-        handleProperFieldUpdate(key) {
-            let vm = this
-            this.$parent.$children.forEach(child => {
-                if(child._props.field.attribute == vm.field.attribute) {
-                    console.log(child)
-                    console.log(vm.field.attribute)
-                    child.value = vm.price * vm.amount
-                }
-            })
+        handleProperFieldUpdate(key,parent) {
+            console.log('price', this.price, '  amount', this.amount)
+            if(this.field.attribute === parent.attribute) {
+                this.value = this.price * this.amount
+                this.price=this.amount=0
+            }
         }
     },
 
     mounted() {
 
-        Nova.$on('unit_price', (value) => {
-            this.emptyValue()
+        Nova.$on('unit_price', value => {
+            if(value[3] !== undefined) {
+                if(value[3]._props.field.originalAttribute === 'quantity') {
+                    this.amount = value[3].value
+                } else {
+                    this.price = value[3].value
+                }
+            }
             this.price = value[1]
-            console.log(value[0])
-            this.handleProperFieldUpdate(value[0])
-        })
-        Nova.$on('amount', (value) => {
-            this.emptyValue()
+            if (this.amount !== 0 && this.price !== 0) {
+                this.handleProperFieldUpdate(value[0],value[2])
+            }
+        } )
+        Nova.$on('amount', value => {
+            if(value[3] !== undefined) {
+                if(value[3]._props.field.originalAttribute === 'unit_price') {
+                    this.price = value[3].value
+                }
+            }
             this.amount = value[1]
-            this.handleProperFieldUpdate(value[0])
+            if (this.amount !== 0 && this.price !== 0) {
+                this.handleProperFieldUpdate(value[0],value[2])
+            }
+
         })
 
     }

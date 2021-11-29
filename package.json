@@ -17,7 +17,9 @@
         "build-custom-field-help-calculation": "cd nova-components/CustomFieldHelpCalculation && npm run dev",
         "build-custom-field-help-calculation-prod": "cd nova-components/CustomFieldHelpCalculation && npm run prod",
         "build-calculation-field": "cd nova-components/CalculationField && npm run dev",
-        "build-calculation-field-prod": "cd nova-components/CalculationField && npm run prod"
+        "build-calculation-field-prod": "cd nova-components/CalculationField && npm run prod",
+        "build-CalculationForUnitPriceField": "cd nova-components/CalculationForUnitPriceField && npm run dev",
+        "build-CalculationForUnitPriceField-prod": "cd nova-components/CalculationForUnitPriceField && npm run prod"
     },
     "devDependencies": {
         "axios": "^0.21",

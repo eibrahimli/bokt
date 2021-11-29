@@ -9,3 +9,4 @@ Route::get('/lang/{lang}',[LanguageController::class, 'switchLang'])
     ->name('lang.switch')
     ->middleware('auth');
 
+

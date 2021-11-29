@@ -70,14 +70,15 @@ class MainAsset extends Resource
             Text::make(__("Hesab Faktura Nömrəsi"),"invoice_number"),
             Text::make(__("EQF Nömrəsi"),"einvoice_number"),
             Date::make(__("EQF Tarixi"),"einvoice_date"),
-            BelongsTo::make(__('Amortizasiya hesabı'), 'depAccount', DepreciationAccount::class),
+            BelongsTo::make(__('Amortizasiya hesabı'), 'depAccount', DepreciationAccount::class)->showCreateRelationButton(),
+            BelongsTo::make(__('Branch'), 'branch', Branch::class)->showCreateRelationButton(),
             Text::make(__("Əsas vəsaitin saxlandığı yer"),"asset_location"),
-            BelongsTo::make(__('Məsul şəxs'), 'user', User::class),
+            BelongsTo::make(__('Məsul şəxs'), 'user', User::class)->showCreateRelationButton(),
             NestedForm::make('AssetInner')->heading('Malların siyahısı'),
             HasMany::make(__('Malların siyahısı'), 'AssetInner', AssetInner::class)->onlyOnDetail(),
-            new Panel('Ədv Hesabatı', [
-                EdvCalculation::make('Test')
-            ])
+//            new Panel('Ədv Hesabatı', [
+//                EdvCalculation::make('Test')
+//            ])
         ];
     }
 

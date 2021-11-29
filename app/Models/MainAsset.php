@@ -56,6 +56,10 @@ class MainAsset extends Model
     {
         return $this->belongsTo('App\Models\Contract', 'contract_id', 'id');
     }
+    public function branch(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\Branch');
+    }
 
     public function depAccount(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
