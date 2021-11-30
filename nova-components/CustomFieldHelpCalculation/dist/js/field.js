@@ -466,10 +466,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.field.attribute === parent._props.field.attribute) {
                 this.value = this.price * this.amount;
                 var edvVal = parent.$parent.$children.find(function (el) {
-                    return el._props.field.originalAttribute === 'edv';
+                    if (el._props.field.originalAttribute === 'edv' || el._props.field.attribute === 'edv') {
+                        return el;
+                    }
                 }).value;
                 var totalPrice = parent.$parent.$children.find(function (el) {
-                    return el._props.field.originalAttribute === 'total_price';
+                    if (el._props.field.originalAttribute === 'total_price' || el._props.field.attribute === 'total_price') {
+                        return el;
+                    }
                 });
                 Nova.$emit('edv', [edvVal, totalPrice]);
                 this.price = this.amount = 0;
@@ -483,7 +487,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Nova.$on('unit_price', function (value) {
             if (value[3] !== undefined) {
                 // Check just unit price updated and quantity send to here
-                if (value[3]._props.field.originalAttribute === 'quantity') {
+                if (value[3]._props.field.originalAttribute === 'quantity' || value[3]._props.field.attribute === 'quantity') {
                     _this.amount = parseInt(value[3].value);
                 }
             }
@@ -497,7 +501,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             console.log('buralard 1', value);
             if (value[3] !== undefined) {
                 // Check just quantity updated and unit price send to here
-                if (value[3]._props.field.originalAttribute === 'unit_price') {
+                if (value[3]._props.field.originalAttribute === 'unit_price' || value[3]._props.field.attribute === 'unit_price') {
                     _this.price = parseFloat(value[3].value);
                 }
             }

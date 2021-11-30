@@ -457,7 +457,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (_this.field.attribute === val[1].field.attribute) {
                 console.log('burdayam');
                 _this.value = val[0] * _this.$parent.$children.find(function (el) {
-                    return el._props.field.originalAttribute === 'price';
+                    return el._props.field.originalAttribute === 'price' || el._props.field.attribute === 'price';
                 }).value;
             }
         });

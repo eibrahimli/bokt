@@ -42,7 +42,7 @@ export default {
 
             if(this.field.attribute === val[1].field.attribute) {
                 console.log('burdayam')
-                this.value = val[0] * (this.$parent.$children.find(el => el._props.field.originalAttribute === 'price')).value
+                this.value = val[0] * (this.$parent.$children.find(el => el._props.field.originalAttribute === 'price' || el._props.field.attribute === 'price')).value
             }
         })
     }

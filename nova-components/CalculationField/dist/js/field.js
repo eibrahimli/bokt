@@ -436,14 +436,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     computed: {
         amount: function amount() {
             return this.$parent.$children.find(function (child) {
-                if (child._props.field.originalAttribute === 'quantity') {
+                if (child._props.field.originalAttribute === 'quantity' || child._props.field.attribute === 'quantity') {
                     return child.value;
                 }
             });
         },
         unit_price: function unit_price() {
             return this.$parent.$children.find(function (child) {
-                if (child._props.field.originalAttribute === 'unit_price') {
+                if (child._props.field.originalAttribute === 'unit_price' || child._props.field.attribute === 'unit_price') {
                     return child.value;
                 }
             });
@@ -466,30 +466,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             formData.append(this.field.attribute, this.value || '');
         },
         handleKeyUp: function handleKeyUp() {
+
             if (!this.field.depends) {
                 clearTimeout(this.timeout);
                 var vm = this;
-
                 // Current price field | this will be dynamic  in future
-                var current = vm.$parent.$children.find(function (child) {
-                    return child._props.field.originalAttribute === 'price';
+                var current = this.$parent.$children.find(function (child) {
+                    if (child._props.field.attribute === 'price' || child._props.field.originalAttribute === 'price') {
+                        return child;
+                    }
                 });
 
                 // Make a new timeout set to go off in 1000ms (1 second)
                 this.timeout = setTimeout(function () {
-                    if (vm.field.originalAttribute == 'unit_price') {
+                    if (vm.field.originalAttribute == 'unit_price' || vm.field.attribute == 'unit_price') {
                         Nova.$emit('unit_price', [vm._props.field.attribute, vm.value, current, vm.amount]);
-                    } else if (vm.field.originalAttribute == 'quantity') {
+                    } else if (vm.field.originalAttribute == 'quantity' || vm.field.attribute == 'quantity') {
+                        console.log(current);
                         Nova.$emit('amount', [vm._props.field.attribute, vm.value, current, vm.unit_price]);
                     }
                 }, 1000);
             } else {
                 clearTimeout(this.timeout);
                 var _vm = this;
-                var _current = _vm.$parent.$children.find(function (child) {
-                    return child._props.field.originalAttribute == 'total_price';
+                var _current = this.$parent.$children.find(function (child) {
+                    if (child._props.field.attribute === 'total_price' || child._props.field.originalAttribute === 'total_price') {
+                        return child;
+                    }
                 });
-                console.log(_current);
                 // Make a new timeout set to go off in 1000ms (1 second)
                 this.timeout = setTimeout(function () {
                     Nova.$emit('edv', [_vm.value, _current]);

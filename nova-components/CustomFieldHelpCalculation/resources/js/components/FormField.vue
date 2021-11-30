@@ -53,8 +53,15 @@ export default {
         handleProperFieldUpdate(key, parent) {
             if (this.field.attribute === parent._props.field.attribute) {
                 this.value = this.price * this.amount
-                let edvVal = (parent.$parent.$children.find( el => el._props.field.originalAttribute === 'edv')).value
-                let totalPrice = parent.$parent.$children.find( el => el._props.field.originalAttribute === 'total_price')
+                let edvVal = (parent.$parent.$children.find( el => {
+                    if(el._props.field.originalAttribute === 'edv' || el._props.field.attribute === 'edv') {
+                        return el
+                    }
+                })).value
+                let totalPrice = parent.$parent.$children.find( el => {
+                    if(el._props.field.originalAttribute === 'total_price' || el._props.field.attribute === 'total_price') {
+                        return el                    }
+                })
                 Nova.$emit('edv', [edvVal, totalPrice])
                 this.price = this.amount = 0
             }
@@ -66,7 +73,7 @@ export default {
         Nova.$on('unit_price', value => {
             if (value[3] !== undefined) {
                 // Check just unit price updated and quantity send to here
-                if (value[3]._props.field.originalAttribute === 'quantity') {
+                if (value[3]._props.field.originalAttribute === 'quantity' || value[3]._props.field.attribute === 'quantity') {
                     this.amount = parseInt(value[3].value)
                 }
             }
@@ -80,7 +87,7 @@ export default {
             console.log('buralard 1', value)
             if (value[3] !== undefined) {
                 // Check just quantity updated and unit price send to here
-                if (value[3]._props.field.originalAttribute === 'unit_price') {
+                if (value[3]._props.field.originalAttribute === 'unit_price' || value[3]._props.field.attribute === 'unit_price') {
                     this.price = parseFloat(value[3].value)
                 }
             }
