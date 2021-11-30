@@ -40,10 +40,10 @@ export default {
     },
 
     mounted() {
-      // Nova.$on('price', (vale) => {
-      //   // this.amounts.push(vale)
-      //     console.log(vale)
-      // })
+      Nova.$on('edv', (vale) => {
+        // this.amounts.push(vale)
+          console.log(vale)
+      })
     }
 }
 </script>

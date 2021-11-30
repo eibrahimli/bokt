@@ -7,6 +7,7 @@ use Eibrahimli\CalculatedField\ListenerField;
 use Eibrahimli\CalculationField\CalculationField;
 use Eibrahimli\CalculationForUnitPriceField\CalculationForUnitPriceField;
 use Eibrahimli\CustomFieldHelpCalculation\CustomFieldHelpCalculation;
+use Eibrahimli\CustomTotalField\CustomTotalField;
 use Eibrahimli\EdvCalculation\EdvCalculation;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -67,13 +68,12 @@ class AssetInner extends Resource
             Text::make(__("Ölçü vahidi"),"measure"),
             CalculationField::make(__("Miqdar"),"quantity"),
             CalculationField::make(__("Qiyməti"),"unit_price"),
-            CustomFieldHelpCalculation::make(__("Məbləği"),"price")->tax(false),
-            Text::make(__("ƏDV"),"edv"),
-            Text::make(__("Tam qiyməti"),"total_price"),
+            CustomFieldHelpCalculation::make(__("Məbləği"),"price"),
+            CalculationField::make(__("ƏDV"),"edv")->depends(true),
+            CustomTotalField::make(__("Tam qiyməti"),"total_price"),
             Text::make(__("Debet"),"debet"),
             Text::make(__("Kredit"),"credit"),
             BelongsTo::make(__('Qeyri Maddi aktiv '), 'asset', MainAsset::class),
-
         ];
     }
 

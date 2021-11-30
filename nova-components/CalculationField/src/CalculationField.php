@@ -12,4 +12,9 @@ class CalculationField extends Field
      * @var string
      */
     public $component = 'calculation-field';
+
+    public function depends(bool $depend = false): CalculationField
+    {
+        return $this->withMeta(['depends' => $depend]);
+    }
 }

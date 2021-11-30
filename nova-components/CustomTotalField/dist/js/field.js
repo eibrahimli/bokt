@@ -185,9 +185,9 @@ module.exports = __webpack_require__(13);
 /***/ (function(module, exports, __webpack_require__) {
 
 Nova.booting(function (Vue, router, store) {
-  Vue.component('index-calculation-field', __webpack_require__(3));
-  Vue.component('detail-calculation-field', __webpack_require__(6));
-  Vue.component('form-calculation-field', __webpack_require__(9));
+  Vue.component('index-custom-total-field', __webpack_require__(3));
+  Vue.component('detail-custom-total-field', __webpack_require__(6));
+  Vue.component('form-custom-total-field', __webpack_require__(9));
 });
 
 /***/ }),
@@ -424,7 +424,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -432,23 +431,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mixins: [__WEBPACK_IMPORTED_MODULE_0_laravel_nova__["FormField"], __WEBPACK_IMPORTED_MODULE_0_laravel_nova__["HandlesValidationErrors"]],
 
     props: ['resourceName', 'resourceId', 'field'],
-
-    computed: {
-        amount: function amount() {
-            return this.$parent.$children.find(function (child) {
-                if (child._props.field.originalAttribute === 'quantity') {
-                    return child.value;
-                }
-            });
-        },
-        unit_price: function unit_price() {
-            return this.$parent.$children.find(function (child) {
-                if (child._props.field.originalAttribute === 'unit_price') {
-                    return child.value;
-                }
-            });
-        }
-    },
 
     methods: {
         /*
@@ -464,40 +446,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          */
         fill: function fill(formData) {
             formData.append(this.field.attribute, this.value || '');
-        },
-        handleKeyUp: function handleKeyUp() {
-            if (!this.field.depends) {
-                clearTimeout(this.timeout);
-                var vm = this;
-
-                // Current price field | this will be dynamic  in future
-                var current = vm.$parent.$children.find(function (child) {
-                    return child._props.field.originalAttribute === 'price';
-                });
-
-                // Make a new timeout set to go off in 1000ms (1 second)
-                this.timeout = setTimeout(function () {
-                    if (vm.field.originalAttribute == 'unit_price') {
-                        Nova.$emit('unit_price', [vm._props.field.attribute, vm.value, current, vm.amount]);
-                    } else if (vm.field.originalAttribute == 'quantity') {
-                        Nova.$emit('amount', [vm._props.field.attribute, vm.value, current, vm.unit_price]);
-                    }
-                }, 1000);
-            } else {
-                clearTimeout(this.timeout);
-                var _vm = this;
-                var _current = _vm.$parent.$children.find(function (child) {
-                    return child._props.field.originalAttribute == 'total_price';
-                });
-                console.log(_current);
-                // Make a new timeout set to go off in 1000ms (1 second)
-                this.timeout = setTimeout(function () {
-                    Nova.$emit('edv', [_vm.value, _current]);
-                }, 1000);
-            }
         }
-    }
+    },
 
+    mounted: function mounted() {
+        var _this = this;
+
+        Nova.$on('edv', function (val) {
+
+            if (_this.field.attribute === val[1].field.attribute) {
+                console.log('burdayam');
+                _this.value = val[0] * _this.$parent.$children.find(function (el) {
+                    return el._props.field.originalAttribute === 'price';
+                }).value;
+            }
+        });
+    }
 });
 
 /***/ }),
@@ -26871,10 +26835,6 @@ var render = function() {
           },
           domProps: { value: _vm.value },
           on: {
-            keyup: function($event) {
-              $event.preventDefault()
-              return _vm.handleKeyUp.apply(null, arguments)
-            },
             input: function($event) {
               if ($event.target.composing) {
                 return

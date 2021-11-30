@@ -452,10 +452,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     mounted: function mounted() {
-        // Nova.$on('price', (vale) => {
-        //   // this.amounts.push(vale)
-        //     console.log(vale)
-        // })
+        Nova.$on('edv', function (vale) {
+            // this.amounts.push(vale)
+            console.log(vale);
+        });
     }
 });
 

@@ -62,12 +62,12 @@ class Contract extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make(__('Alıcı (filial)'), 'branch', Branch::class),
-            BelongsTo::make(__('Təchizatçı'), 'supplier', Supplier::class),
+            BelongsTo::make(__('Alıcı (filial)'), 'branch', Branch::class)->showCreateRelationButton(),
+            BelongsTo::make(__('Təchizatçı'), 'supplier', Supplier::class)->showCreateRelationButton(),
             Text::make(__("Müqavilə Nömrəsi"),"contract_number"),
             Text::make(__("Müqavilə məbləği"),"price"),
             Text::make(__("Avans məbləği"),"advance_price"),
-            BelongsTo::make(__('Valyuta'), 'currency', Currency::class),
+            BelongsTo::make(__('Valyuta'), 'currency', Currency::class)->showCreateRelationButton(),
             Date::make(__("Müqavilə tarixi"),"contract_date"),
             Date::make(__("Müqavilə başlayır"),"contract_begin"),
             Date::make(__("Müqavilə bitir"),"contract_end"),

@@ -436,8 +436,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             timeout: null,
             price: 0,
-            amount: 0,
-            currentAttr: ''
+            amount: 0
         };
     },
 
@@ -464,9 +463,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             formData.append(this.field.attribute, this.value || '');
         },
         handleProperFieldUpdate: function handleProperFieldUpdate(key, parent) {
-            console.log('price', this.price, '  amount', this.amount);
-            if (this.field.attribute === parent.attribute) {
+            if (this.field.attribute === parent._props.field.attribute) {
                 this.value = this.price * this.amount;
+                var edvVal = parent.$parent.$children.find(function (el) {
+                    return el._props.field.originalAttribute === 'edv';
+                }).value;
+                var totalPrice = parent.$parent.$children.find(function (el) {
+                    return el._props.field.originalAttribute === 'total_price';
+                });
+                Nova.$emit('edv', [edvVal, totalPrice]);
                 this.price = this.amount = 0;
             }
         }
@@ -477,24 +482,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         Nova.$on('unit_price', function (value) {
             if (value[3] !== undefined) {
+                // Check just unit price updated and quantity send to here
                 if (value[3]._props.field.originalAttribute === 'quantity') {
-                    _this.amount = value[3].value;
-                } else {
-                    _this.price = value[3].value;
+                    _this.amount = parseInt(value[3].value);
                 }
             }
-            _this.price = value[1];
+            _this.price = parseFloat(value[1]);
+
             if (_this.amount !== 0 && _this.price !== 0) {
                 _this.handleProperFieldUpdate(value[0], value[2]);
             }
         });
         Nova.$on('amount', function (value) {
+            console.log('buralard 1', value);
             if (value[3] !== undefined) {
+                // Check just quantity updated and unit price send to here
                 if (value[3]._props.field.originalAttribute === 'unit_price') {
-                    _this.price = value[3].value;
+                    _this.price = parseFloat(value[3].value);
                 }
             }
-            _this.amount = value[1];
+            _this.amount = parseInt(value[1]);
             if (_this.amount !== 0 && _this.price !== 0) {
                 _this.handleProperFieldUpdate(value[0], value[2]);
             }
@@ -26864,7 +26871,8 @@ var render = function() {
               expression: "value"
             }
           ],
-          staticClass: "w-full form-control form-input form-input-bordered",
+          staticClass:
+            "w-full disabled form-control form-input form-input-bordered",
           class: _vm.errorClasses,
           attrs: {
             id: _vm.field.name,

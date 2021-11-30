@@ -4,7 +4,7 @@
             <input
                 :id="field.name"
                 type="text"
-                class="w-full form-control form-input form-input-bordered"
+                class="w-full disabled form-control form-input form-input-bordered"
                 :class="errorClasses"
                 :placeholder="field.name"
                 v-model="value"
@@ -25,15 +25,14 @@ export default {
         return {
             timeout: null,
             price: 0,
-            amount: 0,
-            currentAttr: ''
+            amount: 0
         }
     },
 
     computed: {
         children() {
             return this.$parent.$children
-        },
+        }
     },
 
     methods: {
@@ -51,11 +50,13 @@ export default {
             formData.append(this.field.attribute, this.value || '')
         },
 
-        handleProperFieldUpdate(key,parent) {
-            console.log('price', this.price, '  amount', this.amount)
-            if(this.field.attribute === parent.attribute) {
+        handleProperFieldUpdate(key, parent) {
+            if (this.field.attribute === parent._props.field.attribute) {
                 this.value = this.price * this.amount
-                this.price=this.amount=0
+                let edvVal = (parent.$parent.$children.find( el => el._props.field.originalAttribute === 'edv')).value
+                let totalPrice = parent.$parent.$children.find( el => el._props.field.originalAttribute === 'total_price')
+                Nova.$emit('edv', [edvVal, totalPrice])
+                this.price = this.amount = 0
             }
         }
     },
@@ -63,31 +64,33 @@ export default {
     mounted() {
 
         Nova.$on('unit_price', value => {
-            if(value[3] !== undefined) {
-                if(value[3]._props.field.originalAttribute === 'quantity') {
-                    this.amount = value[3].value
-                } else {
-                    this.price = value[3].value
+            if (value[3] !== undefined) {
+                // Check just unit price updated and quantity send to here
+                if (value[3]._props.field.originalAttribute === 'quantity') {
+                    this.amount = parseInt(value[3].value)
                 }
             }
-            this.price = value[1]
-            if (this.amount !== 0 && this.price !== 0) {
-                this.handleProperFieldUpdate(value[0],value[2])
-            }
-        } )
-        Nova.$on('amount', value => {
-            if(value[3] !== undefined) {
-                if(value[3]._props.field.originalAttribute === 'unit_price') {
-                    this.price = value[3].value
-                }
-            }
-            this.amount = value[1]
-            if (this.amount !== 0 && this.price !== 0) {
-                this.handleProperFieldUpdate(value[0],value[2])
-            }
+            this.price = parseFloat(value[1])
 
+            if (this.amount !== 0 && this.price !== 0) {
+                this.handleProperFieldUpdate(value[0], value[2])
+            }
         })
+        Nova.$on('amount', value => {
+            console.log('buralard 1', value)
+            if (value[3] !== undefined) {
+                // Check just quantity updated and unit price send to here
+                if (value[3]._props.field.originalAttribute === 'unit_price') {
+                    this.price = parseFloat(value[3].value)
+                }
+            }
+            this.amount = parseInt(value[1])
+            if (this.amount !== 0 && this.price !== 0) {
+                this.handleProperFieldUpdate(value[0], value[2])
+            }
+        })
+    },
 
-    }
+
 }
 </script>

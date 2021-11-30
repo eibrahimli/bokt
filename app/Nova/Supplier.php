@@ -55,10 +55,10 @@ class Supplier extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make(__('Təçhizatçının növü'), 'customerType', CustomerType::class),
+            BelongsTo::make(__('Təçhizatçının növü'), 'customerType', CustomerType::class)->showCreateRelationButton(),
             Text::make('Təchizatçının adı', 'name'),
             Text::make('Təchizatçının voeni', 'voen'),
-            BelongsTo::make(__('Qeydiyyatda olduğu ölkə'), 'country', Country::class),
+            BelongsTo::make(__('Qeydiyyatda olduğu ölkə'), 'country', Country::class)->showCreateRelationButton(),
 
         ];
     }
