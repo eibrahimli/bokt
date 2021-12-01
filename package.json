@@ -21,7 +21,9 @@
         "build-CalculationForUnitPriceField": "cd nova-components/CalculationForUnitPriceField && npm run dev",
         "build-CalculationForUnitPriceField-prod": "cd nova-components/CalculationForUnitPriceField && npm run prod",
         "build-custom-total-field": "cd nova-components/CustomTotalField && npm run dev",
-        "build-custom-total-field-prod": "cd nova-components/CustomTotalField && npm run prod"
+        "build-custom-total-field-prod": "cd nova-components/CustomTotalField && npm run prod",
+        "build-edv-tool": "cd nova-components/EdvTool && npm run dev",
+        "build-edv-tool-prod": "cd nova-components/EdvTool && npm run prod"
     },
     "devDependencies": {
         "axios": "^0.21",

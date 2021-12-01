@@ -424,6 +424,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -453,14 +456,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var _this = this;
 
         Nova.$on('edv', function (val) {
-
             if (_this.field.attribute === val[1].field.attribute) {
-                console.log('burdayam');
-                _this.value = val[0] * _this.$parent.$children.find(function (el) {
+                var priceVal = _this.$parent.$children.find(function (el) {
                     return el._props.field.originalAttribute === 'price' || el._props.field.attribute === 'price';
                 }).value;
+                _this.value = priceVal + val[0] * priceVal / 100;
             }
         });
+    },
+
+
+    watch: {
+        value: function value(current, prev) {
+            Nova.$emit('total', [current, prev]);
+        }
     }
 });
 
@@ -26831,10 +26840,17 @@ var render = function() {
           attrs: {
             id: _vm.field.name,
             type: "text",
-            placeholder: _vm.field.name
+            placeholder: _vm.field.name,
+            readonly: ""
           },
           domProps: { value: _vm.value },
           on: {
+            keyup: function($event) {
+              $event.preventDefault()
+            },
+            keydown: function($event) {
+              $event.preventDefault()
+            },
             input: function($event) {
               if ($event.target.composing) {
                 return

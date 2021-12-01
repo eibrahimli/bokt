@@ -8,6 +8,9 @@
                 :class="errorClasses"
                 :placeholder="field.name"
                 v-model="value"
+                @keyup.prevent
+                @keydown.prevent
+                readonly
             />
         </template>
     </default-field>
@@ -39,12 +42,17 @@ export default {
 
     mounted() {
         Nova.$on('edv', val => {
-
             if(this.field.attribute === val[1].field.attribute) {
-                console.log('burdayam')
-                this.value = val[0] * (this.$parent.$children.find(el => el._props.field.originalAttribute === 'price' || el._props.field.attribute === 'price')).value
+                let priceVal = (this.$parent.$children.find(el => el._props.field.originalAttribute === 'price' || el._props.field.attribute === 'price')).value
+                this.value = priceVal + ((val[0] * priceVal) / 100)
             }
         })
+    },
+
+    watch: {
+        value(current, prev) {
+            Nova.$emit('total', [current,prev])
+        }
     }
 }
 </script>

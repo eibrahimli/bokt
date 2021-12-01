@@ -500,6 +500,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }, 1000);
             }
         }
+    },
+
+    watch: {
+        value: function value(current, prev) {
+            if (this.field.depends) {
+                Nova.$emit('edvTotal', [current, prev]);
+            }
+        }
     }
 
 });

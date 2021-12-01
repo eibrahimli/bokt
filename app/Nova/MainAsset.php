@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Eibrahimli\EdvCalculation\EdvCalculation;
+use Eibrahimli\EdvTool\EdvTool;
 use Illuminate\Http\Request;
 use KossShtukert\LaravelNovaSelect2\Select2;
 use Laravel\Nova\Fields\BelongsTo;
@@ -76,9 +77,10 @@ class MainAsset extends Resource
             BelongsTo::make(__('Məsul şəxs'), 'user', User::class)->showCreateRelationButton(),
             NestedForm::make('AssetInner')->heading('Malların siyahısı'),
             HasMany::make(__('Malların siyahısı'), 'AssetInner', AssetInner::class)->onlyOnDetail(),
-//            new Panel('Ədv Hesabatı', [
-//                EdvCalculation::make('Test')
-//            ])
+            new Panel('Ədv Hesabatı', [
+                EdvCalculation::make('Test')
+
+            ])
         ];
     }
 

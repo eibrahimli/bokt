@@ -424,6 +424,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -510,6 +513,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.handleProperFieldUpdate(value[0], value[2]);
             }
         });
+    },
+
+
+    watch: {
+        value: function value(current, prev) {
+            Nova.$emit('priceTotal', [current, prev]);
+        }
     }
 });
 
@@ -26881,10 +26891,23 @@ var render = function() {
           attrs: {
             id: _vm.field.name,
             type: "text",
-            placeholder: _vm.field.name
+            placeholder: _vm.field.name,
+            readonly: ""
           },
           domProps: { value: _vm.value },
           on: {
+            keydown: function($event) {
+              $event.preventDefault()
+            },
+            keyup: function($event) {
+              if (
+                !$event.type.indexOf("key") &&
+                _vm._k($event.keyCode, "p", undefined, $event.key, undefined)
+              ) {
+                return null
+              }
+              $event.preventDefault()
+            },
             input: function($event) {
               if ($event.target.composing) {
                 return

@@ -8,6 +8,9 @@
                 :class="errorClasses"
                 :placeholder="field.name"
                 v-model="value"
+                @keydown.prevent
+                @keyup.p.prevent
+                readonly
             />
         </template>
     </default-field>
@@ -98,6 +101,10 @@ export default {
         })
     },
 
-
+    watch : {
+        value(current,prev) {
+            Nova.$emit('priceTotal', [current,prev])
+        }
+    }
 }
 </script>

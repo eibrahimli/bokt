@@ -92,6 +92,14 @@ export default {
 
     },
 
+    watch: {
+        value(current, prev) {
+            if(this.field.depends) {
+                Nova.$emit('edvTotal', [current, prev])
+            }
+        }
+    }
+
 
 
 }
