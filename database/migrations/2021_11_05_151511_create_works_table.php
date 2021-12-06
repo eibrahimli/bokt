@@ -22,9 +22,7 @@ class CreateWorksTable extends Migration
             $table->string('invoice_number')->nullable()->comment('Hesab faktura nömrəsi');
             $table->string('einvoice_number')->nullable()->comment('EQF nömrəsi');
             $table->dateTime('einvoice_date')->nullable()->comment('EQF Tarixi');
-            $table->double('price')->nullable()->comment('Cəmi məbləğ');
-            $table->double('edv')->nullable()->comment('ƏDV');
-            $table->double('total_price')->nullable()->comment('Yekun məbləğ');
+            $table->json('total_result')->nullable()->comment('Umumi qiymət , ədv nəticəsi');
             $table->tinyInteger('status')->comment('Status');
 
             $table->timestamps();

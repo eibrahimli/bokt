@@ -78,8 +78,7 @@ class MainAsset extends Resource
             NestedForm::make('AssetInner')->heading('Malların siyahısı'),
             HasMany::make(__('Malların siyahısı'), 'AssetInner', AssetInner::class)->onlyOnDetail(),
             new Panel('Ədv Hesabatı', [
-                EdvCalculation::make('Test')
-
+                EdvCalculation::make('Ədv Hesabatı','total_result')->hideFromIndex()
             ])
         ];
     }

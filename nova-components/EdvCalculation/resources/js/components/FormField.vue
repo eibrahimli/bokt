@@ -2,7 +2,7 @@
     <div class="relative">
         <ul>
             <li>Cəmi : {{ priceTotal.toFixed(2) }}</li>
-            <li>Ədv : {{ edv }}%</li>
+            <li>Ədv : {{ edv }} %</li>
             <li>Yekun : {{ total.toFixed(2) }}</li>
         </ul>
     </div>
@@ -29,14 +29,14 @@ export default {
          * Set the initial, internal value for the field.
          */
         setInitialValue() {
-            this.value = this.field.value || ''
+            this.value = JSON.parse(this.field.value)
         },
 
         /**
          * Fill the given FormData object with the field's internal value.
          */
         fill(formData) {
-            formData.append(this.field.attribute, { total : this.total, edv : this.edv, priceTotal: this.priceTotal } || '')
+            formData.append(this.field.attribute, JSON.stringify({ total : this.total, edv : this.edv, priceTotal: this.priceTotal }))
         },
     },
 

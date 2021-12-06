@@ -1,0 +1,41 @@
+{
+    "name": "mhiggster/laravel-mortgage",
+    "description": "mortgage-loan",
+    "keywords": [
+        "laravel",
+        "mortgage"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "mhiggster",
+            "email": "mhiggster@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "~5.0 || ~6.0 || ~7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mortgage\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mortgage\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mortgage\\MortgageServiceProvider"
+            ],
+            "aliases": {
+                "Annuity": "Mortgage\\Facades\\Annuity",
+                "Differentiated": "Mortgage\\Facades\\Differentiated"
+            }
+        }
+    }
+}

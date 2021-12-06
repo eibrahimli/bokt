@@ -177,6 +177,7 @@ return [
         App\Providers\NovaServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Maatwebsite\LaravelNovaExcel\LaravelNovaExcelServiceProvider::class,
+        Mortgage\MortgageServiceProvider::class,
 
     ],
 
@@ -231,6 +232,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Differentiated' => Mortgage\Facades\Differentiated::class,
+        'Annuity' => Mortgage\Facades\Annuity::class,
 
     ],
 

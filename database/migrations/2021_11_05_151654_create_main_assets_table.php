@@ -24,7 +24,7 @@ class CreateMainAssetsTable extends Migration
             $table->unsignedBigInteger('dep_account_id')->nullable()->comment('Amortizasiya hesabı');
             $table->unsignedBigInteger('user_id')->nullable()->comment('Məsul şəxs');
             $table->string('asset_location')->nullable()->comment('Əsas vəsaitin yerləşdiyi yer');
-
+            $table->json('total_result')->nullable()->comment('Umumi qiymət , ədv nəticəsi');
             $table->timestamps();
             $table->softDeletes();
 

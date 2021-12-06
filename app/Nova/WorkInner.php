@@ -2,6 +2,9 @@
 
 namespace App\Nova;
 
+use Eibrahimli\CalculationField\CalculationField;
+use Eibrahimli\CustomFieldHelpCalculation\CustomFieldHelpCalculation;
+use Eibrahimli\CustomTotalField\CustomTotalField;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Text;
 use Illuminate\Http\Request;
@@ -51,17 +54,18 @@ class WorkInner extends Resource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make(__("Adı"),"name"),
             Text::make(__("Malların iş və xidmətlərin növü"),"type"),
             Text::make(__("Ölçü vahidi"),"measure"),
-            Text::make(__("Qiyməti"),"unit_price"),
-            Text::make(__("Məbləği"),"price"),
-            Text::make(__("ƏDV"),"edv"),
-            Text::make(__("Tam qiyməti"),"total_price"),
+            CalculationField::make(__("Miqdar"),"quantity"),
+            CalculationField::make(__("Qiyməti"),"unit_price"),
+            CustomFieldHelpCalculation::make(__("Məbləği"),"price"),
+            CalculationField::make(__("ƏDV"),"edv")->depends(true),
+            CustomTotalField::make(__("Tam qiyməti"),"total_price"),
             Text::make(__("Debet"),"debet"),
             Text::make(__("Kredit"),"credit"),
             BelongsTo::make(__('İş haqqında'), 'work', Work::class),
@@ -75,7 +79,7 @@ class WorkInner extends Resource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function cards(Request $request)
+    public function cards(Request $request): array
     {
         return [];
     }
@@ -86,7 +90,7 @@ class WorkInner extends Resource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function filters(Request $request)
+    public function filters(Request $request): array
     {
         return [];
     }
@@ -97,7 +101,7 @@ class WorkInner extends Resource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function lenses(Request $request)
+    public function lenses(Request $request): array
     {
         return [];
     }
@@ -108,7 +112,7 @@ class WorkInner extends Resource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function actions(Request $request)
+    public function actions(Request $request): array
     {
         return [];
     }

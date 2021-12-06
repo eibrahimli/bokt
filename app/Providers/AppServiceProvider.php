@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Composers\NavigationComposer;
 use App\Models\Loan;
+use App\Mortgage\Annuity;
 use App\Observers\LoanObserver;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -17,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
     }
 
     /**
