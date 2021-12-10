@@ -7,42 +7,42 @@ class RepaymentReport
 {
     /**
      * Month index for repayment
-     * 
+     *
      * @var integer
      */
     private $termInMonth;
 
     /**
      * dept = percent + main dept
-     * 
+     *
      * @var integer
      */
     private $totoalDept;
 
     /**
      * Only percent dept
-     * 
+     *
      * @var integer
      */
     private $percentDept;
 
     /**
      * Debt without percent
-     * 
+     *
      * @var integer
      */
     private $mainDept;
 
     /**
      * Balance owed
-     * 
+     *
      * @var integer
      */
     private $indebtedness;
-    
+
     /**
      * Init repayments for per month
-     * 
+     *
      * @param integer/float $termInMonth
      * @param integer/float $totoalDept
      * @param integer/float $percentDept
@@ -60,5 +60,16 @@ class RepaymentReport
         $this->mainDept     = $mainDept;
 
         $this->indebtedness = $indebtedness;
+
+    }
+
+    public function getData() :array {
+        return [
+            'termInMonth' => $this->termInMonth,
+            'totalDept' => $this->totoalDept,
+            'percentDept' => $this->percentDept,
+            'mainDept' => $this->mainDept,
+            'indebtedness' => $this->indebtedness
+        ];
     }
 }

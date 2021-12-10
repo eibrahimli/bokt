@@ -13,6 +13,7 @@ use App\Nova\Options\Transportation;
 use App\Nova\Options\Trick;
 use App\Rules\BooleanHasToBeTrue;
 use Coroowicaksono\ChartJsIntegration\StackedChart;
+use Eibrahimli\MonthlyCreditPaymentReport\MonthlyCreditPaymentReport;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
@@ -63,7 +64,9 @@ class Loan extends Resource
             Number::make('Faiz', 'percentage'),
             Number::make('Müddət (Ay)', 'month'),
             Currency::make('Qiymət', 'price')->currency('AZN'),
-
+            new Panel('Kreditin ay ba ay hesabatı', [
+                MonthlyCreditPaymentReport::make('Test'),
+            ]),
             new Panel('Müştərinin biznes sahəsi', [
 
                 BelongsTo::make('İstehlak', 'consumption', Consumption::class)

@@ -23,7 +23,9 @@
         "build-custom-total-field": "cd nova-components/CustomTotalField && npm run dev",
         "build-custom-total-field-prod": "cd nova-components/CustomTotalField && npm run prod",
         "build-edv-tool": "cd nova-components/EdvTool && npm run dev",
-        "build-edv-tool-prod": "cd nova-components/EdvTool && npm run prod"
+        "build-edv-tool-prod": "cd nova-components/EdvTool && npm run prod",
+        "build-monthly-credit-payment-report": "cd nova-components/MonthlyCreditPaymentReport && npm run dev",
+        "build-monthly-credit-payment-report-prod": "cd nova-components/MonthlyCreditPaymentReport && npm run prod"
     },
     "devDependencies": {
         "axios": "^0.21",

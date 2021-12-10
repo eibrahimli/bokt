@@ -176,18 +176,18 @@ class AnnuitySchedule implements RepaymentSchedule
      * Сreate a new instance of the schedule
      *
      * @param integer $monthIndex
-     * @return object
+     * @return int[]
      */
     private function createSchedule($monthIndex)
     {
         // dd($this->percentDept);
-        return new \Mortgage\Support\RepaymentReport(
+        return (new \Mortgage\Support\RepaymentReport(
             $monthIndex,
             $this->numbRound($this->totalDept),
             $this->percentDept,
             $this->numbRound($this->mainDept),
             $this->numbRound($this->loanAmountInMonth)
-        );
+        ))->getData();
     }
 
     /**
