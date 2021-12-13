@@ -23,7 +23,6 @@
         "eibrahimli/customer-loan-field": "*",
         "eibrahimli/edv-calculation": "*",
         "eibrahimli/edv-tool": "*",
-        "mhiggster/laravel-mortgage": "*",
         "eibrahimli/hidden-field": "*",
         "eibrahimli/nova-unique-ajax-field": "*",
         "eminiarts/nova-tabs": "^1.4",
@@ -48,7 +47,8 @@
         "techouse/select-auto-complete": "^1.3",
         "yassi/nova-nested-form": "^3.0",
         "zareismail/nova-wizard": "^0.1.0",
-        "eibrahimli/monthly-credit-payment-report": "*"
+        "eibrahimli/monthly-credit-payment-report": "*",
+        "eibrahimli/laravel-mortgage" : "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
