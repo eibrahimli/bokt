@@ -65,7 +65,7 @@ class Loan extends Resource
             Number::make('Müddət (Ay)', 'month'),
             Currency::make('Qiymət', 'price')->currency('AZN'),
             new Panel('Kreditin ay ba ay hesabatı', [
-                MonthlyCreditPaymentReport::make('Test'),
+                MonthlyCreditPaymentReport::make('credit_report'),
             ]),
             new Panel('Müştərinin biznes sahəsi', [
 

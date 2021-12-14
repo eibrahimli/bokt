@@ -67,4 +67,11 @@ class Loan extends Model
     {
         return $this->hasMany(Transaction::class);
     }
+
+    // Credit report
+
+    public function loanReports(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(LoanReport::class);
+    }
 }

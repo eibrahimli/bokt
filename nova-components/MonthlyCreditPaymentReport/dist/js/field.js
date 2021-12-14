@@ -433,6 +433,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -447,7 +484,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 month: '',
                 price: '',
                 percentage: ''
-            }
+            },
+            reports: []
         };
     },
 
@@ -505,8 +543,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.timeout = setTimeout(function () {
 
                     if (vm.checkProperties(val)) {
-                        Nova.request().post('/eibrahimli/test', val).then(function (data) {
-                            console.log(data);
+                        Nova.request().post('/eibrahimli/report', val).then(function (res) {
+                            vm.reports = res.data;
+                            vm.value = JSON.stringify(vm.reports[0]);
                         });
                     }
                 }, 1000);
@@ -26859,35 +26898,116 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "flex justify-center mx-auto" }, [
+    _c("div", { staticClass: "flex flex-col w-full" }, [
+      _c("div", { staticClass: "w-full" }, [
+        _c("div", { staticClass: "border-b border-gray-200 shadow" }, [
+          _c("table", { staticClass: "w-full" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              { staticClass: "bg-white divide-y divide-gray-300" },
+              _vm._l(_vm.reports[0], function(rep, index) {
+                return _c(
+                  "tr",
+                  { key: index, staticClass: "whitespace-nowrap" },
+                  [
+                    _c("td", { staticClass: "px-6 text-center py-4" }, [
+                      _c("div", { staticClass: "text-sm text-gray-900" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(rep.termInMonth) +
+                            "\n                            "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "px-6 text-center py-4" }, [
+                      _c("div", { staticClass: "text-sm text-gray-900" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(rep.mainDept) +
+                            "\n                            "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "px-6 text-center py-4" }, [
+                      _c("div", { staticClass: "text-sm text-gray-900" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(rep.percentDept) +
+                            "\n                            "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "px-6 text-center py-4" }, [
+                      _c("div", { staticClass: "text-sm text-gray-900" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s("Yoxdur") +
+                            "\n                            "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "px-6 text-center py-4" }, [
+                      _c("div", { staticClass: "text-sm text-gray-900" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(rep.totalDept) +
+                            "\n                            "
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              }),
+              0
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex justify-center" }, [
-      _c("table", [
-        _c("thead", [
-          _c("tr", [
-            _c("th", [_vm._v("Esas")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Faiz")])
-          ])
+    return _c("thead", { staticClass: "bg-gray-50" }, [
+      _c("tr", [
+        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
+          _vm._v(
+            "\n                                Ay\n                            "
+          )
         ]),
         _vm._v(" "),
-        _c("tbody", [
-          _c("tr", [
-            _c("td", [_vm._v("34")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("35")])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("344")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("355")])
-          ])
+        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
+          _vm._v(
+            "\n                                Əsas Hissə\n                            "
+          )
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
+          _vm._v(
+            "\n                                Faiz Hissə\n                            "
+          )
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
+          _vm._v(
+            "\n                                Xidmət Haqqı\n                            "
+          )
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
+          _vm._v(
+            "\n                                Cəm\n                            "
+          )
         ])
       ])
     ])

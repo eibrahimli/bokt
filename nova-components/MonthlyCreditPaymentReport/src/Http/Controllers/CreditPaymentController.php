@@ -22,9 +22,8 @@ class CreditPaymentController extends \App\Http\Controllers\Controller
 
         $data = $validate->validated();
 
-        config(['mortgage.loanTerm' => $data['month'], 'mortgage.loanAmount' => $data['price'], 'mortgage.loanAmount' => $data['percentage']]);
-        $report = Annuity::showRepaymentSchedule();
+        $report = (new \App\Helpers\LoanHelper($data['month'],$data['price'],$data['percentage']))->getFormatedData();
 
-        return response()->json([$report->toArray()]);
+        return response()->json([$report]);
     }
 }
