@@ -58,8 +58,16 @@ class Supplier extends Resource
             BelongsTo::make(__('Təçhizatçının növü'), 'customerType', CustomerType::class)->showCreateRelationButton(),
             Text::make('Təchizatçının adı', 'name'),
             Text::make('Təchizatçının voeni', 'voen'),
-            BelongsTo::make(__('Qeydiyyatda olduğu ölkə'), 'country', Country::class)->showCreateRelationButton(),
 
+            BelongsTo::make(__('Qeydiyyatda olduğu ölkə'), 'country', Country::class)->showCreateRelationButton(),
+            Text::make('Ödənilən', 'paid_amount')
+                ->withMeta(['extraAttributes' => [
+                    'readonly' => true
+                ]]),
+            Text::make('Qalıq borc', 'rest_amount')
+                ->withMeta(['extraAttributes' => [
+                    'readonly' => true
+                ]]),
         ];
     }
 

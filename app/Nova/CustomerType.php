@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -23,7 +24,7 @@ class CustomerType extends Resource
      */
     public static $title = 'name';
 
-    public static $group = 'Mühasibatlıq';
+    public static $group = 'SEÇİMLƏR';
 
     public static function label(): string
     {

@@ -24,7 +24,7 @@ class Country extends Resource
      */
     public static $title = 'name';
 
-    public static $group = 'Mühasibatlıq';
+    public static $group = 'SEÇİMLƏR';
 
     public static function label(): string
     {

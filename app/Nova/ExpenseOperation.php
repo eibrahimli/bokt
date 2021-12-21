@@ -61,6 +61,8 @@ class ExpenseOperation extends Resource
             BelongsTo::make(__('Təchizatçı'), 'supplier', Supplier::class),
             BelongsTo::make(__('Müqavilə'), 'contract', Contract::class),
             Text::make(__("Ödəniş məbləği"),"price"),
+            Text::make(__("ƏDV dərəcəsi"),"edv_percent"),
+            Text::make(__("ƏDV məbləği"),"edv_price"),
             Text::make(__("Debet"),"debet"),
             Text::make(__("Credit"),"Credit"),
             Date::make(__("Ödəniş tarixi"),"payment_date"),

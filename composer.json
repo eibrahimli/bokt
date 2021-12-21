@@ -42,6 +42,7 @@
         "optimistdigital/nova-table-field": "^1.0",
         "optimistdigital/nova-tailwind": "^1.1",
         "orlyapps/nova-belongsto-depend": "^3.0",
+        "royduin/laravel-nova-field-dynamic-select": "^1.9",
         "saintsystems/nova-resource-group-menu": "^0.1.0",
         "spatie/laravel-medialibrary": "^9.8",
         "techouse/select-auto-complete": "^1.3",

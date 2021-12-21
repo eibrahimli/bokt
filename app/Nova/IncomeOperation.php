@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -61,8 +62,6 @@ class IncomeOperation extends Resource
             BelongsTo::make(__('Müqavilə'), 'contract', Contract::class),
             BelongsTo::make(__('Hesab'), 'account', Account::class),
             Text::make(__("Ödəniş məbləği"),"price"),
-            Text::make(__("ƏDV dərəcəsi"),"edv_percent"),
-            Text::make(__("ƏDV məbləği"),"edv_price"),
             Text::make(__("Debet"),"debet"),
             Text::make(__("Credit"),"Credit"),
             Date::make(__("Ödəniş tarixi"),"payment_date"),
