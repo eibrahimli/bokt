@@ -98,7 +98,7 @@ export default {
         },
         checkProperties(obj) {
             for (let key in obj) {
-                if (obj[key] === null || obj[key].trim() === '') {
+                if (obj[key] === null || obj[key].trim() === '' || obj[key] === '0') {
                     return false;
                 }
             }
@@ -109,7 +109,7 @@ export default {
     mounted() {
 
         Nova.$on('percentage-change', data => {
-            this.handleRequest('percentage', data)
+            this.handleRequest('percentage', String(data))
         })
         Nova.$on('month-change', data => {
             this.handleRequest('month', data)
@@ -127,7 +127,6 @@ export default {
 
                 // Make a new timeout set to go off in 1000ms (1 second)
                 this.timeout = setTimeout(function () {
-
                     if(vm.checkProperties(val)) {
                         Nova.request().post('/eibrahimli/report',val).then(res => {
                             vm.reports = res.data

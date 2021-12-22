@@ -185,9 +185,9 @@ module.exports = __webpack_require__(13);
 /***/ (function(module, exports, __webpack_require__) {
 
 Nova.booting(function (Vue, router, store) {
-  Vue.component('index-monthly-credit-payment-report', __webpack_require__(3));
-  Vue.component('detail-monthly-credit-payment-report', __webpack_require__(6));
-  Vue.component('form-monthly-credit-payment-report', __webpack_require__(9));
+  Vue.component('index-PercentageField', __webpack_require__(3));
+  Vue.component('detail-PercentageField', __webpack_require__(6));
+  Vue.component('form-PercentageField', __webpack_require__(9));
 });
 
 /***/ }),
@@ -329,70 +329,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['resource', 'resourceName', 'resourceId', 'field'],
-
-    mounted: function mounted() {
-        console.log(this.field.value);
-    }
+    props: ['resource', 'resourceName', 'resourceId', 'field']
 });
 
 /***/ }),
@@ -403,117 +342,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "flex justify-center mx-auto" }, [
-    _c("div", { staticClass: "flex flex-col w-full" }, [
-      _c("div", { staticClass: "w-full" }, [
-        _c("div", { staticClass: "border-b border-gray-200 shadow" }, [
-          _c("table", { staticClass: "w-full" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              { staticClass: "bg-white divide-y divide-gray-300" },
-              _vm._l(JSON.parse(_vm.field.value), function(rep, index) {
-                return _c(
-                  "tr",
-                  { key: index, staticClass: "whitespace-nowrap" },
-                  [
-                    _c("td", { staticClass: "px-6 text-center py-4" }, [
-                      _c("div", { staticClass: "text-sm text-gray-900" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(rep.termInMonth) +
-                            "\n                            "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "px-6 text-center py-4" }, [
-                      _c("div", { staticClass: "text-sm text-gray-900" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(rep.mainDept) +
-                            "\n                            "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "px-6 text-center py-4" }, [
-                      _c("div", { staticClass: "text-sm text-gray-900" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(rep.percentDept) +
-                            "\n                            "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "px-6 text-center py-4" }, [
-                      _c("div", { staticClass: "text-sm text-gray-900" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s("Yoxdur") +
-                            "\n                            "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "px-6 text-center py-4" }, [
-                      _c("div", { staticClass: "text-sm text-gray-900" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(rep.totalDept) +
-                            "\n                            "
-                        )
-                      ])
-                    ])
-                  ]
-                )
-              }),
-              0
-            )
-          ])
-        ])
-      ])
-    ])
-  ])
+  return _c("panel-item", { attrs: { field: _vm.field } })
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", { staticClass: "bg-gray-50" }, [
-      _c("tr", [
-        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
-          _vm._v("\n                            Ay\n                        ")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
-          _vm._v(
-            "\n                            Əsas Hissə\n                        "
-          )
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
-          _vm._v(
-            "\n                            Faiz Hissə\n                        "
-          )
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
-          _vm._v(
-            "\n                            Xidmət Haqqı\n                        "
-          )
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
-          _vm._v("\n                            Cəm\n                        ")
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -596,132 +427,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    mixins: [__WEBPACK_IMPORTED_MODULE_0_laravel_nova__["FormField"], __WEBPACK_IMPORTED_MODULE_0_laravel_nova__["HandlesValidationErrors"]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_0_laravel_nova__["FormField"], __WEBPACK_IMPORTED_MODULE_0_laravel_nova__["HandlesValidationErrors"]],
 
-    props: ['resourceName', 'resourceId', 'field'],
+  props: ['resourceName', 'resourceId', 'field'],
 
-    data: function data() {
-        return {
-            data: {
-                month: '',
-                price: '',
-                percentage: ''
-            },
-            reports: []
-        };
+  methods: {
+    /*
+     * Set the initial, internal value for the field.
+     */
+    setInitialValue: function setInitialValue() {
+      this.value = this.field.value || '';
     },
 
 
-    methods: {
-        /*
-         * Set the initial, internal value for the field.
-         */
-        setInitialValue: function setInitialValue() {
-            this.value = this.field.value || '';
-        },
-
-
-        /**
-         * Fill the given FormData object with the field's internal value.
-         */
-        fill: function fill(formData) {
-            formData.append(this.field.attribute, this.value || '');
-        },
-        handleRequest: function handleRequest(type, data) {
-            this.data[type] = data;
-        },
-        checkProperties: function checkProperties(obj) {
-            for (var key in obj) {
-                if (obj[key] === null || obj[key].trim() === '' || obj[key] === '0') {
-                    return false;
-                }
-            }
-            return true;
-        }
-    },
-
-    mounted: function mounted() {
-        var _this = this;
-
-        Nova.$on('percentage-change', function (data) {
-            _this.handleRequest('percentage', String(data));
-        });
-        Nova.$on('month-change', function (data) {
-            _this.handleRequest('month', data);
-        });
-        Nova.$on('price-change', function (data) {
-            _this.handleRequest('price', data);
-        });
-    },
-
-
-    watch: {
-        data: {
-            handler: function handler(val, oldVal) {
-                clearTimeout(this.timeout);
-                var vm = this;
-
-                // Make a new timeout set to go off in 1000ms (1 second)
-                this.timeout = setTimeout(function () {
-                    if (vm.checkProperties(val)) {
-                        Nova.request().post('/eibrahimli/report', val).then(function (res) {
-                            vm.reports = res.data;
-                            vm.value = JSON.stringify(vm.reports[0]);
-                        });
-                    }
-                }, 1000);
-            },
-
-            deep: true
-        }
+    /**
+     * Fill the given FormData object with the field's internal value.
+     */
+    fill: function fill(formData) {
+      formData.append(this.field.attribute, this.value || '');
     }
+  },
+
+  mounted: function mounted() {
+    var _this = this;
+
+    Nova.$on('nova-belongsto-depend-product', function (payload) {
+      _this.value = payload.value.percentage;
+    });
+  },
+
+  watch: {
+    value: function value(val) {
+      Nova.$emit('percentage-change', val);
+    }
+  }
 });
 
 /***/ }),
@@ -27066,121 +26809,57 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "flex justify-center mx-auto" }, [
-    _c("div", { staticClass: "flex flex-col w-full" }, [
-      _c("div", { staticClass: "w-full" }, [
-        _c("div", { staticClass: "border-b border-gray-200 shadow" }, [
-          _c("table", { staticClass: "w-full" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              { staticClass: "bg-white divide-y divide-gray-300" },
-              _vm._l(_vm.reports[0], function(rep, index) {
-                return _c(
-                  "tr",
-                  { key: index, staticClass: "whitespace-nowrap" },
-                  [
-                    _c("td", { staticClass: "px-6 text-center py-4" }, [
-                      _c("div", { staticClass: "text-sm text-gray-900" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(rep.termInMonth) +
-                            "\n                            "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "px-6 text-center py-4" }, [
-                      _c("div", { staticClass: "text-sm text-gray-900" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(rep.mainDept) +
-                            "\n                            "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "px-6 text-center py-4" }, [
-                      _c("div", { staticClass: "text-sm text-gray-900" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(rep.percentDept) +
-                            "\n                            "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "px-6 text-center py-4" }, [
-                      _c("div", { staticClass: "text-sm text-gray-900" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s("Yoxdur") +
-                            "\n                            "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "px-6 text-center py-4" }, [
-                      _c("div", { staticClass: "text-sm text-gray-900" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(rep.totalDept) +
-                            "\n                            "
-                        )
-                      ])
-                    ])
-                  ]
-                )
-              }),
-              0
-            )
-          ])
-        ])
+  return _c(
+    "default-field",
+    {
+      attrs: {
+        field: _vm.field,
+        errors: _vm.errors,
+        "show-help-text": _vm.showHelpText
+      }
+    },
+    [
+      _c("template", { slot: "field" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.value,
+              expression: "value"
+            }
+          ],
+          staticClass:
+            "w-full form-control form-input form-input-bordered disabled",
+          class: _vm.errorClasses,
+          attrs: {
+            id: _vm.field.name,
+            type: "number",
+            placeholder: _vm.field.name,
+            readonly: ""
+          },
+          domProps: { value: _vm.value },
+          on: {
+            keyup: function($event) {
+              $event.preventDefault()
+            },
+            keydown: function($event) {
+              $event.preventDefault()
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.value = $event.target.value
+            }
+          }
+        })
       ])
-    ])
-  ])
+    ],
+    2
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", { staticClass: "bg-gray-50" }, [
-      _c("tr", [
-        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
-          _vm._v(
-            "\n                                Ay\n                            "
-          )
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
-          _vm._v(
-            "\n                                Əsas Hissə\n                            "
-          )
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
-          _vm._v(
-            "\n                                Faiz Hissə\n                            "
-          )
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
-          _vm._v(
-            "\n                                Xidmət Haqqı\n                            "
-          )
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
-          _vm._v(
-            "\n                                Cəm\n                            "
-          )
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

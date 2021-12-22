@@ -49,7 +49,8 @@
         "yassi/nova-nested-form": "^3.0",
         "zareismail/nova-wizard": "^0.1.0",
         "eibrahimli/monthly-credit-payment-report": "*",
-        "eibrahimli/laravel-mortgage" : "*"
+        "eibrahimli/laravel-mortgage": "*",
+        "eibrahimli/percentagefield": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -154,6 +155,10 @@
         {
             "type": "path",
             "url": "./nova-components/MonthlyCreditPaymentReport"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/PercentageField"
         }
     ]
 }

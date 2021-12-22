@@ -14,6 +14,7 @@ use App\Nova\Options\Trick;
 use App\Rules\BooleanHasToBeTrue;
 use Coroowicaksono\ChartJsIntegration\StackedChart;
 use Eibrahimli\MonthlyCreditPaymentReport\MonthlyCreditPaymentReport;
+use Eibrahimli\PercentageField\PercentageField;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
@@ -61,11 +62,11 @@ class Loan extends Resource
             BelongsTo::make('Müştəri','customer', Customer::class),
             NovaBelongsToDepend::make('Məhsulun adı', 'product', Product::class)
                 ->options(\App\Models\Product::all()),
-            Number::make('Faiz', 'percentage'),
+            PercentageField::make('Faiz', 'percentage')->readonly(),
             Number::make('Müddət (Ay)', 'month'),
             Currency::make('Qiymət', 'price')->currency('AZN'),
             new Panel('Kreditin ay ba ay hesabatı', [
-                MonthlyCreditPaymentReport::make('credit_report'),
+                MonthlyCreditPaymentReport::make('credit_report')->hideFromIndex(),
             ]),
             new Panel('Müştərinin biznes sahəsi', [
 

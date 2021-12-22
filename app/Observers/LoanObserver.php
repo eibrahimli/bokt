@@ -20,6 +20,12 @@ class LoanObserver
 
         $loan->save();
     }
+    public function creating(Loan $loan)
+    {
+        $loan->unsetEventDispatcher();
+        $loan->percentage = 24;
+
+    }
 
     public function updated(Loan $loan)
     {
@@ -32,7 +38,7 @@ class LoanObserver
 
     public function deleted(Loan $loan)
     {
-        //
+
     }
 
     public function restored(Loan $loan)
