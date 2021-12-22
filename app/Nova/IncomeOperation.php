@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\IncomeOperationsSum;
 use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -65,7 +66,7 @@ class IncomeOperation extends Resource
             Text::make(__("Debet"),"debet"),
             Text::make(__("Credit"),"Credit"),
             Date::make(__("Ödəniş tarixi"),"payment_date"),
-            Text::make(__("Ödəniş metodu"),"operation_method"),
+/*            Text::make(__("Ödəniş metodu"),"operation_method"),*/
             Text::make(__("Ödəniş təyinatı"),"purpose_payment"),
         ];
     }
@@ -78,7 +79,9 @@ class IncomeOperation extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new IncomeOperationsSum(),
+        ];
     }
 
     /**

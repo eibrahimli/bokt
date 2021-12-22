@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\ExpenseOperationsSum;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -79,7 +80,9 @@ class ExpenseOperation extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new ExpenseOperationsSum()
+        ];
     }
 
     /**

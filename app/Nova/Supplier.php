@@ -2,6 +2,9 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\NewSuppliers;
+use App\Nova\Metrics\SuppliersPaid;
+use App\Nova\Metrics\SuppliersRest;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
@@ -79,7 +82,11 @@ class Supplier extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new NewSuppliers(null,$this,"Yeni təchizatçılar","new"),
+            new SuppliersPaid(null,$this,"Ödənilmiş məbləğ","paid"),
+            new SuppliersRest(null,$this,"Qalan borc","rest"),
+        ];
     }
 
     /**

@@ -54,7 +54,8 @@ class Work extends Model
 
     public function contract(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo('App\Models\Contract', 'contract_id', 'id');
+        return $this->belongsTo(Contract::class);
+
     }
 
 

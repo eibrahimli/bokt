@@ -44,12 +44,8 @@ class Work extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make(__('Müqavilə'), 'contract', Contract::class)->onlyOnIndex(),
-            Select2::make(__('Müqavilə'), 'contract_id')
-                ->options(\App\Models\Contract::all()->mapWithKeys(function ($contract) {
-                    return [$contract->id => $contract->supplier->name." ".$contract->branch->name." ".$contract->contract_number];
-                }))
-                ->displayUsingLabels(),
+            BelongsTo::make(__('Müqavilə'), 'contract', Contract::class),
+
             Text::make(__("Hesab Faktura Nömrəsi"),"invoice_number"),
             Text::make(__("EQF Nömrəsi"),"einvoice_number"),
             Date::make(__("EQF Tarixi"),"einvoice_date"),

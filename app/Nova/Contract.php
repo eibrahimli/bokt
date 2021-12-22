@@ -28,7 +28,7 @@ class Contract extends Resource
 
     public function title()
     {
-        return " {$this->supplier->name} {$this->branch->name} {$this->contract_number}";
+        return "№{$this->contract_number} ({$this->supplier->name}) ({$this->branch->name}) ";
     }
 
     public static $group = 'Mühasibatlıq';

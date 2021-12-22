@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\Contract;
 use App\Models\Work;
 
 class WorkObserver
@@ -15,6 +16,17 @@ class WorkObserver
     public function created(Work $work)
     {
         //
+        $branch_id = 0;
+        $supplier_id = 0;
+        if($work->contract_id > 0){
+            $contract = Contract::find($work->contract_id);
+            if($contract!=null){
+                $branch_id = $contract->branch_id;
+                $supplier_id = $contract->supplier_id;
+            }
+        }
+        $work->branch_id = $branch_id;
+        $work->supplier_id = $supplier_id;
     }
 
     /**
