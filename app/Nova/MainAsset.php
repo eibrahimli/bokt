@@ -2,8 +2,14 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\ContractBrachFilter;
+use App\Nova\Filters\ContractFilter;
+use App\Nova\Filters\ContractSupplierFilter;
+use App\Nova\Metrics\AssetsMetrics;
+use App\Nova\Metrics\ContractsMetrics;
 use Eibrahimli\EdvCalculation\EdvCalculation;
 use Eibrahimli\EdvTool\EdvTool;
+use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use KossShtukert\LaravelNovaSelect2\Select2;
 use Laravel\Nova\Fields\BelongsTo;
@@ -13,6 +19,8 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use NrmlCo\NovaBigFilter\NovaBigFilter;
+use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use Yassi\NestedForm\NestedForm;
 
 class MainAsset extends Resource
@@ -62,17 +70,39 @@ class MainAsset extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+
+            DynamicSelect::make('Təchizatçı', 'supplier_id')
+                ->options(\App\Models\Supplier::pluck("name","id")->all()),
+                //->rules('required'),
+
+           DynamicSelect::make('Filial', 'branch_id')
+                ->options(\App\Models\Branch::pluck("name","id")->all()),
+                //->rules('required'),
+
+                       DynamicSelect::make('Müqavilə', 'contract_id')
+                           ->dependsOn(['supplier_id', 'branch_id'])
+                           ->options(function($values) {
+                               $contracts = \App\Models\Contract::whereNull("deleted_at");
+                                if(isset($values["supplier_id"])){
+                                    $contracts = $contracts->where("supplier_id",$values["supplier_id"]);
+                                }
+
+                                if(isset($values["branch_id"])){
+                                    $contracts = $contracts->where("branch_id",$values["branch_id"]);
+                                }
+
+                               $contracts =  $contracts->pluck("contract_number","id");
+                                return $contracts;
+
+                           }),
+                           //->rules('required')
+
             BelongsTo::make(__('Müqavilə'), 'contract', Contract::class)->onlyOnIndex(),
-            Select2::make(__('Müqavilə'), 'contract_id')
-                ->options(\App\Models\Contract::all()->mapWithKeys(function ($contract) {
-                    return [$contract->id => $contract->supplier->name." ".$contract->branch->name." ".$contract->contract_number];
-                }))
-                ->displayUsingLabels(),
             Text::make(__("Hesab Faktura Nömrəsi"),"invoice_number"),
             Text::make(__("EQF Nömrəsi"),"einvoice_number"),
             Date::make(__("EQF Tarixi"),"einvoice_date"),
             BelongsTo::make(__('Amortizasiya hesabı'), 'depAccount', DepreciationAccount::class)->showCreateRelationButton(),
-            BelongsTo::make(__('Branch'), 'branch', Branch::class)->showCreateRelationButton(),
+/*            BelongsTo::make(__('Branch'), 'branch', Branch::class)->showCreateRelationButton(),*/
             Text::make(__("Əsas vəsaitin saxlandığı yer"),"asset_location"),
             BelongsTo::make(__('Məsul şəxs'), 'user', User::class)->showCreateRelationButton(),
             NestedForm::make('AssetInner')->heading('Malların siyahısı'),
@@ -91,7 +121,13 @@ class MainAsset extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+
+            new AssetsMetrics(null,$this,"Yeni aktivlər","new"),
+            new AssetsMetrics(null,$this,"Toplam məbləğ","price"),
+            new NovaBigFilter(),
+
+        ];
     }
 
     /**
@@ -102,7 +138,11 @@ class MainAsset extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new ContractBrachFilter(),
+            new ContractSupplierFilter(),
+            new ContractFilter()
+        ];
     }
 
     /**

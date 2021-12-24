@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\AssetsMetrics;
+use App\Nova\Metrics\RegistryMetrics;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -79,7 +81,11 @@ class Registry extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+
+            new RegistryMetrics(null,$this,"Yeni reyestr","new"),
+            new RegistryMetrics(null,$this,"Toplam məbləğ","price"),
+        ];
     }
 
     /**

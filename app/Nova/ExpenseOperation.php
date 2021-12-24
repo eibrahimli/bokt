@@ -2,6 +2,11 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\ContractBrachFilter;
+use App\Nova\Filters\ContractFilter;
+use App\Nova\Filters\ContractSupplierFilter;
+use App\Nova\Filters\CreditFilter;
+use App\Nova\Filters\DebetFilter;
 use App\Nova\Metrics\ExpenseOperationsSum;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -9,6 +14,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use NrmlCo\NovaBigFilter\NovaBigFilter;
 
 class ExpenseOperation extends Resource
 {
@@ -81,7 +87,8 @@ class ExpenseOperation extends Resource
     public function cards(Request $request)
     {
         return [
-            new ExpenseOperationsSum()
+            new ExpenseOperationsSum(),
+            new NovaBigFilter(),
         ];
     }
 
@@ -93,7 +100,14 @@ class ExpenseOperation extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new ContractBrachFilter(),
+            new ContractSupplierFilter(),
+            new ContractFilter(),
+            new DebetFilter(),
+            new CreditFilter()
+
+        ];
     }
 
     /**

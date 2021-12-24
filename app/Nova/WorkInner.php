@@ -59,7 +59,7 @@ class WorkInner extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make(__("Adı"),"name"),
-            Text::make(__("Malların iş və xidmətlərin növü"),"type"),
+            BelongsTo::make(__('Malların iş və xidmətlərin kateqoriyası'), 'assetCategory', AssetCategory::class)->showCreateRelationButton(),
             Text::make(__("Ölçü vahidi"),"measure"),
             CalculationField::make(__("Miqdar"),"quantity"),
             CalculationField::make(__("Qiyməti"),"unit_price"),

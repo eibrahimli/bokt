@@ -2,6 +2,10 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\ContractBrachFilter;
+use App\Nova\Filters\ContractFilter;
+use App\Nova\Filters\ContractSupplierFilter;
+use App\Nova\Metrics\WorksMetrics;
 use Eibrahimli\EdvCalculation\EdvCalculation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -16,6 +20,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use NrmlCo\NovaBigFilter\NovaBigFilter;
 use Yassi\NestedForm\NestedForm;
 
 class Work extends Resource
@@ -60,12 +65,22 @@ class Work extends Resource
 
     public function cards(Request $request): array
     {
-        return [];
+        return [
+
+            new WorksMetrics(null,$this,"Yeni xidmətlər","new"),
+            new WorksMetrics(null,$this,"Toplam məbləğ","price"),
+            new NovaBigFilter(),
+
+        ];
     }
 
     public function filters(Request $request): array
     {
-        return [];
+        return [
+            new ContractBrachFilter(),
+            new ContractSupplierFilter(),
+            new ContractFilter()
+        ];
     }
 
     public function lenses(Request $request): array

@@ -2,6 +2,11 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\ContractBrachFilter;
+use App\Nova\Filters\ContractNumberFilter;
+use App\Nova\Filters\ContractPriceFilter;
+use App\Nova\Filters\ContractSupplierFilter;
+use App\Nova\Metrics\ContractsMetrics;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -9,6 +14,7 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use NrmlCo\NovaBigFilter\NovaBigFilter;
 
 class Contract extends Resource
 {
@@ -72,6 +78,7 @@ class Contract extends Resource
             Date::make(__("Müqavilə başlayır"),"contract_begin"),
             Date::make(__("Müqavilə bitir"),"contract_end"),
             HasMany::make('İş və xidmətlər', 'works', \App\Nova\Work::class),
+            HasMany::make('Qeyri maddi aktivlər', 'assets', \App\Nova\MainAsset::class),
         ];
     }
 
@@ -83,7 +90,13 @@ class Contract extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+
+            new ContractsMetrics(null,$this,"Yeni müqavilələr","new"),
+            new ContractsMetrics(null,$this,"Toplam məbləğ","price"),
+            new NovaBigFilter(),
+
+        ];
     }
 
     /**
@@ -94,7 +107,12 @@ class Contract extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new ContractBrachFilter(),
+            new ContractSupplierFilter(),
+            new ContractNumberFilter(),
+            new ContractPriceFilter()
+        ];
     }
 
     /**

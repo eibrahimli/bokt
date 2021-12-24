@@ -2,6 +2,11 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\SupplierCustomerTypeFilter;
+use App\Nova\Filters\SupplierNameFilter;
+use App\Nova\Filters\SupplierPriceFilter;
+use App\Nova\Filters\SupplierRestPriceFilter;
+use App\Nova\Filters\SupplierVoenFilter;
 use App\Nova\Metrics\NewSuppliers;
 use App\Nova\Metrics\SuppliersPaid;
 use App\Nova\Metrics\SuppliersRest;
@@ -10,6 +15,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use NrmlCo\NovaBigFilter\NovaBigFilter;
 
 class Supplier extends Resource
 {
@@ -86,6 +92,9 @@ class Supplier extends Resource
             new NewSuppliers(null,$this,"Yeni təchizatçılar","new"),
             new SuppliersPaid(null,$this,"Ödənilmiş məbləğ","paid"),
             new SuppliersRest(null,$this,"Qalan borc","rest"),
+
+            new NovaBigFilter(),
+
         ];
     }
 
@@ -97,7 +106,13 @@ class Supplier extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new SupplierNameFilter(),
+            new SupplierVoenFilter(),
+            new SupplierCustomerTypeFilter(),
+            new SupplierPriceFilter(),
+            new SupplierRestPriceFilter(),
+        ];
     }
 
     /**

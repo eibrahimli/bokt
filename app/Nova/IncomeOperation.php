@@ -2,6 +2,11 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\ContractBrachFilter;
+use App\Nova\Filters\ContractFilter;
+use App\Nova\Filters\ContractSupplierFilter;
+use App\Nova\Filters\CreditFilter;
+use App\Nova\Filters\DebetFilter;
 use App\Nova\Metrics\IncomeOperationsSum;
 use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
@@ -10,6 +15,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use NrmlCo\NovaBigFilter\NovaBigFilter;
 
 class IncomeOperation extends Resource
 {
@@ -81,6 +87,7 @@ class IncomeOperation extends Resource
     {
         return [
             new IncomeOperationsSum(),
+            new NovaBigFilter(),
         ];
     }
 
@@ -92,7 +99,13 @@ class IncomeOperation extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new ContractBrachFilter(),
+            new ContractSupplierFilter(),
+            new ContractFilter(),
+            new DebetFilter(),
+            new CreditFilter()
+        ];
     }
 
     /**

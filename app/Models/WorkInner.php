@@ -15,4 +15,9 @@ class WorkInner extends Model
     {
         return $this->belongsTo('App\Models\Work', 'work_id', 'id');
     }
+
+    public function assetCategory(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\AssetCategory', 'type', 'id');
+    }
 }
