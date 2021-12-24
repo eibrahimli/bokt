@@ -160,6 +160,10 @@
         {
             "type": "path",
             "url": "./nova-components/PercentageField"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/Analytics"
         }
     ]
 }
