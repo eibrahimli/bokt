@@ -24,7 +24,7 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-300">
-                            <tr v-for="(rep,index) in reports[0]" :key="index" class="whitespace-nowrap">
+                            <tr v-for="(rep,index) in JSON.parse(value)" :key="index" class="whitespace-nowrap">
                             <td class="px-6 text-center py-4">
                                 <div class="text-sm text-gray-900">
                                     {{ rep.termInMonth }}
@@ -98,7 +98,7 @@ export default {
         },
         checkProperties(obj) {
             for (let key in obj) {
-                if (obj[key] === null || obj[key].trim() === '' || obj[key] === '0') {
+                if (obj[key] === null || obj[key] === '0') {
                     return false;
                 }
             }
@@ -107,6 +107,27 @@ export default {
     },
 
     mounted() {
+
+        if(this.value) {
+            let vm = this
+            let $children = this.$parent.$parent.$parent.$children[1].$children[1].$children
+
+            $children.forEach($child => {
+                let value = $child._props.field.value
+                switch ($child._props.field.attribute) {
+                    case 'percentage':
+                        vm.data.percentage = value
+                    break;
+                    case 'month':
+                        vm.data.month = value
+                    break;
+                    case 'price':
+                        vm.data.price = value
+                    break;
+
+                }
+            })
+        }
 
         Nova.$on('percentage-change', data => {
             this.handleRequest('percentage', String(data))
@@ -117,6 +138,7 @@ export default {
         Nova.$on('price-change', data => {
             this.handleRequest('price', data)
         })
+
     },
 
     watch: {

@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\AcceptPayment;
 use App\Nova\Metrics\LoanIsApproved;
 use App\Nova\Metrics\NewLoan;
 use App\Nova\Options\Agriculture;
@@ -31,18 +32,23 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use Titasgailius\SearchRelations\SearchesRelations;
 use Yassi\NestedForm\NestedForm;
 
 class Loan extends Resource
 {
-
+    use SearchesRelations;
     public static $model = \App\Models\Loan::class;
 
     public static $title = 'id';
     public static $displayInNavigation = false;
 
     public static $search = [
-        'id',
+        'id'
+    ];
+
+    public static $searchRelations = [
+        'customer' => ['id','name', 'surname', 'fin']
     ];
 
     public static function singularLabel(): string
@@ -138,7 +144,8 @@ class Loan extends Resource
     public function actions(Request $request): array
     {
         return [
-            (new DownloadExcel())->withFilename('Kreditlər'.time().'xlsx')->withHeadings()->allFields()
+            (new DownloadExcel())->withFilename('Kreditlər'.time().'xlsx')->withHeadings()->allFields(),
+            new AcceptPayment()
         ];
     }
 }

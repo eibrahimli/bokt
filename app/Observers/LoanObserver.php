@@ -13,32 +13,39 @@ class LoanObserver
     {
         $loan->unsetEventDispatcher();
         $loan->user_id = Auth::id();
+        $loan->percentage = $loan->product->percentage;
 
-        $report = (new \App\Helpers\LoanHelper($loan->month,$loan->price,$loan->percentage))->getFormatedData();
+        $report = (new \App\Helpers\CreditHelper($loan->month,$loan->price,$loan->percentage))->getFormatedData();
 
         $loan->loanReports()->createMany($report);
 
         $loan->save();
-    }
-    public function creating(Loan $loan)
-    {
-        $loan->unsetEventDispatcher();
-        $loan->percentage = 24;
 
     }
+//    public function creating(Loan $loan)
+//    {
+//        $loan->unsetEventDispatcher();
+//        $loan->percentage = $loan->product->percentage;
+//    }
 
     public function updated(Loan $loan)
     {
-        $loan->user_id = Auth::id();
         $loan->unsetEventDispatcher();
+        $loan->user_id = Auth::id();
+
+        $loan->loanReports()->delete();
+
+        $report = (new \App\Helpers\CreditHelper($loan->month,$loan->price,$loan->percentage))->getFormatedData();
+
+        $loan->loanReports()->createMany($report);
 
         $loan->save();
-    }
 
+    }
 
     public function deleted(Loan $loan)
     {
-
+        $loan->loanReports()->delete();
     }
 
     public function restored(Loan $loan)

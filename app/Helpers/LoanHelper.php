@@ -2,42 +2,12 @@
 
 namespace App\Helpers;
 
+use App\Models\Loan;
 use Mortgage\Facades\Annuity;
 
 class LoanHelper
 {
-    protected $loanTerm,$loanAmount,$loanPercentage;
-    /**
-     * @param $loanTerm
-     * @param $loanAmount
-     * @param $loanPercentage
-     */
-    function __construct($loanTerm, $loanAmount, $loanPercentage) {
-        $this->loanPercentage = $loanPercentage;
-        $this->loanTerm = $loanTerm;
-        $this->loanAmount = $loanAmount;
-    }
-
-    public function getFormatedData() {
-        // Change the mortgage config file values
-        config(['mortgage.loanTerm' => $this->loanTerm,'mortgage.loanAmount' => $this->loanAmount, 'mortgage.interestRate' => $this->loanPercentage]);
-
-        // Grab the monthly payment report
-        $report = Annuity::showRepaymentSchedule()->toArray();
-
-        // Fix report bug
-        foreach ($report as $index => $rep) {
-
-            if($index === count($report) - 1 && $rep['indebtedness'] < 0) {
-
-                $report[$index-1]['indebtedness'] = $rep['mainDept'];
-                $report[$index]['indebtedness'] = 0.00;
-            } elseif($index === count($report) - 1 && $rep['indebtedness'] > 0 && $rep['indebtedness'] < 1) {
-                $report[$index-1]['indebtedness'] = $report[$index]['mainDept'];
-                $report[$index]['indebtedness'] = 0.00;
-            }
-        }
-
-        return $report;
+    public static function getCurrentMonthPayment(Loan $loan) {
+        dd($loan);
     }
 }
