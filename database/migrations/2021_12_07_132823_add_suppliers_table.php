@@ -31,8 +31,7 @@ class AddSuppliersTable extends Migration
         //
 
         Schema::table('suppliers', function (Blueprint $table) {
-            $table->removeColumn('paid_amount');
-            $table->removeColumn('rest_amount');
+            $table->dropColumn(['paid_amount', 'rest_amount']);
         });
     }
 }

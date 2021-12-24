@@ -21,6 +21,10 @@ class Loan extends Model
 
     protected $with = ['customer'];
 
+    public function getFormattedAttribute() : string {
+        return $this->customer->title;
+    }
+
     public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Product::class);

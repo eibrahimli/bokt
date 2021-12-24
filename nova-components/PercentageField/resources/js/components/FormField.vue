@@ -43,8 +43,7 @@ export default {
   mounted() {
       let vm = this
       Nova.$on('nova-belongsto-depend-product', payload => {
-          vm.value = payload.value.percentage
-          vm.field._props.value = payload.value.percentage
+          this.value = payload.value.percentage
       })
   },
   watch: {

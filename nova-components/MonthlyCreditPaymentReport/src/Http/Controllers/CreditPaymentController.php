@@ -22,7 +22,7 @@ class CreditPaymentController extends \App\Http\Controllers\Controller
 
         $data = $validate->validated();
 
-        $report = (new \App\Helpers\LoanHelper($data['month'],$data['price'],$data['percentage']))->getFormatedData();
+        $report = (new \App\Helpers\CreditHelper($data['month'],$data['price'],$data['percentage']))->getFormatedData();
 
         return response()->json([$report]);
     }

@@ -49,9 +49,9 @@
         "saintsystems/nova-resource-group-menu": "^0.1.0",
         "spatie/laravel-medialibrary": "^9.8",
         "techouse/select-auto-complete": "^1.3",
+        "titasgailius/search-relations": "^2.0",
         "yassi/nova-nested-form": "^3.0",
-        "zareismail/nova-wizard": "^0.1.0",
-        "acme/analytics": "*"
+        "zareismail/nova-wizard": "^0.1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -160,10 +160,6 @@
         {
             "type": "path",
             "url": "./nova-components/PercentageField"
-        },
-        {
-            "type": "path",
-            "url": "./nova-components/Analytics"
         }
     ]
 }
