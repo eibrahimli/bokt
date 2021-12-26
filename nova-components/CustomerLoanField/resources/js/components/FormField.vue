@@ -52,6 +52,10 @@ export default {
         },
     },
 
+    mounted() {
+      console.log(this.field, 'salam')
+    },
+
     watch: {
         value(val) {
             this.elements.forEach(el => {

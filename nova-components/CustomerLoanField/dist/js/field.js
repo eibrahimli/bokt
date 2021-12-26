@@ -462,6 +462,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
 
+    mounted: function mounted() {
+        console.log(this.field, 'salam');
+    },
+
+
     watch: {
         value: function value(val) {
             var _this = this;

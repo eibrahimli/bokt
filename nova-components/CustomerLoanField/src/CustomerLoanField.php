@@ -12,4 +12,9 @@ class CustomerLoanField extends Field
      * @var string
      */
     public $component = 'customer-loan-field';
+
+    public function resourceId($id): CustomerLoanField
+    {
+        return $this->withMeta(['resourceId' => $id]);
+    }
 }

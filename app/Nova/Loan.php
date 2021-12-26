@@ -145,7 +145,7 @@ class Loan extends Resource
     {
         return [
             (new DownloadExcel())->withFilename('Kreditlər'.time().'xlsx')->withHeadings()->allFields(),
-            new AcceptPayment()
+//            new AcceptPayment()
         ];
     }
 }

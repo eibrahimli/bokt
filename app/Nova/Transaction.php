@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Models\LoanReport;
 use App\Nova\Metrics\NewTransaction;
 use Coroowicaksono\ChartJsIntegration\LineChart;
 use Eibrahimli\CustomerLoanField\CustomerLoanField;
@@ -14,6 +15,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
@@ -43,9 +45,15 @@ class Transaction extends Resource
 
     public function fields(Request $request): array
     {
+
         return array(
             ID::make(__('ID'), 'id')->sortable(),
-            CustomerLoanField::make('Dəyər', 'price')->rules(['required'])->sortable(),
+            Text::make('Gozlenilen Mebleg', 'expected_price', function ($val) use($request) {
+                $allReportRelatedLoan = $this->getReport($request->viaResourceId);
+
+                return $allReportRelatedLoan->totalDept ?? $val;
+            })->readonly(),
+            Text::make('Məbləğ','price'),
             Boolean::make('Digər vətandaş tərəfindən ödəniş', 'is_civil'),
             NovaDependencyContainer::make(array(
                 Text::make("Ad", 'name')->sortable(),
@@ -55,13 +63,21 @@ class Transaction extends Resource
                 Text::make('Ş.V. Seriya №', 'identity_number')->sortable(),
             ))->dependsOn('is_civil', 1),
 
-            Text::make("Əsas məbləğ üzrə", 'main_price')
+            Text::make("Əsas məbləğ üzrə", 'main_price', function ($val) use($request) {
+                $allReportRelatedLoan = $this->getReport($request->viaResourceId);
+
+                return $allReportRelatedLoan->mainDept ?? $val;
+            })
                 ->readonly()
                 ->sortable(),
-            Text::make("Marağ faizi üzrə", 'interested_price')
+            Text::make("Marağ faizi üzrə", 'interested_price', function ($val) use($request) {
+                $allReportRelatedLoan = $this->getReport($request->viaResourceId);
+
+                return $allReportRelatedLoan->percentDept ?? $val;
+            })
                 ->readonly()
                 ->sortable(),
-            Text::make("Hesablanmış cərimə", 'calculated_price')
+            Text::make("Hesablanmış cərimə", 'calculated_price', fn() => 0)
                 ->readonly()
                 ->sortable(),
             BelongsTo::make('İstifadəçi', 'user', User::class)->default(function () {
@@ -121,5 +137,12 @@ class Transaction extends Resource
         return [
             (new DownloadExcel())->withFilename('Tranzaksiyalar'.time().'xlsx')->withHeadings()->allFields()
         ];
+    }
+
+    protected function getReport($id) {
+        return LoanReport::where('loan_id', $id)
+            ->active()
+            ->whereNull('deleted_at')
+            ->first();
     }
 }
