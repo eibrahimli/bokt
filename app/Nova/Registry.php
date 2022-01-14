@@ -61,7 +61,7 @@ class Registry extends Resource
             Text::make(__("Kredit"),"credit"),
             Text::make(__("Əməliyyat"),"reg_type"),
             Text::make(__("Əməliyyat nömrəsi"),"reg_id"),
-            Text::make(__("Xərcin tipi"),"product_name"),
+            Text::make(__("Xərcin tipi"),"product_id"),
             Text::make(__("Xərcin adı"),"product_name"),
             Text::make(__("Filial"),"branch_id"),
             Text::make(__("Hesab"),"account_id"),

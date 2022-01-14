@@ -12,9 +12,9 @@ Route::get('/lang/{lang}',[LanguageController::class, 'switchLang'])
 
 Route::get('test', function () {
 
-     $report = (new \App\Helpers\LoanHelper(12,1000,24))->getFormatedData();
+     $report = (new \App\Helpers\CreditHelper(12,1000,24))->getFormatedData();
 
-     dd($report);
+     dd(array_sum(array_column($report, 'totalDept')));
 
 });
 

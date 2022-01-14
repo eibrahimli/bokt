@@ -71,6 +71,14 @@ class Loan extends Resource
             PercentageField::make('Faiz', 'percentage')->readonly(),
             Number::make('Müddət (Ay)', 'month'),
             Currency::make('Qiymət', 'price')->currency('AZN'),
+            Currency::make('Ümumi ödəniləcək məbləğ','whole_payable_balance')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->currency('AZN'),
+            Currency::make('Ödənilən məbləğ','payed_balance')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->currency('AZN'),
             new Panel('Kreditin ay ba ay hesabatı', [
                 MonthlyCreditPaymentReport::make('credit_report')->hideFromIndex(),
             ]),
@@ -97,7 +105,7 @@ class Loan extends Resource
                     ->showCreateRelationButton(),
                 Boolean::make("Kredit prosesini təsdiqləmək", 'status')
                     ->rules(['required', new BooleanHasToBeTrue('Kredit prosesini təsdiqləməlisiniz')]),
-                HasMany::make('Tranzaksiyalar', 'transactions', Transaction::class),
+                HasMany::make('Ödənişlər', 'transactions', Transaction::class),
                 HasMany::make('Girovlar', 'collaterals', Collateral::class),
             ])
 

@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Models\LoanReport;
 use App\Nova\Metrics\NewTransaction;
+use App\Rules\CheckTransactionPaymentIsGreaterThanExpectedPrice;
 use Coroowicaksono\ChartJsIntegration\LineChart;
 use Eibrahimli\CustomerLoanField\CustomerLoanField;
 use Epartment\NovaDependencyContainer\HasDependencies;
@@ -36,11 +37,11 @@ class Transaction extends Resource
 
     public static function singularLabel(): string
     {
-        return 'Tranzaksiya';
+        return 'Ödəniş';
     }
     public static function label(): string
     {
-        return 'Tranzaksiyalar';
+        return 'Ödənişlər';
     }
 
     public function fields(Request $request): array
@@ -49,11 +50,18 @@ class Transaction extends Resource
         return array(
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('Gozlenilen Mebleg', 'expected_price', function ($val) use($request) {
+
                 $allReportRelatedLoan = $this->getReport($request->viaResourceId);
 
-                return $allReportRelatedLoan->totalDept ?? $val;
+                if(!isset($request->editMode) || !isset($allReportRelatedLoan)) return $val;
+
+                if($allReportRelatedLoan->percentage_remainder > 0) {
+                   return (float) $allReportRelatedLoan->totalDept - $allReportRelatedLoan->percentage_remainder;
+                }
+
+                return $allReportRelatedLoan->totalDept;
             })->readonly(),
-            Text::make('Məbləğ','price'),
+            Text::make('Məbləğ','price')->rules(new CheckTransactionPaymentIsGreaterThanExpectedPrice($this->getReport($request->viaResourceId))),
             Boolean::make('Digər vətandaş tərəfindən ödəniş', 'is_civil'),
             NovaDependencyContainer::make(array(
                 Text::make("Ad", 'name')->sortable(),
@@ -66,6 +74,8 @@ class Transaction extends Resource
             Text::make("Əsas məbləğ üzrə", 'main_price', function ($val) use($request) {
                 $allReportRelatedLoan = $this->getReport($request->viaResourceId);
 
+                if(!isset($request->editMode) || !isset($allReportRelatedLoan)) return $val;
+
                 return $allReportRelatedLoan->mainDept ?? $val;
             })
                 ->readonly()
@@ -73,7 +83,12 @@ class Transaction extends Resource
             Text::make("Marağ faizi üzrə", 'interested_price', function ($val) use($request) {
                 $allReportRelatedLoan = $this->getReport($request->viaResourceId);
 
-                return $allReportRelatedLoan->percentDept ?? $val;
+                if(!isset($request->editMode) || !isset($allReportRelatedLoan)) return $val;
+
+                if(isset($allReportRelatedLoan->percentage_remainder) && $allReportRelatedLoan->percentage_remainder > 0 ) {
+                    return number_format((float) $allReportRelatedLoan->percentDept - $allReportRelatedLoan->percentage_remainder, 2) ?? $val;
+                }
+                return (double) $allReportRelatedLoan->percentDept;
             })
                 ->readonly()
                 ->sortable(),
