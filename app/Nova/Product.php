@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Models\Loan;
 use Armincms\Json\Json;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -36,12 +37,22 @@ class Product extends Resource
         'id','name'
     ];
 
+    public static function redirectAfterCreate(NovaRequest $request, $resource): string
+    {
+        return '/resources/'.static::uriKey();
+    }
+
     public function fields(Request $request): array
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('Ad', 'name'),
             Number::make('Faiz', 'percentage'),
+            Number::make('Minimum məbləğ', 'min_price'),
+            Number::make('Maximum məbləğ', 'max_price'),
+            Number::make('Minimum müddət', 'min_date'),
+            Number::make('Maximum müddət', 'max_date'),
+            Boolean::make('Status', 'status'),
             HasMany::make('Kreditlər', 'loans', \App\Nova\Loan::class),
         ];
     }

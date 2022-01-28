@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Options\AdminUnit;
+use App\Models\Options\LegalStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -51,5 +53,15 @@ class Customer extends Model implements HasMedia, Chartable
     public function transactions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function adminUnit(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(AdminUnit::class);
+    }
+
+    public function legalStatus(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(LegalStatus::class);
     }
 }

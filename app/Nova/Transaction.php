@@ -67,7 +67,7 @@ class Transaction extends Resource
                 Text::make("Ad", 'name')->sortable(),
                 Text::make('Soyad', 'surname')->sortable(),
                 Text::make('Ata Adı', 'fathername')->sortable(),
-                Text::make('Fin', 'fin')->sortable()->rules(['required','nullable', 'string', 'size:7']),
+                Text::make('Fin', 'fin')->sortable()->rules(['nullable', 'string', 'size:7']),
                 Text::make('Ş.V. Seriya №', 'identity_number')->sortable(),
             ))->dependsOn('is_civil', 1),
 

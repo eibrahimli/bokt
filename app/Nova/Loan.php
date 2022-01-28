@@ -16,6 +16,7 @@ use App\Rules\BooleanHasToBeTrue;
 use Coroowicaksono\ChartJsIntegration\StackedChart;
 use Eibrahimli\MonthlyCreditPaymentReport\MonthlyCreditPaymentReport;
 use Eibrahimli\PercentageField\PercentageField;
+use Eminiarts\Tabs\Tabs;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
@@ -105,9 +106,12 @@ class Loan extends Resource
                     ->showCreateRelationButton(),
                 Boolean::make("Kredit prosesini təsdiqləmək", 'status')
                     ->rules(['required', new BooleanHasToBeTrue('Kredit prosesini təsdiqləməlisiniz')]),
-                HasMany::make('Ödənişlər', 'transactions', Transaction::class),
+            ]),
+            NestedForm::make('Girovlar', 'collaterals', Collateral::class),
+            Tabs::make('Relations', [
                 HasMany::make('Girovlar', 'collaterals', Collateral::class),
-            ])
+                HasMany::make('Ödənişlər', 'transactions', Transaction::class),
+            ]),
 
         ];
     }

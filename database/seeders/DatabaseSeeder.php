@@ -17,8 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Product::factory(100)->create();
-         \App\Models\User::factory(100)->create();
+         \App\Models\User::factory(10)->create();
          \App\Models\User::create([
              'name' => 'Elvir',
              'surname' => 'ibrahimli',
@@ -26,8 +25,6 @@ class DatabaseSeeder extends Seeder
              'email' => 'ibrahimlielvir@gmail.com',
              'password' => bcrypt('Sensen1997')
          ]);
-         \App\Models\Customer::factory(300)->create();
-//         \App\Models\Loan::factory(300)->create();
-        $this->call([BranchSeeder::class]);
+         \App\Models\Customer::factory(10)->create();
     }
 }

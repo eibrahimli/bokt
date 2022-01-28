@@ -12,10 +12,8 @@ class CustomerObserver
     public function created(Customer $customer)
     {
         $customer->user_id = Auth::id();
-
-        $customer->unsetEventDispatcher();
-
-        $customer->save();
+        $customer->branch_id = Auth::user()->branch->id;
+        $customer->saveQuietly();
     }
 
 

@@ -5,19 +5,24 @@ namespace App\Nova;
 use App\Nova\Actions\ExportPDF;
 use App\Nova\Metrics\ModelPerDay;
 use App\Nova\Metrics\NewCustomer;
+use App\Nova\Options\AdminUnit;
+use App\Nova\Options\LegalStatus;
 use Coroowicaksono\ChartJsIntegration\DoughnutChart;
 use Coroowicaksono\ChartJsIntegration\PolarAreaChart;
 use Coroowicaksono\ChartJsIntegration\StackedChart;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
+use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Illuminate\Http\Request;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 use KirschbaumDevelopment\NovaChartjs\InlinePanel;
 use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
@@ -61,11 +66,20 @@ class Customer extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make("Ad", 'name')->sortable(),
-            Text::make('Soyad','surname')->sortable(),
-            Text::make('Ata Adı', 'fathername')->sortable(),
-            Text::make('Fin', 'fin')->sortable()->rules(['nullable', 'string', 'size:7']),
-            Text::make('Ş.V. Seriya №', 'identity_number')->sortable(),
+            BelongsTo::make('İqtisadi rayon','adminUnit', AdminUnit::class)->showCreateRelationButton()->nullable(),
+            BelongsTo::make('Hüquqi status','legalStatus', LegalStatus::class)->showCreateRelationButton()->nullable(),
+            NovaDependencyContainer::make([
+               Number::make('Voen', 'voen')->rules(['required'])
+            ])
+                ->dependsOn('legalStatus.id', 1)
+                ->dependsOn('legalStatus.id', 2),
+            Text::make("Ad", 'name')->rules(['required'])->sortable(),
+            NovaDependencyContainer::make([
+                Text::make('Soyad','surname')->sortable(),
+                Text::make('Ata Adı', 'fathername')->sortable(),
+                Text::make('Fin', 'fin')->sortable()->rules(['required', 'string', 'size:7']),
+                Text::make('Ş.V. Seriya №', 'identity_number')->sortable(),
+            ])->dependsOnNot('legalStatus.id',1),
             Textarea::make('Qeydiyyat ünvanı','registration_address')->hideFromIndex(),
             Textarea::make('Yaşayış ünvanı','residential_address')->hideFromIndex(),
             Select::make('Cins','gender')->options([
@@ -80,7 +94,11 @@ class Customer extends Resource
             Select::make('Ailə vəziyyəti','maritial_status')->options([
                 'married' => 'Evli',
                 'single' => 'Subay'
-            ])->hideFromIndex()->displayUsing(function () { return $this->maritial_status == 'married' ? 'Evli' : 'Subay'; }),
+            ])
+                ->hideFromIndex()
+                ->displayUsing(function () { return $this->maritial_status == 'married' ? 'Evli' : 'Subay'; })
+                ->rules(['required'])
+            ,
             Files::make('Əlavələr','main')->hideFromIndex(),
             Date::make('Doğum tarixi','date_of_birth'),
             Text::make('Doğum yeri','birthplace'),
