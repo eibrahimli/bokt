@@ -21,6 +21,9 @@
                             <th class="px-6 py-2 text-xs text-gray-500">
                                 Cəm
                             </th>
+                            <th class="px-6 py-2 text-xs text-gray-500">
+                                Ödəmə statusu
+                            </th>
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-300">
@@ -42,12 +45,17 @@
                             </td>
                             <td class="px-6 text-center py-4">
                                 <div class="text-sm text-gray-900">
-                                    {{ 'Yoxdur' }}
+                                    {{ rep.service_fee }}
                                 </div>
                             </td>
                             <td class="px-6 text-center py-4">
                                 <div class="text-sm text-gray-900">
                                     {{ rep.totalDept }}
+                                </div>
+                            </td>
+                            <td class="px-6 text-center py-4">
+                                <div class="text-sm text-gray-900">
+                                    {{ rep.paid ? 'Ödənilib' : 'Ödənilməyib' }}
                                 </div>
                             </td>
                         </tr>

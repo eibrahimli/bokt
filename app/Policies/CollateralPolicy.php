@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
+use App\Models\Collateral;
 use App\Models\User;
-use App\Models\Guarantor;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class GuarantorPolicy
+class CollateralPolicy
 {
     use HandlesAuthorization;
 
@@ -16,7 +16,7 @@ class GuarantorPolicy
     }
 
 
-    public function view(User $user, Guarantor $guarantor)
+    public function view(User $user, Collateral $collateral)
     {
         return true;
     }
@@ -26,24 +26,24 @@ class GuarantorPolicy
         return false;
     }
 
-    public function update(User $user, Guarantor $guarantor)
+    public function update(User $user, Collateral $collateral)
     {
         return false;
     }
 
 
-    public function delete(User $user, Guarantor $guarantor)
+    public function delete(User $user, Collateral $collateral)
     {
         return false;
     }
 
 
-    public function restore(User $user, Guarantor $guarantor)
+    public function restore(User $user, Collateral $collateral)
     {
         //
     }
 
-    public function forceDelete(User $user, Guarantor $guarantor)
+    public function forceDelete(User $user, Collateral $collateral)
     {
         //
     }

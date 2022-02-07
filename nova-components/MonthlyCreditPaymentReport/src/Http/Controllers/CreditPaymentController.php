@@ -14,6 +14,7 @@ class CreditPaymentController extends \App\Http\Controllers\Controller
            'month' => 'required',
            'percentage' => 'required',
            'price' => 'required',
+            'service_fee' => 'required'
         ]);
 
         if($validate->fails()) {
@@ -22,7 +23,7 @@ class CreditPaymentController extends \App\Http\Controllers\Controller
 
         $data = $validate->validated();
 
-        $report = (new \App\Helpers\CreditHelper($data['month'],$data['price'],$data['percentage']))->getFormatedData();
+        $report = (new \App\Helpers\CreditHelper($data['month'],$data['price'],$data['percentage'], $data['service_fee'] ?? 1))->getFormatedData();
 
         return response()->json([$report]);
     }

@@ -52,6 +52,7 @@ class Product extends Resource
             Number::make('Maximum məbləğ', 'max_price'),
             Number::make('Minimum müddət', 'min_date'),
             Number::make('Maximum müddət', 'max_date'),
+            Number::make('Xidmət haqqı','service_fee'),
             Boolean::make('Status', 'status'),
             HasMany::make('Kreditlər', 'loans', \App\Nova\Loan::class),
         ];

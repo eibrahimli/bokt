@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Loan;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Database\Eloquent\Builder;
 
 class LoanPolicy
 {
@@ -22,7 +23,7 @@ class LoanPolicy
 
     public function create(User $user)
     {
-        return true;
+        return false;
     }
 
     public function update(User $user, Loan $loan)
@@ -44,6 +45,11 @@ class LoanPolicy
     public function forceDelete(User $user, Loan $loan)
     {
         //
+    }
+
+    public function addTransaction (User $user, Loan $loan): bool
+    {
+        return $loan->loanReports()->active()->count() > 0;
     }
 
 }

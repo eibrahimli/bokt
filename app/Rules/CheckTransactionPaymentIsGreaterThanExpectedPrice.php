@@ -10,7 +10,7 @@ class CheckTransactionPaymentIsGreaterThanExpectedPrice implements Rule
     /**
      * @var LoanReport
      */
-    private $report;
+    public $report;
 
     /**
      * Create a new rule instance.
@@ -30,12 +30,9 @@ class CheckTransactionPaymentIsGreaterThanExpectedPrice implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
-        if($this->report->percentage_remainder > 0) {
-            return $value >= $this->report->totalDept - $this->report->percentage_remainder;
-        }
-        return $value >= $this->report->totalDept;
+        return $value >= $this->report->totalDept - $this->report->percentage_remainder-$this->report->main_remainder;
     }
 
     /**
@@ -43,7 +40,7 @@ class CheckTransactionPaymentIsGreaterThanExpectedPrice implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'Ödəniş məbləği kredit məbləğindən çox və bərabər olmalıdır.';
     }

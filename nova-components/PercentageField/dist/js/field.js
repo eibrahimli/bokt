@@ -431,40 +431,65 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [__WEBPACK_IMPORTED_MODULE_0_laravel_nova__["FormField"], __WEBPACK_IMPORTED_MODULE_0_laravel_nova__["HandlesValidationErrors"]],
+    mixins: [__WEBPACK_IMPORTED_MODULE_0_laravel_nova__["FormField"], __WEBPACK_IMPORTED_MODULE_0_laravel_nova__["HandlesValidationErrors"]],
 
-  props: ['resourceName', 'resourceId', 'field'],
-
-  methods: {
-    /*
-     * Set the initial, internal value for the field.
-     */
-    setInitialValue: function setInitialValue() {
-      this.value = this.field.value || '';
+    props: ['resourceName', 'resourceId', 'field'],
+    data: function data() {
+        return {
+            payload: {}
+        };
     },
 
+    methods: {
+        /*
+         * Set the initial, internal value for the field.
+         */
+        setInitialValue: function setInitialValue() {
+            this.value = this.field.value || '';
+        },
 
-    /**
-     * Fill the given FormData object with the field's internal value.
-     */
-    fill: function fill(formData) {
-      formData.append(this.field.attribute, this.value || '');
+
+        /**
+         * Fill the given FormData object with the field's internal value.
+         */
+        fill: function fill(formData) {
+            formData.append(this.field.attribute, this.value || '');
+        }
+    },
+
+    mounted: function mounted() {
+        var _this = this;
+
+        console.log(this.$parent, 'parnt');
+        var vm = this;
+        Nova.$on('nova-belongsto-depend-product', function (payload) {
+            console.log(payload);
+            vm.$parent.$children.forEach(function (item) {
+                var attribute = item._props.field.attribute;
+                var el = item.$el;
+                var div = document.createElement('div');
+                div.className = 'px-8 flex items-center';
+                switch (attribute) {
+                    case 'month':
+                        div.innerHTML = '\n                          <ul class="flex flex-row gap-8 justify-between list-none">\n                            <li class="border-b rounded p-2 font-bold">Min: ' + payload.value.min_date + '</li>\n                            <li class="border-b rounded p-2 font-bold">Max: ' + payload.value.max_date + '</li>\n                          </ul>\n                      ';
+                        el.append(div);
+                        break;
+                    case 'price':
+                        div.innerHTML = '\n                          <ul class="flex flex-row gap-8 justify-between list-none">\n                            <li class="border-b rounded p-2 font-bold">Min: ' + payload.value.min_price + '</li>\n                            <li class="border-b rounded p-2 font-bold">Max: ' + payload.value.max_price + '</li>\n                          </ul>\n                      ';
+                        el.append(div);
+                        break;
+                }
+            });
+            _this.value = payload.value.percentage;
+            _this.payload = payload.value;
+        });
+    },
+
+    watch: {
+        value: function value(val) {
+            Nova.$emit('percentage-change', [val, this.payload]);
+        }
     }
-  },
-
-  mounted: function mounted() {
-    var _this = this;
-
-    Nova.$on('nova-belongsto-depend-product', function (payload) {
-      _this.value = payload.value.percentage;
-    });
-  },
-
-  watch: {
-    value: function value(val) {
-      Nova.$emit('percentage-change', val);
-    }
-  }
 });
 
 /***/ }),

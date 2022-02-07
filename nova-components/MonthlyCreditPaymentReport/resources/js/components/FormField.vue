@@ -42,7 +42,7 @@
                             </td>
                             <td class="px-6 text-center py-4">
                                 <div class="text-sm text-gray-900">
-                                    {{ 'Yoxdur' }}
+                                    {{ rep.service_fee  }}
                                 </div>
                             </td>
                             <td class="px-6 text-center py-4">
@@ -93,8 +93,14 @@ export default {
             formData.append(this.field.attribute, this.value || '')
         },
 
-        handleRequest(type, data) {
+        handleRequest(type, data, payload = null) {
             this.data[type] = data
+
+            if(payload.service_fee) {
+                console.log('Payload',payload)
+                this.data['service_fee'] = payload.service_fee
+            }
+
         },
         checkProperties(obj) {
             for (let key in obj) {
@@ -107,10 +113,11 @@ export default {
     },
 
     mounted() {
-
         if(this.value) {
             let vm = this
             let $children = this.$parent.$parent.$parent.$children[1].$children[1].$children
+
+            console.log($children)
 
             $children.forEach($child => {
                 let value = $child._props.field.value
@@ -124,13 +131,16 @@ export default {
                     case 'price':
                         vm.data.price = value
                     break;
+                    case 'product':
+                        vm.data.service_fee = $child.value.service_fee
+                    break;
 
                 }
             })
         }
 
         Nova.$on('percentage-change', data => {
-            this.handleRequest('percentage', String(data))
+            this.handleRequest('percentage', String(data[0]), data[1])
         })
         Nova.$on('month-change', data => {
             this.handleRequest('month', data)

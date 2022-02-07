@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Actions\AcceptPayment;
+use App\Nova\Actions\CreateReScheduleLoanAction;
 use App\Nova\Metrics\LoanIsApproved;
 use App\Nova\Metrics\NewLoan;
 use App\Nova\Options\Agriculture;
@@ -13,6 +14,7 @@ use App\Nova\Options\Trade;
 use App\Nova\Options\Transportation;
 use App\Nova\Options\Trick;
 use App\Rules\BooleanHasToBeTrue;
+use App\Rules\CheckLoanDateAndPriceRange;
 use Coroowicaksono\ChartJsIntegration\StackedChart;
 use Eibrahimli\MonthlyCreditPaymentReport\MonthlyCreditPaymentReport;
 use Eibrahimli\PercentageField\PercentageField;
@@ -64,14 +66,21 @@ class Loan extends Resource
 
     public function fields(Request $request): array
     {
+        $product = $request->product ? $this->getProduct($request->product) : null;
         return [
-            ID::make(__('ID'), 'id')->sortable(),
+            ID::make(__('ID'), 'id', function ($value) {
+                return $value.' - '.$this->branch->name;
+            })->sortable(),
             BelongsTo::make('Müştəri','customer', Customer::class),
             NovaBelongsToDepend::make('Məhsulun adı', 'product', Product::class)
                 ->options(\App\Models\Product::all()),
             PercentageField::make('Faiz', 'percentage')->readonly(),
-            Number::make('Müddət (Ay)', 'month'),
-            Currency::make('Qiymət', 'price')->currency('AZN'),
+            Number::make('Müddət (Ay)', 'month')->rules([
+                'required', 'integer',$product ? new CheckLoanDateAndPriceRange($product, 'month') : ''
+            ]),
+            Currency::make('Məbləğ', 'price')->rules([
+                'required', 'integer',$product ? new CheckLoanDateAndPriceRange($product, 'price') : ''
+            ])->currency('AZN'),
             Currency::make('Ümumi ödəniləcək məbləğ','whole_payable_balance')
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
@@ -80,7 +89,15 @@ class Loan extends Resource
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->currency('AZN'),
-            new Panel('Kreditin ay ba ay hesabatı', [
+
+            Currency::make('Qalıq borc',function () {
+                return $this->whole_payable_balance - $this->payed_balance;
+            })
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->currency('AZN'),
+
+            new Panel('Kreditin aylıq hesabatı', [
                 MonthlyCreditPaymentReport::make('credit_report')->hideFromIndex(),
             ]),
             new Panel('Müştərinin biznes sahəsi', [
@@ -157,7 +174,13 @@ class Loan extends Resource
     {
         return [
             (new DownloadExcel())->withFilename('Kreditlər'.time().'xlsx')->withHeadings()->allFields(),
+
+            new CreateReScheduleLoanAction($this->model()),
 //            new AcceptPayment()
         ];
+    }
+
+    protected function getProduct($id) {
+        return \App\Models\Product::find($id);
     }
 }

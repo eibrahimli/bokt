@@ -78,4 +78,9 @@ class Loan extends Model
     {
         return $this->hasMany(LoanReport::class);
     }
+
+    public function branch(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
+    }
 }

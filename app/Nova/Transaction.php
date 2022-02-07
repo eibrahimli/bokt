@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Helpers\TransactionHelper;
 use App\Models\LoanReport;
 use App\Nova\Metrics\NewTransaction;
 use App\Rules\CheckTransactionPaymentIsGreaterThanExpectedPrice;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
@@ -44,6 +46,11 @@ class Transaction extends Resource
         return 'Ödənişlər';
     }
 
+    public static function redirectAfterCreate(NovaRequest $request, $resource): string
+    {
+        return '/resources/loans/'.$resource->model()->loan->id.'-'.$resource->model()->loan->branch->name;
+    }
+
     public function fields(Request $request): array
     {
 
@@ -53,15 +60,17 @@ class Transaction extends Resource
 
                 $allReportRelatedLoan = $this->getReport($request->viaResourceId);
 
-                if(!isset($request->editMode) || !isset($allReportRelatedLoan)) return $val;
+                if(!isset($request->editMode) || !isset($allReportRelatedLoan)) return $val + @$allReportRelatedLoan->service_fee;
 
-                if($allReportRelatedLoan->percentage_remainder > 0) {
-                   return (float) $allReportRelatedLoan->totalDept - $allReportRelatedLoan->percentage_remainder;
+                if($allReportRelatedLoan->percentage_remainder > 0 || $allReportRelatedLoan->main_remainder > 0) {
+                   return (float) $allReportRelatedLoan->totalDept - $allReportRelatedLoan->percentage_remainder - $allReportRelatedLoan->main_remainder;
                 }
 
-                return $allReportRelatedLoan->totalDept;
+                return $allReportRelatedLoan->totalDept + $allReportRelatedLoan->service_fee;
             })->readonly(),
-            Text::make('Məbləğ','price')->rules(new CheckTransactionPaymentIsGreaterThanExpectedPrice($this->getReport($request->viaResourceId))),
+            Text::make('Məbləğ','price')->rules(
+                new CheckTransactionPaymentIsGreaterThanExpectedPrice($this->getReport(explode('-',$request->viaResourceId)[0]))
+            ),
             Boolean::make('Digər vətandaş tərəfindən ödəniş', 'is_civil'),
             NovaDependencyContainer::make(array(
                 Text::make("Ad", 'name')->sortable(),
@@ -72,16 +81,16 @@ class Transaction extends Resource
             ))->dependsOn('is_civil', 1),
 
             Text::make("Əsas məbləğ üzrə", 'main_price', function ($val) use($request) {
-                $allReportRelatedLoan = $this->getReport($request->viaResourceId);
+                $allReportRelatedLoan = $this->getReport(explode('-',$request->viaResourceId)[0]);
 
                 if(!isset($request->editMode) || !isset($allReportRelatedLoan)) return $val;
 
-                return $allReportRelatedLoan->mainDept ?? $val;
+                return round($allReportRelatedLoan->mainDept-$allReportRelatedLoan->main_remainder,2) ?? $val;
             })
                 ->readonly()
                 ->sortable(),
             Text::make("Marağ faizi üzrə", 'interested_price', function ($val) use($request) {
-                $allReportRelatedLoan = $this->getReport($request->viaResourceId);
+                $allReportRelatedLoan = $this->getReport(explode('-',$request->viaResourceId)[0]);
 
                 if(!isset($request->editMode) || !isset($allReportRelatedLoan)) return $val;
 
@@ -92,9 +101,10 @@ class Transaction extends Resource
             })
                 ->readonly()
                 ->sortable(),
-            Text::make("Hesablanmış cərimə", 'calculated_price', fn() => 0)
+            Text::make("Hesablanmış cərimə", 'calculated_price', fn() => TransactionHelper::calculatePenalty($this->getReport(explode('-',$request->viaResourceId)[0])))
                 ->readonly()
                 ->sortable(),
+            Date::make('Ödəniş tarixi','created_at')->readonly(),
             BelongsTo::make('İstifadəçi', 'user', User::class)->default(function () {
                 return Auth::id();
             })->displayUsing(function () { return Auth::user()->name .' '.Auth::user()->surname; })->readonly(),

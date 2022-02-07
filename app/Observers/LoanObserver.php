@@ -14,11 +14,15 @@ class LoanObserver
     {
         $loan->user_id = Auth::id();
         $loan->percentage = $loan->product->percentage;
+        $loan->branch_id = Auth::user()->branch->id;
 
-        $report = (new \App\Helpers\CreditHelper($loan->month,$loan->price,$loan->percentage))->getFormatedData();
+        $report = (new \App\Helpers\CreditHelper($loan->month,$loan->price,$loan->percentage,$loan->product->service_fee))->getFormatedData();
 
         $loan->loanReports()->createMany($report);
-        $loan->whole_payable_balance = array_sum(array_column($report, 'totalDept'));
+
+        $loan->credit_report = $loan->loanReports;
+
+        $loan->whole_payable_balance = collect($report)->sum('totalDept') + $report[0]['service_fee'];
 
         // Hesablardan məbləği çıx
         $accounts = Account::first();
@@ -29,22 +33,24 @@ class LoanObserver
         $loan->saveQuietly();
 
     }
-//    public function creating(Loan $loan)
-//    {
-//        $loan->unsetEventDispatcher();
-//        $loan->percentage = $loan->product->percentage;
-//    }
 
     public function updated(Loan $loan)
     {
-        $loan->user_id = Auth::id();
-
+        if($loan->transactions()->count() == 0):
         $loan->loanReports()->delete();
 
         $report = (new \App\Helpers\CreditHelper($loan->month,$loan->price,$loan->percentage))->getFormatedData();
 
         $loan->loanReports()->createMany($report);
-        $loan->whole_payable_balance = array_sum(array_column($report, 'totalDept'));
+        $loan->credit_report = $loan->loanReports;
+
+        $loan->whole_payable_balance = collect($report)->sum('totalDept') + $report[0]['service_fee'];
+
+        $loan->saveQuietly();
+
+        endif;
+
+        $loan->credit_report = $loan->loanReports;
 
         $loan->saveQuietly();
 

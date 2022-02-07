@@ -386,6 +386,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['resource', 'resourceName', 'resourceId', 'field'],
@@ -452,7 +460,7 @@ var render = function() {
                       _c("div", { staticClass: "text-sm text-gray-900" }, [
                         _vm._v(
                           "\n                                " +
-                            _vm._s("Yoxdur") +
+                            _vm._s(rep.service_fee) +
                             "\n                            "
                         )
                       ])
@@ -463,6 +471,16 @@ var render = function() {
                         _vm._v(
                           "\n                                " +
                             _vm._s(rep.totalDept) +
+                            "\n                            "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "px-6 text-center py-4" }, [
+                      _c("div", { staticClass: "text-sm text-gray-900" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(rep.paid ? "Ödənilib" : "Ödənilməyib") +
                             "\n                            "
                         )
                       ])
@@ -509,6 +527,12 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
           _vm._v("\n                            Cəm\n                        ")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "px-6 py-2 text-xs text-gray-500" }, [
+          _vm._v(
+            "\n                            Ödəmə statusu\n                        "
+          )
         ])
       ])
     ])
@@ -675,11 +699,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             formData.append(this.field.attribute, this.value || '');
         },
         handleRequest: function handleRequest(type, data) {
+            var payload = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
             this.data[type] = data;
+
+            if (payload.service_fee) {
+                console.log('Payload', payload);
+                this.data['service_fee'] = payload.service_fee;
+            }
         },
         checkProperties: function checkProperties(obj) {
             for (var key in obj) {
-                if (obj[key] === null || obj[key].trim() === '' || obj[key] === '0') {
+                if (obj[key] === null || obj[key] === '0') {
                     return false;
                 }
             }
@@ -690,8 +721,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
+        if (this.value) {
+            var vm = this;
+            var $children = this.$parent.$parent.$parent.$children[1].$children[1].$children;
+
+            console.log($children);
+
+            $children.forEach(function ($child) {
+                var value = $child._props.field.value;
+                switch ($child._props.field.attribute) {
+                    case 'percentage':
+                        vm.data.percentage = value;
+                        break;
+                    case 'month':
+                        vm.data.month = value;
+                        break;
+                    case 'price':
+                        vm.data.price = value;
+                        break;
+                    case 'product':
+                        vm.data.service_fee = $child.value.service_fee;
+                        break;
+
+                }
+            });
+        }
+
         Nova.$on('percentage-change', function (data) {
-            _this.handleRequest('percentage', String(data));
+            _this.handleRequest('percentage', String(data[0]), data[1]);
         });
         Nova.$on('month-change', function (data) {
             _this.handleRequest('month', data);
@@ -27076,7 +27133,7 @@ var render = function() {
             _c(
               "tbody",
               { staticClass: "bg-white divide-y divide-gray-300" },
-              _vm._l(_vm.reports[0], function(rep, index) {
+              _vm._l(JSON.parse(_vm.value), function(rep, index) {
                 return _c(
                   "tr",
                   { key: index, staticClass: "whitespace-nowrap" },
@@ -27115,7 +27172,7 @@ var render = function() {
                       _c("div", { staticClass: "text-sm text-gray-900" }, [
                         _vm._v(
                           "\n                                " +
-                            _vm._s("Yoxdur") +
+                            _vm._s(rep.service_fee) +
                             "\n                            "
                         )
                       ])
