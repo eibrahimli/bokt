@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Helpers\LoanHelper;
 use App\Models\Account;
 use App\Models\Loan;
 use App\Models\LoanReport;
@@ -21,14 +22,28 @@ class TransactionObserver
         if(($loanReport->totalDept - $loanReport->percentage_remainder - $loanReport->main_remainder) + ($service_fee ?? 0) == $transaction->price) {
             $loanReport->paid = true;
             $loanReport->paid_at = now();
-            $loan->payed_balance += $transaction->price;
+
+            if($loan->rescheduled):
+                $loan->rescheduled_payed_balance += $transaction->price;
+            else:
+
+                $loan->payed_balance += $transaction->price;
+            endif;
 
             $loanReport->saveQuietly();
 
         } elseif (($loanReport->totalDept - $loanReport->percentage_remainder - $loanReport->main_remainder) + ($service_fee ?? 0) < $transaction->price) {
             $loanReport->paid = true;
             $loanReport->paid_at = now();
-            $loan->payed_balance += $transaction->price;
+
+            // Add transaction price to loan payed balance
+            if($loan->rescheduled):
+                $loan->rescheduled_payed_balance += $transaction->price;
+            else:
+
+                $loan->payed_balance += $transaction->price;
+            endif;
+
             $loan->saveQuietly();
             $loanReport->saveQuietly();
 
@@ -37,7 +52,21 @@ class TransactionObserver
             $this->handleLoanReport($loanReport,$transaction, $price);
         }
 
-        $loan->credit_report = $loan->loanReports;
+        if($loan->rescheduled):
+
+            $loan->rescheduled_report = $loan->loanReports;
+        else:
+
+            $loan->current_main_price = LoanHelper::findMainDept($loan);
+            $loan->credit_report = $loan->loanReports;
+        endif;
+
+        // Əgər kreditin ödənməmiş reportu varsa bağla krediti və ödənmiş kimi göstər
+
+        if($loan->loanReports->count() === 0):
+            $loan->closed = true;
+        endif;
+
         $loan->saveQuietly();
 
         // Hesablardan məbləği çıx
@@ -85,7 +114,7 @@ class TransactionObserver
                     $loanNext->percentage_remainder = $loanNext->percentDept;
                     $loanNext->saveQuietly();
                 else:
-                    $loanNext->percentage_remainder = $loanNext->percentDept - $price;
+                    $loanNext->percentage_remainder = $price;
                     $loanNext->saveQuietly();
                 endif;
             endif;

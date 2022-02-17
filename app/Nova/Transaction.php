@@ -48,7 +48,7 @@ class Transaction extends Resource
 
     public static function redirectAfterCreate(NovaRequest $request, $resource): string
     {
-        return '/resources/loans/'.$resource->model()->loan->id.'-'.$resource->model()->loan->branch->name;
+        return '/resources/loans/'.$resource->model()->loan->id;
     }
 
     public function fields(Request $request): array
@@ -69,7 +69,7 @@ class Transaction extends Resource
                 return $allReportRelatedLoan->totalDept + $allReportRelatedLoan->service_fee;
             })->readonly(),
             Text::make('Məbləğ','price')->rules(
-                new CheckTransactionPaymentIsGreaterThanExpectedPrice($this->getReport(explode('-',$request->viaResourceId)[0]))
+                new CheckTransactionPaymentIsGreaterThanExpectedPrice($this->getReport($request->viaResourceId))
             ),
             Boolean::make('Digər vətandaş tərəfindən ödəniş', 'is_civil'),
             NovaDependencyContainer::make(array(
@@ -81,7 +81,7 @@ class Transaction extends Resource
             ))->dependsOn('is_civil', 1),
 
             Text::make("Əsas məbləğ üzrə", 'main_price', function ($val) use($request) {
-                $allReportRelatedLoan = $this->getReport(explode('-',$request->viaResourceId)[0]);
+                $allReportRelatedLoan = $this->getReport($request->viaResourceId);
 
                 if(!isset($request->editMode) || !isset($allReportRelatedLoan)) return $val;
 
@@ -90,7 +90,7 @@ class Transaction extends Resource
                 ->readonly()
                 ->sortable(),
             Text::make("Marağ faizi üzrə", 'interested_price', function ($val) use($request) {
-                $allReportRelatedLoan = $this->getReport(explode('-',$request->viaResourceId)[0]);
+                $allReportRelatedLoan = $this->getReport($request->viaResourceId);
 
                 if(!isset($request->editMode) || !isset($allReportRelatedLoan)) return $val;
 
@@ -101,11 +101,14 @@ class Transaction extends Resource
             })
                 ->readonly()
                 ->sortable(),
-            Text::make("Hesablanmış cərimə", 'calculated_price', fn() => TransactionHelper::calculatePenalty($this->getReport(explode('-',$request->viaResourceId)[0])))
+            Text::make("Hesablanmış cərimə", 'calculated_price', fn() => TransactionHelper::calculatePenalty($this->getReport($request->viaResourceId)))
                 ->readonly()
                 ->sortable(),
-            Date::make('Ödəniş tarixi','created_at')->readonly(),
-            BelongsTo::make('İstifadəçi', 'user', User::class)->default(function () {
+            Text::make('Ödəməli olduğu tarix')->withMeta([
+                'value' => $this->getReport($request->viaResourceId)->shouldPay
+            ])->readonly(),
+            Date::make('Ödəniş tarixi','created_at')->exceptOnForms()->readonly(),
+            BelongsTo::make('Kassir', 'user', User::class)->default(function () {
                 return Auth::id();
             })->displayUsing(function () { return Auth::user()->name .' '.Auth::user()->surname; })->readonly(),
             BelongsTo::make('Kredit', 'loan', Loan::class),

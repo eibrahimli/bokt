@@ -9,6 +9,7 @@ use App\Models\Options\Service;
 use App\Models\Options\Trade;
 use App\Models\Options\Transportation;
 use App\Models\Options\Trick;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -82,5 +83,15 @@ class Loan extends Model
     public function branch(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public static function scopeActive($query) {
+        $query->where('status', true);
+
+        return $query;
+    }
+
+    public static function scopeUnclosed($query) {
+        return $query->where('closed', 0);
     }
 }

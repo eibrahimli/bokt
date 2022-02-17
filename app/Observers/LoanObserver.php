@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Helpers\LoanHelper;
 use App\Models\Account;
 use App\Models\Loan;
 use Illuminate\Support\Arr;
@@ -21,6 +22,7 @@ class LoanObserver
         $loan->loanReports()->createMany($report);
 
         $loan->credit_report = $loan->loanReports;
+        $loan->current_main_price = LoanHelper::findMainDept($loan);
 
         $loan->whole_payable_balance = collect($report)->sum('totalDept') + $report[0]['service_fee'];
 

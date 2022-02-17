@@ -28,7 +28,7 @@ class NewFieldsToTables extends Migration
     public function down()
     {
         Schema::table('loans', function (Blueprint $table) {
-            //
+            $table->dropColumn(['whole_percentage_price','current_main_price','current_percentage_price']);
         });
     }
 }

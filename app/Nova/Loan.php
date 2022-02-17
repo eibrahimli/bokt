@@ -2,7 +2,9 @@
 
 namespace App\Nova;
 
+use App\Helpers\LoanHelper;
 use App\Nova\Actions\AcceptPayment;
+use App\Nova\Actions\CloseLoan;
 use App\Nova\Actions\CreateReScheduleLoanAction;
 use App\Nova\Metrics\LoanIsApproved;
 use App\Nova\Metrics\NewLoan;
@@ -50,6 +52,11 @@ class Loan extends Resource
         'id'
     ];
 
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->active()->unclosed();
+    }
+
     public static $searchRelations = [
         'customer' => ['id','name', 'surname', 'fin']
     ];
@@ -68,38 +75,63 @@ class Loan extends Resource
     {
         $product = $request->product ? $this->getProduct($request->product) : null;
         return [
-            ID::make(__('ID'), 'id', function ($value) {
-                return $value.' - '.$this->branch->name;
-            })->sortable(),
+            ID::make(__('ID'), 'id')->sortable(),
+            Text::make(__('Filial'), function () {
+                return $this->id.' - '.$this->branch->name;
+            })->exceptOnForms()->sortable(),
+
             BelongsTo::make('Müştəri','customer', Customer::class),
             NovaBelongsToDepend::make('Məhsulun adı', 'product', Product::class)
                 ->options(\App\Models\Product::all()),
-            PercentageField::make('Faiz', 'percentage')->readonly(),
-            Number::make('Müddət (Ay)', 'month')->rules([
-                'required', 'integer',$product ? new CheckLoanDateAndPriceRange($product, 'month') : ''
-            ]),
-            Currency::make('Məbləğ', 'price')->rules([
-                'required', 'integer',$product ? new CheckLoanDateAndPriceRange($product, 'price') : ''
-            ])->currency('AZN'),
-            Currency::make('Ümumi ödəniləcək məbləğ','whole_payable_balance')
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
-                ->currency('AZN'),
-            Currency::make('Ödənilən məbləğ','payed_balance')
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
-                ->currency('AZN'),
 
-            Currency::make('Qalıq borc',function () {
-                return $this->whole_payable_balance - $this->payed_balance;
-            })
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
-                ->currency('AZN'),
+            Tabs::make('Cədvəllər',array_merge([
+                    new Panel('İlkin Cədvəl', [
+                        PercentageField::make('Faiz', 'percentage')
+                            ->hideFromIndex($this->rescheduled)
+                            ->readonly(),
+                        Number::make('Müddət (Ay)', 'month')->rules([
+                            'required', 'integer',$product ? new CheckLoanDateAndPriceRange($product, 'month') : ''
+                        ])->hideFromIndex($this->rescheduled),
+                        Currency::make('Məbləğ', 'price')->rules([
+                            'required', 'integer',$product ? new CheckLoanDateAndPriceRange($product, 'price') : ''
+                        ])->hideFromIndex($this->rescheduled)->currency('AZN'),
+                        Currency::make('Ümumi ödəniləcək məbləğ','whole_payable_balance')
+                            ->hideWhenCreating()
+                            ->hideWhenUpdating()
+                            ->hideFromIndex($this->rescheduled)
+                            ->currency('AZN'),
+                        Currency::make('Ödənilən məbləğ','payed_balance')
+                            ->hideWhenCreating()
+                            ->hideWhenUpdating()
+                            ->hideFromIndex($this->rescheduled)
+                            ->currency('AZN'),
 
-            new Panel('Kreditin aylıq hesabatı', [
-                MonthlyCreditPaymentReport::make('credit_report')->hideFromIndex(),
-            ]),
+                        Currency::make('Qalıq borc',function () {
+                            return $this->whole_payable_balance - $this->payed_balance;
+                        })
+                            ->hideWhenCreating()
+                            ->hideWhenUpdating()
+                            ->hideFromIndex($this->rescheduled)
+                            ->currency('AZN'),
+
+                        Currency::make('Qalıq əsas məbləğ','current_main_price')
+                            ->hideWhenCreating()
+                            ->hideWhenUpdating()
+                            ->hideFromIndex($this->rescheduled)
+                            ->currency('AZN'),
+
+                        MonthlyCreditPaymentReport::make('credit_report')->hideFromIndex(),
+                    ]),
+
+                ], @$this->rescheduled ? [
+                    new Panel('Yeni Cədvəl',array_merge($this->reScheduledFields($request),[
+                        MonthlyCreditPaymentReport::make('rescheduled_report')
+                            ->hideFromIndex()
+                            ->hideWhenUpdating()
+                            ->hideWhenCreating(),
+                    ])
+                ),
+            ] : [])),
             new Panel('Müştərinin biznes sahəsi', [
 
                 BelongsTo::make('İstehlak', 'consumption', Consumption::class)
@@ -176,11 +208,42 @@ class Loan extends Resource
             (new DownloadExcel())->withFilename('Kreditlər'.time().'xlsx')->withHeadings()->allFields(),
 
             new CreateReScheduleLoanAction($this->model()),
+            new CloseLoan($this->model()),
 //            new AcceptPayment()
         ];
     }
 
     protected function getProduct($id) {
         return \App\Models\Product::find($id);
+    }
+
+    protected function reScheduledFields($request) {
+        return [
+            PercentageField::make('Faiz', 'percentage')->readonly(),
+            Number::make('Müddət (Ay)', 'rescheduled_month')->showOnIndex($this->rescheduled)->exceptOnForms(),
+            Currency::make('Məbləğ', 'rescheduled_price')
+                ->exceptOnForms()
+                ->currency('AZN'),
+            Currency::make('Ümumi ödəniləcək məbləğ','rescheduled_whole_payable_balance')
+                ->exceptOnForms()
+                ->currency('AZN'),
+            Currency::make('Ödənilən məbləğ','rescheduled_payed_balance')
+                ->exceptOnForms()
+                ->currency('AZN'),
+
+            Currency::make('Qalıq borc',function () {
+                return $this->rescheduled_whole_payable_balance - $this->rescheduled_payed_balance;
+            })
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->currency('AZN'),
+
+            Currency::make('Qalıq əsas məbləğ',function () {
+                return LoanHelper::findMainDept($this->model());
+            })
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->currency('AZN'),
+        ];
     }
 }
