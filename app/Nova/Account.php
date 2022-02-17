@@ -21,7 +21,11 @@ class Account extends Resource
      *
      * @var string
      */
-    public static $title = 'name';
+
+    public function title()
+    {
+        return "{$this->name} Balans: ".floatval($this->balance);
+    }
 
     public static $group = 'Mühasibatlıq';
 

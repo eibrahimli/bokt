@@ -24,6 +24,11 @@ class Supplier extends Model
         return $this->hasMany('App\Models\Contract', 'supplier_id', 'id');
     }
 
+    public function works(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Models\Work', 'supplier_id', 'id');
+    }
+
     public function expenseOperations(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany('App\Models\ExpenseOperation', 'supplier_id', 'id');

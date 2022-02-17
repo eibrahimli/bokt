@@ -63,17 +63,41 @@ class IncomeOperation extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
+            ID::make(__('ID'), 'id')->sortable(),/*
             BelongsTo::make(__('Alıcı (filial)'), 'branch', Branch::class),
             BelongsTo::make(__('Təchizatçı'), 'supplier', Supplier::class),
-            BelongsTo::make(__('Müqavilə'), 'contract', Contract::class),
-            BelongsTo::make(__('Hesab'), 'account', Account::class),
+            BelongsTo::make(__('Müqavilə'), 'contract', Contract::class),*/
+            BelongsTo::make(__('Hesabdan'), 'accountFrom', Account::class),
+            BelongsTo::make(__('Hesaba'), 'accountTo', Account::class),
+            BelongsTo::make(__('Müxabirləşmə (Debet)'), 'debetAccount', DcAccount::class)->showCreateRelationButton(),
+            BelongsTo::make(__('Müxabirləşmə (Kredit)'), 'creditAccount', DcAccount::class)->showCreateRelationButton(),
             Text::make(__("Ödəniş məbləği"),"price"),
-            Text::make(__("Debet"),"debet"),
-            Text::make(__("Credit"),"Credit"),
             Date::make(__("Ödəniş tarixi"),"payment_date"),
 /*            Text::make(__("Ödəniş metodu"),"operation_method"),*/
             Text::make(__("Ödəniş təyinatı"),"purpose_payment"),
+            DynamicSelect::make('Təchizatçı(Şirkət)', 'supplier_id')
+                ->options(\App\Models\Supplier::pluck("name","id")->all()),
+            //->rules('required'),
+
+            DynamicSelect::make('Filial', 'branch_id')
+                ->options(\App\Models\Branch::pluck("name","id")->all()),
+            //->rules('required'),
+
+            DynamicSelect::make('Müqavilə', 'work_id')
+                ->dependsOn(['supplier_id', 'branch_id'])
+                ->options(function($values) {
+                    $contracts = \App\Models\Work::whereNull("deleted_at");
+                    if(isset($values["supplier_id"])){
+                        $contracts = $contracts->where("supplier_id",$values["supplier_id"]);
+                    }
+
+                    if(isset($values["branch_id"])){
+                        $contracts = $contracts->where("branch_id",$values["branch_id"]);
+                    }
+
+                    $contracts =  $contracts->pluck("contract_number","id");
+                    return $contracts;
+                }),
         ];
     }
 

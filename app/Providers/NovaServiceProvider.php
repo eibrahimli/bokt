@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Nycode\Trialbalance\Trialbalance;
 use SaintSystems\Nova\ResourceGroupMenu\ResourceGroupMenu;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -122,7 +123,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools(): array
     {
         return [
-            new ResourceGroupMenu
+            new ResourceGroupMenu,
+            new Trialbalance()
         ];
     }
 

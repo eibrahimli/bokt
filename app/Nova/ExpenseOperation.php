@@ -8,10 +8,17 @@ use App\Nova\Filters\ContractSupplierFilter;
 use App\Nova\Filters\CreditFilter;
 use App\Nova\Filters\DebetFilter;
 use App\Nova\Metrics\ExpenseOperationsSum;
+use Codebykyle\CalculatedField\BroadcasterField;
+use Codebykyle\CalculatedField\ListenerField;
+use Eibrahimli\CalculationField\CalculationField;
+use Eibrahimli\CustomTotalField\CustomTotalField;
+use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use NrmlCo\NovaBigFilter\NovaBigFilter;
@@ -64,16 +71,66 @@ class ExpenseOperation extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make(__('Alıcı (filial)'), 'branch', Branch::class),
+            /*BelongsTo::make(__('Alıcı (filial)'), 'branch', Branch::class),
             BelongsTo::make(__('Təchizatçı'), 'supplier', Supplier::class),
-            BelongsTo::make(__('Müqavilə'), 'contract', Contract::class),
-            Text::make(__("Ödəniş məbləği"),"price"),
+            BelongsTo::make(__('Müqavilə'), 'work', Work::class),*/
+
+            DynamicSelect::make('Təchizatçı(Şirkət)', 'supplier_id')
+                ->options(\App\Models\Supplier::pluck("name","id")->all()),
+            //->rules('required'),
+
+            DynamicSelect::make('Filial', 'branch_id')
+                ->options(\App\Models\Branch::pluck("name","id")->all()),
+            //->rules('required'),
+
+            DynamicSelect::make('Müqavilə', 'work_id')
+                ->dependsOn(['supplier_id', 'branch_id'])
+                ->options(function($values) {
+                    $contracts = \App\Models\Work::whereNull("deleted_at");
+                    if(isset($values["supplier_id"])){
+                        $contracts = $contracts->where("supplier_id",$values["supplier_id"]);
+                    }
+
+                    if(isset($values["branch_id"])){
+                        $contracts = $contracts->where("branch_id",$values["branch_id"]);
+                    }
+
+                    $contracts =  $contracts->pluck("contract_number","id");
+                    return $contracts;
+                }),
+
+/*            Text::make(__("Ödəniş məbləği"),"price"),
             Text::make(__("ƏDV dərəcəsi"),"edv_percent"),
-            Text::make(__("ƏDV məbləği"),"edv_price"),
-            Text::make(__("Debet"),"debet"),
-            Text::make(__("Credit"),"Credit"),
+            Text::make(__("ƏDV məbləği"),"edv_price"),*/
+
+
+            BroadcasterField::make('Ödəniş məbləği', 'price'),
+            BroadcasterField::make('ƏDV dərəcəsi', 'edv_percent'),
+
+         /*   ListenerField::make('ƏDV məbləği', 'edv_price')
+                ->calculateWith(function (Collection $values) {
+                    $subtotal = $values->get('price');
+                    $tax = $values->get('edv_percent');
+                    return floatval((($subtotal*$tax)/100));
+                }),*/
+
+            ListenerField::make('Ümumi məbləğ', 'total_price')
+                ->calculateWith(function (Collection $values) {
+                    $subtotal = $values->get('price');
+                    $tax = $values->get('edv_percent');
+                    return floatval(($subtotal + ($subtotal*$tax)/100));
+                }),
+            BelongsTo::make(__('Hesab'), 'account', Account::class),
+
+            BelongsTo::make(__('Müxabirləşmə (Debet)'), 'debetAccount', DcAccount::class)->showCreateRelationButton(),
+            BelongsTo::make(__('Müxabirləşmə (Kredit)'), 'creditAccount', DcAccount::class)->showCreateRelationButton(),
+
             Date::make(__("Ödəniş tarixi"),"payment_date"),
-            Text::make(__("Ödəniş metodu"),"operation_method"),
+/*            Text::make(__("Ödəniş metodu"),"operation_method"),*/
+            Select::make(__("Ödəniş metodu"),"operation_method")->options([
+                '0' => 'Nəğd',
+                '1' => 'Bank hesabı',
+            ])->displayUsingLabels(),
             Text::make(__("Ödəniş təyinatı"),"purpose_payment"),
         ];
     }

@@ -4,6 +4,8 @@ namespace App\Nova;
 
 use App\Nova\Filters\ContractBrachFilter;
 use App\Nova\Filters\ContractFilter;
+use App\Nova\Filters\ContractNumberFilter;
+use App\Nova\Filters\ContractPriceFilter;
 use App\Nova\Filters\ContractSupplierFilter;
 use App\Nova\Metrics\WorksMetrics;
 use Eibrahimli\EdvCalculation\EdvCalculation;
@@ -27,18 +29,18 @@ class Work extends Resource
 {
     public static $model = \App\Models\Work::class;
 
-    public static $title = 'id';
+    public static $title = 'contract_number';
 
     public static $group = 'Mühasibatlıq';
 
     public static function label(): string
     {
-        return 'İş və xidmətlər';
+        return 'Müqavilələr';
     }
 
     public static function singularLabel(): string
     {
-        return 'İş və xidmət';
+        return 'Müqavilələr';
     }
 
     public static $search = [
@@ -49,13 +51,15 @@ class Work extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make(__('Müqavilə'), 'contract', Contract::class),
-
+            BelongsTo::make(__('Alıcı (filial)'), 'branch', Branch::class)->showCreateRelationButton(),
+            BelongsTo::make(__('Təchizatçı'), 'supplier', Supplier::class)->showCreateRelationButton(),
+            Text::make(__("Müqavilə Nömrəsi"),"contract_number"),
+            Date::make(__("Müqavilə tarixi"),"contract_date"),
+            Date::make(__("Müqavilə başlayır"),"contract_begin"),
+            Date::make(__("Müqavilə bitir"),"contract_end"),
             Text::make(__("Hesab Faktura Nömrəsi"),"invoice_number"),
-            Text::make(__("EQF Nömrəsi"),"einvoice_number"),
-            Date::make(__("EQF Tarixi"),"einvoice_date"),
             Boolean::make("Status","status")->trueValue('1')->falseValue( '0'),
-            NestedForm::make('WorkInner')->heading('İş və xidmət yarat'),
+            NestedForm::make('WorkInner')->heading('İş və xidmət siyahısı')->rules("required")->min(1),
             HasMany::make(__('İş və xidmətlər'), 'workInner', WorkInner::class)->onlyOnDetail(),
             new Panel('Ədv Hesabatı', [
                 EdvCalculation::make('Ədv Hesabatı','total_result')->hideFromIndex()
@@ -67,7 +71,7 @@ class Work extends Resource
     {
         return [
 
-            new WorksMetrics(null,$this,"Yeni xidmətlər","new"),
+            new WorksMetrics(null,$this,"Yeni müqavilələr","new"),
             new WorksMetrics(null,$this,"Toplam məbləğ","price"),
             new NovaBigFilter(),
 
@@ -79,7 +83,8 @@ class Work extends Resource
         return [
             new ContractBrachFilter(),
             new ContractSupplierFilter(),
-            new ContractFilter()
+            new ContractNumberFilter(),
+            new ContractPriceFilter()
         ];
     }
 

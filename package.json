@@ -29,7 +29,9 @@
         "build-PercentageField": "cd nova-components/PercentageField && npm run dev",
         "build-PercentageField-prod": "cd nova-components/PercentageField && npm run prod",
         "build-analytics": "cd nova-components/Analytics && npm run dev",
-        "build-analytics-prod": "cd nova-components/Analytics && npm run prod"
+        "build-analytics-prod": "cd nova-components/Analytics && npm run prod",
+        "build-trialbalance": "cd nova-components/Trialbalance && npm run dev",
+        "build-trialbalance-prod": "cd nova-components/Trialbalance && npm run prod"
     },
     "devDependencies": {
         "axios": "^0.21",

@@ -71,7 +71,7 @@ class MainAsset extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
-            DynamicSelect::make('Təchizatçı', 'supplier_id')
+           DynamicSelect::make('Təchizatçı', 'supplier_id')
                 ->options(\App\Models\Supplier::pluck("name","id")->all()),
                 //->rules('required'),
 
@@ -79,23 +79,23 @@ class MainAsset extends Resource
                 ->options(\App\Models\Branch::pluck("name","id")->all()),
                 //->rules('required'),
 
-                       DynamicSelect::make('Müqavilə', 'contract_id')
-                           ->dependsOn(['supplier_id', 'branch_id'])
-                           ->options(function($values) {
-                               $contracts = \App\Models\Contract::whereNull("deleted_at");
-                                if(isset($values["supplier_id"])){
-                                    $contracts = $contracts->where("supplier_id",$values["supplier_id"]);
-                                }
+           DynamicSelect::make('Müqavilə', 'contract_id')
+               ->dependsOn(['supplier_id', 'branch_id'])
+               ->options(function($values) {
+                   $contracts = \App\Models\Contract::whereNull("deleted_at");
+                    if(isset($values["supplier_id"])){
+                        $contracts = $contracts->where("supplier_id",$values["supplier_id"]);
+                    }
 
-                                if(isset($values["branch_id"])){
-                                    $contracts = $contracts->where("branch_id",$values["branch_id"]);
-                                }
+                    if(isset($values["branch_id"])){
+                        $contracts = $contracts->where("branch_id",$values["branch_id"]);
+                    }
 
-                               $contracts =  $contracts->pluck("contract_number","id");
-                                return $contracts;
+                   $contracts =  $contracts->pluck("contract_number","id");
+                    return $contracts;
 
-                           }),
-                           //->rules('required')
+               }),
+               //->rules('required')
 
             BelongsTo::make(__('Müqavilə'), 'contract', Contract::class)->onlyOnIndex(),
             Text::make(__("Hesab Faktura Nömrəsi"),"invoice_number"),

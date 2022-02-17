@@ -42,6 +42,7 @@
         "maatwebsite/laravel-nova-excel": "^1.2",
         "mpdf/mpdf": "^8.0",
         "nrml-co/nova-big-filter": "^1.0",
+        "nycode/trialbalance": "*",
         "optimistdigital/nova-input-filter": "^1.1",
         "optimistdigital/nova-table-field": "^1.0",
         "optimistdigital/nova-tailwind": "^1.1",
@@ -165,6 +166,10 @@
         {
             "type": "path",
             "url": "./nova-components/Analytics"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/Trialbalance"
         }
     ]
 }

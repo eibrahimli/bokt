@@ -20,4 +20,19 @@ class WorkInner extends Model
     {
         return $this->belongsTo('App\Models\AssetCategory', 'type', 'id');
     }
+
+    public function measures(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\Measure', 'measure', 'id');
+    }
+
+    public function debetAccount(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\DcAccount', 'debet', 'id');
+    }
+
+    public function creditAccount(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\DcAccount', 'credit', 'id');
+    }
 }

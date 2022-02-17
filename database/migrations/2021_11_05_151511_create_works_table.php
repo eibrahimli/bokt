@@ -13,15 +13,13 @@ class CreateWorksTable extends Migration
      */
     public function up()
     {
-        Schema::create('works', function (Blueprint $table) {
+        Schema::create('works', function    (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('branch_id')->comment('Alıcının id-si');
             $table->unsignedBigInteger('supplier_id')->comment('Təchizatçının id-si');
             $table->unsignedBigInteger('contract_id')->comment('Müqavilə id-si');
 
             $table->string('invoice_number')->nullable()->comment('Hesab faktura nömrəsi');
-            $table->string('einvoice_number')->nullable()->comment('EQF nömrəsi');
-            $table->dateTime('einvoice_date')->nullable()->comment('EQF Tarixi');
             $table->json('total_result')->nullable()->comment('Umumi qiymət , ədv nəticəsi');
             $table->tinyInteger('status')->comment('Status');
 

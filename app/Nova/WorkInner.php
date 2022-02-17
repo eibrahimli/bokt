@@ -60,14 +60,18 @@ class WorkInner extends Resource
             ID::make(__('ID'), 'id')->sortable(),
             Text::make(__("Adı"),"name"),
             BelongsTo::make(__('Malların iş və xidmətlərin kateqoriyası'), 'assetCategory', AssetCategory::class)->showCreateRelationButton(),
-            Text::make(__("Ölçü vahidi"),"measure"),
+            BelongsTo::make(__('Ölçü vahidi'), 'measures', Measure::class)->showCreateRelationButton(),
+/*            Text::make(__("Ölçü vahidi"),"measure"),*/
             CalculationField::make(__("Miqdar"),"quantity"),
             CalculationField::make(__("Qiyməti"),"unit_price"),
             CustomFieldHelpCalculation::make(__("Məbləği"),"price"),
             CalculationField::make(__("ƏDV"),"edv")->depends(true),
             CustomTotalField::make(__("Tam qiyməti"),"total_price"),
-            Text::make(__("Debet"),"debet"),
-            Text::make(__("Kredit"),"credit"),
+            /*Text::make(__("Debet"),"debet"),
+            Text::make(__("Kredit"),"credit"),*/
+            BelongsTo::make(__('Müxabirləşmə (Debet)'), 'debetAccount', DcAccount::class)->showCreateRelationButton(),
+            BelongsTo::make(__('Müxabirləşmə (Kredit)'), 'creditAccount', DcAccount::class)->showCreateRelationButton(),
+
             BelongsTo::make(__('İş haqqında'), 'work', Work::class),
 
         ];

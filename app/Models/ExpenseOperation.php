@@ -24,13 +24,23 @@ class ExpenseOperation extends Model
         return $this->belongsTo('App\Models\Supplier', 'supplier_id', 'id');
     }
 
-    public function contract(): BelongsTo
+    public function work(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Contract', 'contract_id', 'id');
+        return $this->belongsTo('App\Models\Work', 'contract_id', 'id');
     }
 
     public function account(): BelongsTo
     {
         return $this->belongsTo('App\Models\Account', 'account_id', 'id');
+    }
+
+    public function debetAccount(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\DcAccount', 'debet', 'id');
+    }
+
+    public function creditAccount(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\DcAccount', 'credit', 'id');
     }
 }

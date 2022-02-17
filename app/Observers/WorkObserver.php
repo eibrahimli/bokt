@@ -3,7 +3,10 @@
 namespace App\Observers;
 
 use App\Models\Contract;
+use App\Models\Supplier;
 use App\Models\Work;
+use App\Models\WorkInner;
+use App\Nova\Registry;
 
 class WorkObserver
 {
@@ -18,15 +21,38 @@ class WorkObserver
         //
         $branch_id = 0;
         $supplier_id = 0;
-        if($work->contract_id > 0){
-            $contract = Contract::find($work->contract_id);
-            if($contract!=null){
-                $branch_id = $contract->branch_id;
-                $supplier_id = $contract->supplier_id;
+        $workInner = WorkInner::where("work_id",$work->id)->get();
+
+        if($work->supplier_id > 0){
+            $supplier = Supplier::find($work->supplier_id);
+            if($supplier!=null){
+
+
+                $old_balance = $supplier->rest_amount;
+                $new_balance = $old_balance  +  $work->total_price;
+                $supplier->rest_amount = 112; //$new_balance;
+                $supplier->text = json_encode($workInner);
+                $supplier->save();
             }
         }
-        $work->branch_id = $branch_id;
-        $work->supplier_id = $supplier_id;
+        //dd($work);
+       /*     foreach ($workInner as $inner){
+                $registry = new \App\Models\Registry();
+                $registry->amount = $inner->total_price;
+                $registry->debet = $inner->debet;
+                $registry->credit = $inner->credit;
+                $registry->reg_type = 'WorkInner';
+                $registry->reg_id = $inner->id;
+                $registry->product_id = $inner->type;
+                $registry->product_name = $inner->name;
+                $registry->branch_id = $work->branch_id;
+                $registry->account_id = null;
+                $registry->customer_id = null;
+                $registry->supplier_id = $work->supplier_id;
+                $registry->save();
+            }*/
+
+
     }
 
     /**
