@@ -24,6 +24,8 @@ class DepreciationAccount extends Resource
      */
     public static $title = 'name';
 
+    public static $displayInNavigation = false;
+
     public static $group = 'SEÇİMLƏR';
 
     public static function label(): string

@@ -21,8 +21,10 @@ class DcAccount extends Resource
      *
      * @var string
      */
-    public static $title = 'name';
-
+    public function title()
+    {
+        return $this->code." ".$this->name;
+    }
 
     public static $group = 'SEÇİMLƏR';
 

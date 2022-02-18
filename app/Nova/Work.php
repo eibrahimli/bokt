@@ -52,14 +52,14 @@ class Work extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             BelongsTo::make(__('Alıcı (filial)'), 'branch', Branch::class)->showCreateRelationButton(),
-            BelongsTo::make(__('Təchizatçı'), 'supplier', Supplier::class)->showCreateRelationButton(),
+            BelongsTo::make(__('Kreditor'), 'supplier', Supplier::class)->showCreateRelationButton(),
             Text::make(__("Müqavilə Nömrəsi"),"contract_number"),
             Date::make(__("Müqavilə tarixi"),"contract_date"),
             Date::make(__("Müqavilə başlayır"),"contract_begin"),
             Date::make(__("Müqavilə bitir"),"contract_end"),
             Text::make(__("Hesab Faktura Nömrəsi"),"invoice_number"),
             Boolean::make("Status","status")->trueValue('1')->falseValue( '0'),
-            NestedForm::make('WorkInner')->heading('İş və xidmət siyahısı')->rules("required")->min(1),
+            NestedForm::make(__('İş və xidmətlər'),'WorkInner',WorkInner::class)->heading('İş və xidmət siyahısı')->rules("required")->min(1),
             HasMany::make(__('İş və xidmətlər'), 'workInner', WorkInner::class)->onlyOnDetail(),
             new Panel('Ədv Hesabatı', [
                 EdvCalculation::make('Ədv Hesabatı','total_result')->hideFromIndex()

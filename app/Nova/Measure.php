@@ -24,7 +24,11 @@ class Measure extends Resource
     public static $title = 'name';
 
 
-    public static $group = 'SEÇİMLƏR';
+    public static $displayInNavigation = false;
+
+    public static $group = 'Master Data';
+    public static $subGroup = 'Vendors';
+
 
     public static function label(): string
     {

@@ -50,7 +50,7 @@
         </ul>
     </div>
 </div>
-<div class="list-reset mb-8">
+{{--<div class="list-reset mb-8">
     <div class="leading-wide mb-4">
         <div class="text-white ml-1 no-underline">
             Hesabatlar
@@ -86,13 +86,13 @@
 
         </ul>
     </div>
-</div>
+</div>--}}
 
 <div class="list-reset mb-8">
     <div class="leading-wide mb-4">
-        <div class="text-white ml-1 no-underline">
+        {{--<div class="text-white ml-1 no-underline">
             Mühasibatlıq
-        </div>
+        </div>--}}
         <ul class="list-reset mb-8">
             {{--<div class="py-2">
                 <li class="leading-wide mb-4 ml-8 text-sm">

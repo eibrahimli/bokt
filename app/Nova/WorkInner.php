@@ -25,8 +25,10 @@ class WorkInner extends Resource
      *
      * @var string
      */
-    public static $title = 'name';
-
+    public function title()
+    {
+        return "salam";//$this->name;
+    }
     public static $displayInNavigation = false;
 
     public static function label(): string
