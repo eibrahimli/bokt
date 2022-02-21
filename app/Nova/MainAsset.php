@@ -25,6 +25,8 @@ use Yassi\NestedForm\NestedForm;
 
 class MainAsset extends Resource
 {
+    public static $displayInNavigation = false;
+
     /**
      * The model the resource corresponds to.
      *

@@ -9,6 +9,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Currency extends Resource
 {
+    public static $displayInNavigation = false;
+
     /**
      * The model the resource corresponds to.
      *

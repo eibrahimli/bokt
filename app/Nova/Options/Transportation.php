@@ -6,7 +6,7 @@ use App\Models\Options\CommonResource;
 
 class Transportation extends CommonResource
 {
-    public static $displayInNavigation = true;
+    public static $displayInNavigation = false;
     public static $model = \App\Models\Options\Transportation::class;
 
     public static function singularLabel(): string

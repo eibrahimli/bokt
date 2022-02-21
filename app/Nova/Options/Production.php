@@ -6,7 +6,7 @@ use App\Models\Options\CommonResource;
 
 class Production extends CommonResource
 {
-    public static $displayInNavigation = true;
+    public static $displayInNavigation = false;
     public static $model = \App\Models\Options\Production::class;
 
     public static function singularLabel(): string
