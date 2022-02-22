@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Helpers\LoanHelper;
 use App\Nova\Actions\AcceptPayment;
+use App\Nova\Actions\AcceptServiceFeeForLoan;
 use App\Nova\Actions\CloseLoan;
 use App\Nova\Actions\CreateReScheduleLoanAction;
 use App\Nova\Metrics\LoanIsApproved;
@@ -21,6 +22,7 @@ use Coroowicaksono\ChartJsIntegration\StackedChart;
 use Eibrahimli\MonthlyCreditPaymentReport\MonthlyCreditPaymentReport;
 use Eibrahimli\PercentageField\PercentageField;
 use Eminiarts\Tabs\Tabs;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
@@ -52,7 +54,7 @@ class Loan extends Resource
         'id'
     ];
 
-    public static function indexQuery(NovaRequest $request, $query)
+    public static function indexQuery(NovaRequest $request, $query): Builder
     {
         return $query->active()->unclosed();
     }
@@ -158,8 +160,8 @@ class Loan extends Resource
             ]),
             NestedForm::make('Girovlar', 'collaterals', Collateral::class),
             Tabs::make('Relations', [
-                HasMany::make('Girovlar', 'collaterals', Collateral::class),
                 HasMany::make('Ödənişlər', 'transactions', Transaction::class),
+                HasMany::make('Girovlar', 'collaterals', Collateral::class),
             ]),
 
         ];
@@ -209,6 +211,7 @@ class Loan extends Resource
 
             new CreateReScheduleLoanAction($this->model()),
             new CloseLoan($this->model()),
+            new AcceptServiceFeeForLoan($this->model())
 //            new AcceptPayment()
         ];
     }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "624c6cd514bfec8371cc84a359b892ec",
+    "content-hash": "8afc9d996ff8e227c4a188b9cb111986",
     "packages": [
         {
             "name": "bissolli/nova-phone-field",
@@ -1177,7 +1177,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/PercentageField",
-                "reference": "d805b5a14093e32358f4a6988a6538c2f89b50a9"
+                "reference": "8f3d6c417090aad099030b4aa00a9c7c3a5c6569"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1213,7 +1213,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/BranchsCard",
-                "reference": "fd85eb950bf5c5601273b0a4704b04c32e88325f"
+                "reference": "b675b9dbff0a0e15b11e7594a8404fee2553ce33"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1249,7 +1249,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/CalculationField",
-                "reference": "9726ea18f7a417a07100cc66ae322ae91c431517"
+                "reference": "04abed02215e278f3db57294125af5548d913f3f"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1285,7 +1285,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/ColumnPermissionsField",
-                "reference": "f8147487407bffae3d14ee16d870f55ec5d6fcb7"
+                "reference": "8debc1357e96362eacfb23727a332ee77b2d619b"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1321,7 +1321,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/ContactPhonesFields",
-                "reference": "ac96b9477f1d8d036526d7f27d285bf2217c127c"
+                "reference": "0e406d05826d8a0e502305e337a795935aeaf84f"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1357,7 +1357,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/CustomFieldHelpCalculation",
-                "reference": "767b212afff417e7b08269e03e74f12eb8da5cf1"
+                "reference": "a5dd0816f19903462f970f61a9ead886327a449d"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1393,7 +1393,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/CustomTotalField",
-                "reference": "e2d8027f429e5d42022af13bf5ef138af327b97c"
+                "reference": "04ee670d70754c8f26ca50f2bdaac3564347f144"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1429,7 +1429,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/CustomerLoanField",
-                "reference": "5566855b114c1ae436d7bf917ef7df924b02162f"
+                "reference": "5d9b25423e35c5b9f4d4eb4949a5490fd50722af"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1465,7 +1465,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/EdvCalculation",
-                "reference": "0ef1a801576feb489b9dad627d41e57bd68f8033"
+                "reference": "474e9fdb23940e68674af9649e33aae5cc885080"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1501,7 +1501,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/EdvTool",
-                "reference": "ebb1f78dc84fb1d7bdfd16b8f5675ec1513212b7"
+                "reference": "ee0a9305032f414fa9712e2e1054727d39b89dd6"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1537,7 +1537,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/HiddenField",
-                "reference": "e7423b42618101f6cefd4c4bfff062fc3de5e491"
+                "reference": "d836a4d24751cc49710f3b3e34bc2db4e5eb4c31"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1573,7 +1573,7 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/laravel-mortgage",
-                "reference": "13bcd94386598e2f3a37035fb941c9b89baec0a7"
+                "reference": "4b27b4d6da32e78b3f6167cfcc1442bfb1a37043"
             },
             "require-dev": {
                 "phpunit/phpunit": "~5.0 || ~6.0 || ~7.0"
@@ -1624,7 +1624,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/MonthlyCreditPaymentReport",
-                "reference": "d1e3fb37cb55032c355e4ea95ee004993a1403cd"
+                "reference": "bd2f03218b24455a9b1949435b154bc8b0e1e5b9"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1660,7 +1660,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/nova-unique-ajax-field",
-                "reference": "fa0d589d99c85bf5ed535b4e5c646e9f74ac3ed1"
+                "reference": "f1d3eeeee87024e1edb00c5e4018c6a7e86e44f3"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -1692,16 +1692,16 @@
         },
         {
             "name": "eminiarts/nova-tabs",
-            "version": "1.5.0",
+            "version": "1.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eminiarts/nova-tabs.git",
-                "reference": "02f63a715944f458ffbfc26edf817a6925de0bcf"
+                "reference": "ba6adf5c0470b967397b1c4e8f71d046acdac984"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eminiarts/nova-tabs/zipball/02f63a715944f458ffbfc26edf817a6925de0bcf",
-                "reference": "02f63a715944f458ffbfc26edf817a6925de0bcf",
+                "url": "https://api.github.com/repos/eminiarts/nova-tabs/zipball/ba6adf5c0470b967397b1c4e8f71d046acdac984",
+                "reference": "ba6adf5c0470b967397b1c4e8f71d046acdac984",
                 "shasum": ""
             },
             "require": {
@@ -1745,9 +1745,9 @@
             ],
             "support": {
                 "issues": "https://github.com/eminiarts/nova-tabs/issues",
-                "source": "https://github.com/eminiarts/nova-tabs/tree/1.5.0"
+                "source": "https://github.com/eminiarts/nova-tabs/tree/1.4.6"
             },
-            "time": "2022-02-13T01:12:29+00:00"
+            "time": "2021-07-12T16:34:23+00:00"
         },
         {
             "name": "epartment/nova-dependency-container",
@@ -2740,7 +2740,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova",
-                "reference": "c627c12fedce6ee367d36538e8a6886e4ed79e13"
+                "reference": "6b794c171432307ae1adf269bf67cd6e5adc762b"
             },
             "require": {
                 "brick/money": "^0.5.0",
@@ -4099,6 +4099,9 @@
             "require": {
                 "php": "^7.1 || ^8.0"
             },
+            "replace": {
+                "myclabs/deep-copy": "self.version"
+            },
             "require-dev": {
                 "doctrine/collections": "^1.0",
                 "doctrine/common": "^2.6",
@@ -4549,7 +4552,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/Trialbalance",
-                "reference": "a9a488143998408699c9af734d15851719c617d4"
+                "reference": "deabaecffc40736366285f57d9c0dad7fe940343"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -4839,7 +4842,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/Select",
-                "reference": "40a86ef4bacb0959736fd044e562f26cdf298e31"
+                "reference": "06dd4b98b8ba8cf69b0505235b22800ef5ed1a68"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -6204,7 +6207,7 @@
         },
         {
             "name": "spatie/image",
-            "version": "1.10.6",
+            "version": "v1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/image.git",
@@ -6257,7 +6260,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/image/issues",
-                "source": "https://github.com/spatie/image/tree/1.10.6"
+                "source": "https://github.com/spatie/image/tree/v1"
             },
             "funding": [
                 {
@@ -6327,16 +6330,16 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "9.11.2",
+            "version": "9.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "45fa6d0a5997ce96683388ad068146598989833d"
+                "reference": "b68b4881f4eda6f10a97324f1eeafd7639bbc5ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/45fa6d0a5997ce96683388ad068146598989833d",
-                "reference": "45fa6d0a5997ce96683388ad068146598989833d",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/b68b4881f4eda6f10a97324f1eeafd7639bbc5ae",
+                "reference": "b68b4881f4eda6f10a97324f1eeafd7639bbc5ae",
                 "shasum": ""
             },
             "require": {
@@ -6353,7 +6356,7 @@
                 "league/glide": "^1.7",
                 "maennchen/zipstream-php": "^1.0|^2.0",
                 "php": "^7.4|^8.0",
-                "spatie/image": "^1.10.5",
+                "spatie/image": "^1.11.0",
                 "spatie/temporary-directory": "^1.1|^2.0",
                 "symfony/console": "^4.4|^5.0"
             },
@@ -6418,7 +6421,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-medialibrary/issues",
-                "source": "https://github.com/spatie/laravel-medialibrary/tree/9.11.2"
+                "source": "https://github.com/spatie/laravel-medialibrary/tree/9.11.3"
             },
             "funding": [
                 {
@@ -6430,7 +6433,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-16T12:49:36+00:00"
+            "time": "2022-02-21T23:02:02+00:00"
         },
         {
             "name": "spatie/once",
@@ -11829,5 +11832,5 @@
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }

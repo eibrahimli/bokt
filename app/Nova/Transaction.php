@@ -57,19 +57,20 @@ class Transaction extends Resource
         return array(
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('Gozlenilen Mebleg', 'expected_price', function ($val) use($request) {
+                if($this->service_fee) return $val;
 
                 $allReportRelatedLoan = $this->getReport($request->viaResourceId);
 
-                if(!isset($request->editMode) || !isset($allReportRelatedLoan)) return $val + @$allReportRelatedLoan->service_fee;
+                if(!isset($request->editMode) || !isset($allReportRelatedLoan)) return $val + @$allReportRelatedLoan->penalty;
 
                 if($allReportRelatedLoan->percentage_remainder > 0 || $allReportRelatedLoan->main_remainder > 0) {
-                   return (float) $allReportRelatedLoan->totalDept - $allReportRelatedLoan->percentage_remainder - $allReportRelatedLoan->main_remainder;
+                   return round((float) $allReportRelatedLoan->totalDept - $allReportRelatedLoan->percentage_remainder - $allReportRelatedLoan->main_remainder + $allReportRelatedLoan->penalty, 2);
                 }
 
-                return $allReportRelatedLoan->totalDept + $allReportRelatedLoan->service_fee;
+                return round($allReportRelatedLoan->totalDept + $allReportRelatedLoan->penalty, 2);
             })->readonly(),
             Text::make('Məbləğ','price')->rules(
-                new CheckTransactionPaymentIsGreaterThanExpectedPrice($this->getReport($request->viaResourceId))
+                ['required', new CheckTransactionPaymentIsGreaterThanExpectedPrice($this->getReport($request->viaResourceId))]
             ),
             Boolean::make('Digər vətandaş tərəfindən ödəniş', 'is_civil'),
             NovaDependencyContainer::make(array(
@@ -101,12 +102,15 @@ class Transaction extends Resource
             })
                 ->readonly()
                 ->sortable(),
-            Text::make("Hesablanmış cərimə", 'calculated_price', fn() => TransactionHelper::calculatePenalty($this->getReport($request->viaResourceId)))
-                ->readonly()
-                ->sortable(),
-            Text::make('Ödəməli olduğu tarix')->withMeta([
-                'value' => $this->getReport($request->viaResourceId)->shouldPay
-            ])->readonly(),
+            Text::make("Hesablanmış cərimə", 'calculated_price', function ($val) use ($request){
+                return $val ?: @$this->getReport($request->viaResourceId)->penalty;
+            })->readonly()->sortable(),
+            Text::make('Açıqlama','description')
+                ->hideWhenCreating()
+                ->readonly(),
+            Text::make('Ödəməli olduğu tarix','shouldPay' , function ($value) use($request) {
+                return $value ?: @$this->getReport($request->viaResourceId)->shouldPay;
+            })->readonly(),
             Date::make('Ödəniş tarixi','created_at')->exceptOnForms()->readonly(),
             BelongsTo::make('Kassir', 'user', User::class)->default(function () {
                 return Auth::id();
@@ -115,52 +119,22 @@ class Transaction extends Resource
         );
     }
 
-    /**
-     * Get the cards available for the request.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return array
-     */
-    public function cards(Request $request)
+    public function cards(Request $request): array
     {
-        return [
-            new NewTransaction(),
-            (new LineChart())
-                ->title('Tranzaksiyalar')
-                ->animations([
-                    'enabled' => true,
-                    'easing' => 'easeinout',
-                ])
-                ->series(array([
-                    'barPercentage' => 0.5,
-                    'label' => 'Oratala Satış #1',
-                    'borderColor' => '#f7a35c',
-                    'data' => [80, 90, 80, 40, 62, 79, 79, 90, 90, 90, 92, 91],
-                ],[
-                    'barPercentage' => 0.5,
-                    'label' => 'Ortalama Satış #2',
-                    'borderColor' => '#90ed7d',
-                    'data' => [90, 80, 40, 22, 79, 129, 30, 40, 90, 92, 91, 80],
-                ]))
-                ->options([
-                    'xaxis' => [
-                        'categories' => [ 'Jan', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct' ]
-                    ],
-                ]),
-        ];
+       return [];
     }
 
-    public function filters(Request $request)
+    public function filters(Request $request): array
     {
         return [];
     }
 
-    public function lenses(Request $request)
+    public function lenses(Request $request): array
     {
         return [];
     }
 
-    public function actions(Request $request)
+    public function actions(Request $request): array
     {
         return [
             (new DownloadExcel())->withFilename('Tranzaksiyalar'.time().'xlsx')->withHeadings()->allFields()

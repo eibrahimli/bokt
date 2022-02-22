@@ -7,9 +7,6 @@ use Mortgage\Facades\Annuity;
 
 class LoanHelper
 {
-    public static function getCurrentMonthPayment(Loan $loan) {
-        dd($loan);
-    }
 
     public static function findMainDept(Loan $loan) {
         $reports = $loan->loanReports()->active()->get();

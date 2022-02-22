@@ -12,46 +12,99 @@ use Carbon\Carbon;
 
 class TransactionObserver
 {
+    protected $totalPayedPercentagePrice = 0 ,$totalPayedMainPrice = 0;
 
     public function created(Transaction $transaction)
     {
         $loan = $transaction->loan;
         $loanReport = $transaction->loan->loanReports()->active()->whereNull('deleted_at')->whereNull('paid_at')->first();
-        $service_fee = $loanReport->service_fee ?? false;
 
-        if(($loanReport->totalDept - $loanReport->percentage_remainder - $loanReport->main_remainder) + ($service_fee ?? 0) == $transaction->price) {
-            $loanReport->paid = true;
-            $loanReport->paid_at = now();
 
-            if($loan->rescheduled):
-                $loan->rescheduled_payed_balance += $transaction->price;
-            else:
+        $totalPrice = round(($loanReport->totalDept - $loanReport->percentage_remainder - $loanReport->main_remainder) + $loanReport->penalty, 2);
 
-                $loan->payed_balance += $transaction->price;
-            endif;
+        if(!$transaction->service_fee):
 
-            $loanReport->saveQuietly();
+            //       Əgər kredit ödəyən şəxs tam məbləği ödəyibsə kreditini həmin ay üçün bağla
+            if($totalPrice == $transaction->price) {
+                $loanReport->paid = true;
+                $loanReport->paid_at = now();
 
-        } elseif (($loanReport->totalDept - $loanReport->percentage_remainder - $loanReport->main_remainder) + ($service_fee ?? 0) < $transaction->price) {
-            $loanReport->paid = true;
-            $loanReport->paid_at = now();
+                if($loan->rescheduled):
+                    $loan->rescheduled_payed_balance += $transaction->price;
+                else:
+                    $loan->payed_balance += $transaction->price;
+                endif;
 
-            // Add transaction price to loan payed balance
-            if($loan->rescheduled):
-                $loan->rescheduled_payed_balance += $transaction->price;
-            else:
+                // Əgər müştəri əvvəl ödəyibsə tam faizi o zaman tam faizi 0 et
+                if($loanReport->percentDept == $loanReport->percentage_remainder):
+                    $this->setPayedPercentageAndMainPrice(0,$loanReport->mainDept - $loanReport->main_remainder);
+                else:
+                    $this->setPayedPercentageAndMainPrice(($loanReport->percentDept - $loanReport->percentage_remainder),($loanReport->mainDept - $loanReport->main_remainder));
+                endif;
 
-                $loan->payed_balance += $transaction->price;
-            endif;
+                $loanReport->saveQuietly();
 
-            $loan->saveQuietly();
-            $loanReport->saveQuietly();
+            }
+            // Əgər ödənilən məbləğ ümumi ödəyəcəyi məbləğdən böyükdürsə bura gir
+            elseif ($totalPrice < $transaction->price) {
+                $loanReport->paid = true;
+                $loanReport->paid_at = now();
 
-            $price = $transaction->price - (($loanReport->totalDept - $loanReport->percentage_remainder - $loanReport->main_remainder) + ($service_fee ?? 0));
+                // Add transaction price to loan payed balance
+                if($loan->rescheduled):
+                    $loan->rescheduled_payed_balance += $transaction->price;
+                else:
 
-            $this->handleLoanReport($loanReport,$transaction, $price);
-        }
+                    $loan->payed_balance += $transaction->price;
+                endif;
 
+                // Əgər müştəri əvvəl ödəyibsə tam faizi o zaman tam faizi 0 et
+                if($loanReport->percentDept == $loanReport->percentage_remainder):
+                    $this->setPayedPercentageAndMainPrice(0,$loanReport->mainDept - $loanReport->main_remainder);
+                else:
+                    $this->setPayedPercentageAndMainPrice($loanReport->percentDept - $loanReport->percentage_remainder,$loanReport->mainDept - $loanReport->main_remainder);
+                endif;
+
+                $loan->saveQuietly();
+                $loanReport->saveQuietly();
+
+                $price = $transaction->price - $totalPrice;
+
+                $this->handleLoanReport($loanReport,$transaction, $price);
+            }
+            // Əgər kredit ödəyicisi az ödəyibsə bu if bloku çalışacaq
+            elseif($totalPrice > $transaction->price) {
+
+                $price = $transaction->price - $loanReport->penalty;
+                //Update percentage remainder
+                if($price > $loanReport->percentDept):
+                    $loanReport->percentage_remainder = $loanReport->percentDept;
+                    $loanReport->main_remainder = $price - $loanReport->percentDept;
+
+                    $this->setPayedPercentageAndMainPrice($loanReport->percentDept, $price - $loanReport->percentDept);
+
+                    $loanReport->saveQuietly();
+                elseif ($price == $loanReport->percentDept):
+                    $this->setPayedPercentageAndMainPrice($loanReport->percentDept, 0);
+                    $loanReport->percentage_remainder = $loanReport->percentDept;
+                    $loanReport->saveQuietly();
+                else:
+                    $this->setPayedPercentageAndMainPrice($price, 0);
+                    $loanReport->percentage_remainder = $price;
+                    $loanReport->saveQuietly();
+                endif;
+
+                if($loan->rescheduled):
+                    $loan->rescheduled_payed_balance += $transaction->price;
+                else:
+                    $loan->payed_balance += $transaction->price;
+                endif;
+            }
+
+
+        endif;
+
+        // Əgər cədvəl yenidən yaradılıb və ya yaradılmayıbsa kredit reportunu yenilə
         if($loan->rescheduled):
 
             $loan->rescheduled_report = $loan->loanReports;
@@ -75,10 +128,12 @@ class TransactionObserver
         // Add Data to Reyestr
         $this->updateRegistry($transaction, $loan);
 
-        $transaction->main_price = $loanReport->mainDept;
-        $transaction->interested_price = $loanReport->percentDept;
-        $transaction->expected_price = $loanReport->totalDept;
-
+        $transaction->main_price = $this->totalPayedMainPrice;
+        $transaction->interested_price = $this->totalPayedPercentagePrice;
+        $transaction->shouldPay = $loanReport->shouldPay;
+        if(!$transaction->service_fee):
+            $transaction->expected_price = $totalPrice;
+        endif;
         $transaction->saveQuietly();
 
     }
@@ -89,16 +144,22 @@ class TransactionObserver
         $loanNext = LoanReport::find($nextMonthId);
 
         if(isset($loanNext)):
-            if($loanNext->totalDept < $price):
+            if($loanNext->totalDept + $loanNext->penalty < $price):
                 $loanNext->paid = true;
                 $loanNext->paid_at = now();
                 $loanNext->saveQuietly();
+
+                // Ümumi ödənilmiş əsas və faiz məbləği artır
+                $this->setPayedPercentageAndMainPrice($loanNext->percentDept, $loanNext->mainDept);
 
                 $price -= $loanNext->totalDept;
 
                 $this->handleLoanReport($loanNext, $transaction, $price);
 
-            elseif ($loanNext->totalDept == $price):
+            elseif ($loanNext->totalDept + $loanNext->penalty == $price):
+                // Ümumi ödənilmiş əsas və faiz məbləği artır
+                $this->setPayedPercentageAndMainPrice($loanNext->percentDept, $loanNext->mainDept);
+
                 $loanNext->paid = true;
                 $loanNext->paid_at = now();
                 $loanNext->saveQuietly();
@@ -109,12 +170,20 @@ class TransactionObserver
                     $loanNext->percentage_remainder = $loanNext->percentDept;
                     $loanNext->main_remainder = $price - $loanNext->percentDept;
 
+                    // Ümumi ödənilmiş əsas və faiz məbləği artır
+                    $this->setPayedPercentageAndMainPrice($loanNext->percentDept, $price - $loanNext->percentDept);
+
                     $loanNext->saveQuietly();
                 elseif ($price == $loanNext->percentDept):
                     $loanNext->percentage_remainder = $loanNext->percentDept;
+
+                    // Ümumi ödənilmiş əsas və faiz məbləği artır
+                    $this->setPayedPercentageAndMainPrice($loanNext->percentDept, 0);
                     $loanNext->saveQuietly();
                 else:
                     $loanNext->percentage_remainder = $price;
+                    // Ümumi ödənilmiş əsas və faiz məbləği artır
+                    $this->setPayedPercentageAndMainPrice($price, 0);
                     $loanNext->saveQuietly();
                 endif;
             endif;
@@ -163,5 +232,10 @@ class TransactionObserver
     public function forceDeleted(Transaction $transaction)
     {
         //
+    }
+
+    public function setPayedPercentageAndMainPrice ($percentage, $main) :void {
+        $this->totalPayedPercentagePrice += $percentage;
+        $this->totalPayedMainPrice += $main;
     }
 }

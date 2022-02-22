@@ -42,7 +42,6 @@ class CreditHelper {
             $report[$index]['termInMonth'] = $report[$index]['termInMonth'].' - '. $this->nextMonthPayment->toDateString();
             $report[$index]['shouldPay'] = $this->nextMonthPayment->toDateString();
 
-            $report[$index]['totalDept'] = round($this->originalTotalDept);
             if($index === count($report) - 1 && $rep['indebtedness'] < 0) {
 
                 $report[$index-1]['indebtedness'] = $rep['mainDept'];
@@ -53,7 +52,7 @@ class CreditHelper {
             }
         }
 
-        return $this->roundTotalDept($report);
+        return $report;
     }
 
     private function findPaymentMonth()  {
@@ -66,19 +65,4 @@ class CreditHelper {
         endif;
     }
 
-    protected function roundTotalDept($report):array {
-        if($report[0]['totalDept'] > $this->originalTotalDept):
-            $difference = $report[0]['totalDept'] - $this->originalTotalDept;
-
-            // Add difference to last month
-           $report[count($report) - 1]['totalDept'] = round(round($this->originalTotalDept) - $this->loanTerm * $difference, 2);
-        elseif($report[0]['totalDept'] < $this->originalTotalDept):
-            $difference = $this->originalTotalDept - $report[0]['totalDept'];
-
-            // Add difference to last month
-            $report[count($report) - 1]['totalDept'] = round((round($this->originalTotalDept) + $this->loanTerm * $difference),2);
-        endif;
-
-        return $report;
-    }
 }

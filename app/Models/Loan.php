@@ -12,6 +12,8 @@ use App\Models\Options\Trick;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Loan extends Model
@@ -26,61 +28,61 @@ class Loan extends Model
         return $this->customer->title;
     }
 
-    public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    public function agriculture(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function agriculture(): BelongsTo
     {
         return $this->belongsTo(Agriculture::class);
     }
-    public function consumption(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function consumption(): BelongsTo
     {
         return $this->belongsTo(Consumption::class);
     }
-    public function production(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function production(): BelongsTo
     {
         return $this->belongsTo(Production::class);
     }
-    public function service(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function service(): BelongsTo
     {
         return $this->belongsTo(Service::class);
     }
-    public function trade(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function trade(): BelongsTo
     {
         return $this->belongsTo(Trade::class);
     }
-    public function transportation(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function transportation(): BelongsTo
     {
         return $this->belongsTo(Transportation::class);
     }
-    public function collaterals(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function collaterals(): HasMany
     {
         return $this->hasMany(Collateral::class);
     }
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-    public function customer(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
 
-    public function transactions (): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function transactions (): HasMany
     {
         return $this->hasMany(Transaction::class);
     }
 
     // Credit report
 
-    public function loanReports(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function loanReports(): HasMany
     {
         return $this->hasMany(LoanReport::class);
     }
 
-    public function branch(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function branch(): BelongsTo
     {
         return $this->belongsTo(Branch::class);
     }

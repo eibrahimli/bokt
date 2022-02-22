@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Transaction extends Model
 {
     use HasFactory,SoftDeletes;
-
+    protected $fillable = ['service_fee','price','description','expected_price','shouldPay'];
     protected $primaryKey = 'id';
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
