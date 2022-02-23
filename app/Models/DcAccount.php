@@ -11,7 +11,7 @@ class DcAccount extends Model
 
     public function workInnerDebet(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany('App\Models\WorkInner', 'debet', 'id');
+        return $this->hasMany('App\Models\WorkInner', 'debet', 'code');
     }
 
 

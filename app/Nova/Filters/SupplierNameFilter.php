@@ -17,7 +17,7 @@ class SupplierNameFilter extends InputFilter
 
     public function name()
     {
-        return __('TƏCHİZATÇININ ADI');
+        return __('Kreditorun adı');
     }
 
     /**

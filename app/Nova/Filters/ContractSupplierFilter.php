@@ -18,7 +18,7 @@ class ContractSupplierFilter extends InputFilter
 
     public function name()
     {
-        return __('TƏCHİZATÇI');
+        return __('Kreditor');
     }
 
     /**

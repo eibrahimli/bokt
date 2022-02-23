@@ -17,7 +17,7 @@ class SupplierVoenFilter extends InputFilter
 
     public function name()
     {
-        return __('TƏCHİZATÇININ VOENİ');
+        return __('Kreditorun VOENİ');
     }
 
     /**

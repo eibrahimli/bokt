@@ -26,11 +26,16 @@ class WorkObserver
         if($work->supplier_id > 0){
             $supplier = Supplier::find($work->supplier_id);
             if($supplier!=null){
-
+                $total_price = 0;
+                $total_result = $work->total_result;
+                $total_array = json_decode($total_result,TRUE);
+                if(isset($total_array["total"]) and $total_array["total"]>0){
+                    $total_price = floatval($total_array["total"]);
+                }
 
                 $old_balance = $supplier->rest_amount;
-                $new_balance = $old_balance  +  $work->total_price;
-                $supplier->rest_amount = 112; //$new_balance;
+                $new_balance = $old_balance  + $total_price;
+                $supplier->rest_amount = $new_balance;
                 $supplier->text = json_encode($workInner);
                 $supplier->save();
             }

@@ -57,10 +57,6 @@ class AssetCategory extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('Kateqoriya adı', 'name'),
-            Text::make('Amortizasiya faizi', 'depreciation_percent'),
-            Text::make('Düz xətt üzrə amortizasiya məbləği', 'depreciation_price'),
-
-
         ];
     }
 

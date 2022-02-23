@@ -78,9 +78,10 @@ class Registry extends Model
         $all = $all->get();
 
         foreach ($all as $a){
-            if($a->created_at>=$begin and $a->created_at<=$end){
+            $created_at = date("Y-m-d",strtotime($a->created_at));
+            if($created_at>=$begin and $created_at<=$end){
                 $type = 'current';
-            }elseif($a->created_at<$begin){
+            }elseif($created_at<$begin){
                 $type = 'first';
             }
 

@@ -18,7 +18,7 @@ class SupplierCustomerTypeFilter extends InputFilter
 
     public function name()
     {
-        return __('TƏCHİZATÇININ NÖVÜ');
+        return __('Kreditorun NÖVÜ');
     }
 
     /**
