@@ -40,7 +40,7 @@ class Work extends Resource
 
     public static function singularLabel(): string
     {
-        return 'Müqavilələr';
+        return 'Müqavilə';
     }
 
     public static $search = [
@@ -61,8 +61,8 @@ class Work extends Resource
             Boolean::make("Status","status")->trueValue('1')->falseValue( '0'),
             NestedForm::make(__('İş və xidmətlər'),'WorkInner',WorkInner::class)->heading('İş və xidmət siyahısı')->rules("required")->min(1),
             HasMany::make(__('İş və xidmətlər'), 'workInner', WorkInner::class)->onlyOnDetail(),
-            new Panel('Ədv Hesabatı', [
-                EdvCalculation::make('Ədv Hesabatı','total_result')->hideFromIndex()
+            new Panel('Yekun', [
+                EdvCalculation::make('Yekun','total_result')->hideFromIndex()
             ])
         ];
     }
