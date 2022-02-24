@@ -86,7 +86,16 @@ class Loan extends Resource
             NovaBelongsToDepend::make('Məhsulun adı', 'product', Product::class)
                 ->options(\App\Models\Product::all()),
 
-            Tabs::make('Cədvəllər',array_merge([
+            Tabs::make('Cədvəllər',array_merge(@$this->rescheduled ? [
+                    new Panel('Yeni Cədvəl',array_merge($this->reScheduledFields($request),[
+                            MonthlyCreditPaymentReport::make('rescheduled_report')
+                                ->hideFromIndex()
+                                ->hideWhenUpdating()
+                                ->hideWhenCreating(),
+                        ])
+                    ),
+                ] : []
+                ,[
                     new Panel('İlkin Cədvəl', [
                         PercentageField::make('Faiz', 'percentage')
                             ->hideFromIndex($this->rescheduled)
@@ -125,15 +134,7 @@ class Loan extends Resource
                         MonthlyCreditPaymentReport::make('credit_report')->hideFromIndex(),
                     ]),
 
-                ], @$this->rescheduled ? [
-                    new Panel('Yeni Cədvəl',array_merge($this->reScheduledFields($request),[
-                        MonthlyCreditPaymentReport::make('rescheduled_report')
-                            ->hideFromIndex()
-                            ->hideWhenUpdating()
-                            ->hideWhenCreating(),
-                    ])
-                ),
-            ] : [])),
+                ])),
             new Panel('Müştərinin biznes sahəsi', [
 
                 BelongsTo::make('İstehlak', 'consumption', Consumption::class)
