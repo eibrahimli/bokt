@@ -46,11 +46,11 @@ class IncomeOperation extends Model
 
     public function debetAccount(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo('App\Models\DcAccount', 'debet', 'id');
+        return $this->belongsTo('App\Models\DcAccount', 'debet', 'code');
     }
 
     public function creditAccount(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo('App\Models\DcAccount', 'credit', 'id');
+        return $this->belongsTo('App\Models\DcAccount', 'credit', 'code');
     }
 }

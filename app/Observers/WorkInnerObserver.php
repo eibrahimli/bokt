@@ -41,6 +41,21 @@ class WorkInnerObserver
     public function updated(WorkInner $workInner)
     {
         //
+
+        $registry = Registry::where("reg_type",'WorkInner')->where("reg_id",$workInner->id)->first();
+        if($registry!=null){
+            $registry->amount = $workInner->total_price;
+            $registry->debet = $workInner->debet;
+            $registry->credit = $workInner->credit;
+            $registry->product_id = $workInner->type;
+            $registry->product_name = $workInner->name;
+            $registry->branch_id = $workInner->work->branch_id;
+            $registry->account_id = null;
+            $registry->customer_id = null;
+            $registry->supplier_id = $workInner->work->supplier_id;
+            $registry->save();
+        }
+
     }
 
     /**
