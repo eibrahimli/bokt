@@ -9,6 +9,7 @@ use App\Models\LoanReport;
 use App\Models\Registry;
 use App\Models\Transaction;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionObserver
 {
@@ -193,24 +194,26 @@ class TransactionObserver
     }
 
     public function updateAccounts(Transaction $transaction) {
-        $accounts = Account::first();
-
-        $accounts->balance += $transaction->price;
-
-        $accounts->saveQuietly();
+//        $accounts = Account::first();
+//
+//        $accounts->balance += $transaction->price;
+//
+//        $accounts->saveQuietly();
     }
 
     protected function updateRegistry(Transaction $transaction, Loan $loan) {
         $reyester = new Registry();
 
-        $reyester->amount = $transaction->price;
-        $reyester->debet = 123;
-        $reyester->credit = 124;
-        $reyester->customer_id = $loan->customer->id;
-        $reyester->product_id = $loan->product->id;
-        $reyester->product_name = $loan->product->name;
 
-        $reyester->saveQuietly();
+        if($transaction->service_fee):
+            $this->createRegisrty($transaction, $loan,127020, 420010,$transaction->price, 'Loan Service');;
+
+        else:
+            $this->createRegisrty($transaction, $loan,127020, 221100,$this->totalPayedMainPrice, 'Loan Payment');
+            $this->createRegisrty($transaction, $loan,127020, 420060,$this->totalPayedPercentagePrice, 'Loan Interest');
+
+        endif;
+
     }
 
     public function updated(Transaction $transaction)
@@ -237,5 +240,22 @@ class TransactionObserver
     public function setPayedPercentageAndMainPrice ($percentage, $main) :void {
         $this->totalPayedPercentagePrice += $percentage;
         $this->totalPayedMainPrice += $main;
+    }
+
+    protected function createRegisrty(Transaction $transaction, Loan $loan, $debet , $kredit, $price, $reg_type) {
+        $reyester = new Registry();
+        $reyester->amount = $price;
+        $reyester->debet = $debet; // Kass
+        $reyester->credit = $kredit;
+        $reyester->reg_type = $reg_type;
+        $reyester->reg_id = $transaction->id;
+        $reyester->product_id = $loan->id;
+        $reyester->product_name = $loan->customer->id. ' '.$loan->customer->name. ' '.$loan->customer->surname;
+        $reyester->branch_id = Auth::user()->branch->id;
+        $reyester->account_id = 777;// Auth::user()->branch->account->id;
+        $reyester->customer_id = $loan->customer->id;
+        $reyester->supplier_id = null;
+
+        $reyester->saveQuietly();
     }
 }
