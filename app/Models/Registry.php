@@ -97,7 +97,7 @@ class Registry extends Model
                 $old = $datas[$a->credit]["operations"]["credit"][$type];
                 $price = $a->amount;
                 $new = $old+$price;
-                $datas[$a->debet]["operations"]["credit"][$type] = $new;
+                $datas[$a->credit]["operations"]["credit"][$type] = $new;
             }
         }
 
@@ -111,6 +111,7 @@ class Registry extends Model
 
             }
          }
+
         return $datas;
     }
 }

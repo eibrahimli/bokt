@@ -75,7 +75,7 @@ class ExpenseOperation extends Resource
             BelongsTo::make(__('Təchizatçı'), 'supplier', Supplier::class),
             BelongsTo::make(__('Müqavilə'), 'work', Work::class),*/
 
-            DynamicSelect::make('Təchizatçı(Şirkət)', 'supplier_id')
+            DynamicSelect::make('Kreditor', 'supplier_id')
                 ->options(\App\Models\Supplier::pluck("name","id")->all()),
             //->rules('required'),
 
