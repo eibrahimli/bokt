@@ -15,6 +15,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use NrmlCo\NovaBigFilter\NovaBigFilter;
 
 class IncomeOperation extends Resource
@@ -151,6 +152,9 @@ class IncomeOperation extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel())->withHeadings(),
+
+        ];
     }
 }

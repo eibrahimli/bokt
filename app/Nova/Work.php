@@ -22,6 +22,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use NrmlCo\NovaBigFilter\NovaBigFilter;
 use Yassi\NestedForm\NestedForm;
 
@@ -95,6 +96,8 @@ class Work extends Resource
 
     public function actions(Request $request): array
     {
-        return [];
+        return [
+            (new DownloadExcel())->withHeadings(),
+        ];
     }
 }
