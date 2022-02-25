@@ -26,7 +26,7 @@ class ExpenseOperation extends Model
 
     public function work(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Work', 'contract_id', 'id');
+        return $this->belongsTo('App\Models\Work', 'work_id', 'id');
     }
 
     public function account(): BelongsTo
