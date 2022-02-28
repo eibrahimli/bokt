@@ -3,9 +3,11 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Account extends Resource
 {
@@ -69,6 +71,7 @@ class Account extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('Hesab adı', 'name'),
+            BelongsTo::make(__('Filial'), 'branch', Branch::class),
             Text::make('Balans', 'balance'),
 
         ];
@@ -115,6 +118,9 @@ class Account extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel())->withHeadings(),
+
+        ];
     }
 }

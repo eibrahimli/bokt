@@ -21,6 +21,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use NrmlCo\NovaBigFilter\NovaBigFilter;
 
 class ExpenseOperation extends Resource
@@ -83,7 +84,7 @@ class ExpenseOperation extends Resource
                 ->options(\App\Models\Branch::pluck("name","id")->all()),
             //->rules('required'),
 
-            DynamicSelect::make('Müqavilə', 'work_id')
+            DynamicSelect::make('Hesab faktura', 'work_id')
                 ->dependsOn(['supplier_id', 'branch_id'])
                 ->options(function($values) {
                     $contracts = \App\Models\Work::whereNull("deleted_at");
@@ -186,6 +187,9 @@ class ExpenseOperation extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel())->withHeadings(),
+
+        ];
     }
 }

@@ -16,12 +16,14 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use NrmlCo\NovaBigFilter\NovaBigFilter;
 use Yassi\NestedForm\NestedForm;
 
@@ -29,18 +31,18 @@ class Work extends Resource
 {
     public static $model = \App\Models\Work::class;
 
-    public static $title = 'contract_number';
+    public static $title = 'invoice_number';
 
     public static $group = 'Mühasibatlıq';
 
     public static function label(): string
     {
-        return 'Müqavilələr';
+        return 'Hesab fakturalar';
     }
 
     public static function singularLabel(): string
     {
-        return 'Müqavilə';
+        return 'Hesab faktura';
     }
 
     public static $search = [
@@ -58,7 +60,7 @@ class Work extends Resource
             Date::make(__("Müqavilə başlayır"),"contract_begin"),
             Date::make(__("Müqavilə bitir"),"contract_end"),
             Text::make(__("Hesab Faktura Nömrəsi"),"invoice_number"),
-            Boolean::make("Status","status")->trueValue('1')->falseValue( '0'),
+            Hidden::make("Status","status")->default('1'),
             NestedForm::make(__('İş və xidmətlər'),'WorkInner',WorkInner::class)->heading('İş və xidmət siyahısı')->rules("required")->min(1),
             HasMany::make(__('İş və xidmətlər'), 'workInner', WorkInner::class)->onlyOnDetail(),
             new Panel('Yekun', [
@@ -95,6 +97,8 @@ class Work extends Resource
 
     public function actions(Request $request): array
     {
-        return [];
+        return [
+            (new DownloadExcel())->withHeadings(),
+        ];
     }
 }
