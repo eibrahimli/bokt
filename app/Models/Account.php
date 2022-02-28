@@ -9,10 +9,6 @@ class Account extends Model
 {
     use HasFactory;
 
-    public static function first()
-    {
-    }
-
     public function incomeOperations(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany('App\Models\IncomeOperation', 'account_id', 'id');

@@ -57,11 +57,13 @@ class Transaction extends Resource
         return array(
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('Gozlenilen Mebleg', 'expected_price', function ($val) use($request) {
+                if($val) return $val;
+
                 if($this->service_fee) return $val;
 
                 $allReportRelatedLoan = $this->getReport($request->viaResourceId);
 
-                if(!isset($request->editMode) || !isset($allReportRelatedLoan)) return $val + @$allReportRelatedLoan->penalty;
+                if($request->editMode == 'update' || !isset($allReportRelatedLoan)) return $val;
 
                 if($allReportRelatedLoan->percentage_remainder > 0 || $allReportRelatedLoan->main_remainder > 0) {
                    return round((float) $allReportRelatedLoan->totalDept - $allReportRelatedLoan->percentage_remainder - $allReportRelatedLoan->main_remainder + $allReportRelatedLoan->penalty, 2);
@@ -82,18 +84,22 @@ class Transaction extends Resource
             ))->dependsOn('is_civil', 1),
 
             Text::make("Əsas məbləğ üzrə", 'main_price', function ($val) use($request) {
+                if($val) return $val;
+
                 $allReportRelatedLoan = $this->getReport($request->viaResourceId);
 
-                if(!isset($request->editMode) || !isset($allReportRelatedLoan)) return $val;
+                if($request->editMode == 'update' || !isset($allReportRelatedLoan)) return $val;
 
                 return round($allReportRelatedLoan->mainDept-$allReportRelatedLoan->main_remainder,2) ?? $val;
             })
                 ->readonly()
                 ->sortable(),
             Text::make("Marağ faizi üzrə", 'interested_price', function ($val) use($request) {
+                if($val) return $val;
+
                 $allReportRelatedLoan = $this->getReport($request->viaResourceId);
 
-                if(!isset($request->editMode) || !isset($allReportRelatedLoan)) return $val;
+                if($request->editMode == 'update' || !isset($allReportRelatedLoan)) return $val;
 
                 if(isset($allReportRelatedLoan->percentage_remainder) && $allReportRelatedLoan->percentage_remainder > 0 ) {
                     return number_format((float) $allReportRelatedLoan->percentDept - $allReportRelatedLoan->percentage_remainder, 2) ?? $val;
@@ -105,6 +111,10 @@ class Transaction extends Resource
             Text::make("Hesablanmış cərimə", 'calculated_price', function ($val) use ($request){
                 return $val ?: @$this->getReport($request->viaResourceId)->penalty;
             })->readonly()->sortable(),
+            Text::make("Gecikmə gün sayısı", 'penalty_day' , function ($val) use ($request){
+                return $val ?: @$this->getReport($request->viaResourceId)->penalty_day;
+            })->readonly()
+                ->sortable(),
             Text::make('Açıqlama','description')
                 ->hideWhenCreating()
                 ->readonly(),

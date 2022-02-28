@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
 use Mortgage\Facades\Annuity;
@@ -12,9 +13,7 @@ Route::get('/lang/{lang}',[LanguageController::class, 'switchLang'])
 
 Route::get('test', function () {
 
-     $report = (new \App\Helpers\CreditHelper(12,1000,24))->getFormatedData();
-
-     dd(array_sum(array_column($report, 'totalDept')));
+     dd($now = Carbon::now()->addDays(24)->toDateString());
 
 });
 

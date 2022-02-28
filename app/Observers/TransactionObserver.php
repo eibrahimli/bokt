@@ -20,7 +20,6 @@ class TransactionObserver
         $loan = $transaction->loan;
         $loanReport = $transaction->loan->loanReports()->active()->whereNull('deleted_at')->whereNull('paid_at')->first();
 
-
         $totalPrice = round(($loanReport->totalDept - $loanReport->percentage_remainder - $loanReport->main_remainder) + $loanReport->penalty, 2);
 
         if(!$transaction->service_fee):
@@ -132,6 +131,8 @@ class TransactionObserver
         $transaction->main_price = $this->totalPayedMainPrice;
         $transaction->interested_price = $this->totalPayedPercentagePrice;
         $transaction->shouldPay = $loanReport->shouldPay;
+        $transaction->calculated_price = $loanReport->penalty;
+        $transaction->penalty_day = $loanReport->penalty_day;
         if(!$transaction->service_fee):
             $transaction->expected_price = $totalPrice;
         endif;
@@ -194,16 +195,14 @@ class TransactionObserver
     }
 
     public function updateAccounts(Transaction $transaction) {
-//        $accounts = Account::first();
-//
-//        $accounts->balance += $transaction->price;
-//
-//        $accounts->saveQuietly();
+        $accounts = Account::first();
+        $accounts->balance += $transaction->price;
+
+        $accounts->save();
     }
 
     protected function updateRegistry(Transaction $transaction, Loan $loan) {
         $reyester = new Registry();
-
 
         if($transaction->service_fee):
             $this->createRegisrty($transaction, $loan,127020, 420010,$transaction->price, 'Loan Service');;

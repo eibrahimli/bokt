@@ -3,7 +3,6 @@
 namespace App\Helpers;
 
 use App\Models\Loan;
-use Mortgage\Facades\Annuity;
 
 class LoanHelper
 {
@@ -19,6 +18,6 @@ class LoanHelper
             return $loan->rescheduled ? $loan->rescheduled_price : $loan->price;
         }
 
-        return $sum - $mainDeptRemainder;
+        return round($sum - $mainDeptRemainder, 2);
     }
 }
