@@ -2,11 +2,12 @@
 
 namespace App\Nova\Filters;
 
+use App\Nova\CustomerType;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 use OptimistDigital\NovaInputFilter\InputFilter;
 
-class CreditFilter extends InputFilter
+class ContractAccountFilter extends InputFilter
 {
     /**
      * The filter's component.
@@ -17,7 +18,7 @@ class CreditFilter extends InputFilter
 
     public function name()
     {
-        return __('Kredit');
+        return __('Hesab');
     }
 
     /**
@@ -31,7 +32,7 @@ class CreditFilter extends InputFilter
     public function apply(Request $request, $query, $value)
     {
         if ($value) {
-            return $query->where('credit', $value);
+            return $query->where('account_id', $value);
         }
 
     }
@@ -44,11 +45,6 @@ class CreditFilter extends InputFilter
      */
     public function options(Request $request)
     {
-        $datas = [];
-        $values = \App\Models\DcAccount::pluck("name","code")->all();
-        foreach ($values as $key=>$value){
-            $datas[$key." ".$value] = $key;
-        }
-        return $datas;
+        return \App\Models\Account::pluck("id","name")->all();
     }
 }

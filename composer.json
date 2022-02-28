@@ -44,6 +44,7 @@
         "nrml-co/nova-big-filter": "^1.0",
         "nycode/trialbalance": "*",
         "optimistdigital/nova-input-filter": "^1.1",
+        "optimistdigital/nova-multiselect-filter": "^2.0",
         "optimistdigital/nova-table-field": "^1.0",
         "optimistdigital/nova-tailwind": "^1.1",
         "options-menu/select": "*",

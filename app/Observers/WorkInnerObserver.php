@@ -42,7 +42,7 @@ class WorkInnerObserver
     {
         //
 
-        $registry = Registry::where("reg_type",'WorkInner')->where("reg_id",$workInner->id)->first();
+        $registry = Registry::where("reg_type",'Work')->where("reg_id",$workInner->id)->first();
         if($registry!=null){
             $registry->amount = $workInner->total_price;
             $registry->debet = $workInner->debet;
@@ -53,6 +53,8 @@ class WorkInnerObserver
             $registry->account_id = null;
             $registry->customer_id = null;
             $registry->supplier_id = $workInner->work->supplier_id;
+            $registry->reg_type = 'Work';
+            $registry->reg_id = $workInner->id;
             $registry->save();
         }
 

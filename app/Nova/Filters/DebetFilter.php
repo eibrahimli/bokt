@@ -13,7 +13,7 @@ class DebetFilter extends InputFilter
      *
      * @var string
      */
-    //public $component = 'select-filter';
+    public $component = 'select-filter';
 
     public function name()
     {
@@ -44,6 +44,11 @@ class DebetFilter extends InputFilter
      */
     public function options(Request $request)
     {
-        return [];
+        $datas = [];
+        $values = \App\Models\DcAccount::pluck("name","code")->all();
+        foreach ($values as $key=>$value){
+            $datas[$key." ".$value] = $key;
+        }
+        return $datas;
     }
 }
