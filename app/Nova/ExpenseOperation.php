@@ -84,7 +84,7 @@ class ExpenseOperation extends Resource
                 ->options(\App\Models\Branch::pluck("name","id")->all()),
             //->rules('required'),
 
-            DynamicSelect::make('Müqavilə', 'work_id')
+            DynamicSelect::make('Hesab faktura', 'work_id')
                 ->dependsOn(['supplier_id', 'branch_id'])
                 ->options(function($values) {
                     $contracts = \App\Models\Work::whereNull("deleted_at");
