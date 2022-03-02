@@ -274,7 +274,7 @@ export default {
 
             if(navigator.msSaveOrOpenBlob){
                 var blob = new Blob(['\ufeff', tableHTML], {
-                    type: dataType
+                    type: 'text/csv,charset=UTF-8'
                 });
                 navigator.msSaveOrOpenBlob( blob, filename);
             }else{
