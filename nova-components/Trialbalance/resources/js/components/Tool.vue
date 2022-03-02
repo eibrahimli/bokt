@@ -1,3 +1,4 @@
+<meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8">
 <template>
     <div>
         <heading class="mb-6">Sınaq balansı</heading>
