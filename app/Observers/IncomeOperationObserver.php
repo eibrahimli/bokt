@@ -20,6 +20,23 @@ class IncomeOperationObserver
         $account_id = $incomeOperation->account_id;
         $account = Account::where("id",$account_id)->first();
         $total_price = $incomeOperation->price;
+
+
+        $registry = new Registry();
+        $registry->amount = $incomeOperation->price;
+        $registry->debet = $incomeOperation->debet;
+        $registry->credit = $incomeOperation->credit;
+        $registry->reg_type = 'Income';
+        $registry->reg_id = $incomeOperation->id;
+        $registry->product_id = 0;
+        $registry->product_name = $incomeOperation->purpose_payment;
+        $registry->branch_id = $incomeOperation->branch_id;
+        $registry->account_id = $incomeOperation->account_id;
+        $registry->customer_id = $incomeOperation->customer_id;
+        $registry->supplier_id = $incomeOperation->supplier_id;
+        $registry->save();
+
+
         if($account!=null){
             $old_balance = floatval($account->balance);
             if(($old_balance - $total_price)>0){
@@ -41,19 +58,7 @@ class IncomeOperationObserver
         }
 
         //
-        $registry = new Registry();
-        $registry->amount = $incomeOperation->price;
-        $registry->debet = $incomeOperation->debet;
-        $registry->credit = $incomeOperation->credit;
-        $registry->reg_type = 'Income';
-        $registry->reg_id = $incomeOperation->id;
-        $registry->product_id = 0;
-        $registry->product_name = $incomeOperation->purpose_payment;
-        $registry->branch_id = $incomeOperation->branch_id;
-        $registry->account_id = $incomeOperation->account_id;
-        $registry->customer_id = $incomeOperation->customer_id;
-        $registry->supplier_id = $incomeOperation->supplier_id;
-        $registry->save();
+
     }
 
     /**
