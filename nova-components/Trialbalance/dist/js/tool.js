@@ -1130,7 +1130,7 @@ var render = function() {
                             _vm._v(" "),
                             _vm._l(_vm.codes, function(code, id) {
                               return _c("option", { domProps: { value: id } }, [
-                                _vm._v(_vm._s(code))
+                                _vm._v(_vm._s(id + " " + code))
                               ])
                             })
                           ],

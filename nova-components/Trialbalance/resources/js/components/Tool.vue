@@ -36,7 +36,7 @@
                                 <div class="p-2">
                                     <select name="" v-model="dc_account_id" v-on="getRows" class="block w-full form-control-sm form-input border-60">
                                         <option value="0">Seçin</option>
-                                        <option v-for="(code,id) in codes" :value="id">{{ code }}</option>
+                                        <option v-for="(code,id) in codes" :value="id">{{ id+" "+code }}</option>
                                     </select>
                                 </div>
                             </div>
