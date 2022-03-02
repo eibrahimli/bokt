@@ -69,6 +69,9 @@ class IncomeOperation extends Resource
             BelongsTo::make(__('Təchizatçı'), 'supplier', Supplier::class),
             BelongsTo::make(__('Müqavilə'), 'contract', Contract::class),*/
             BelongsTo::make(__('Hesabdan'), 'accountFrom', Account::class),
+            DynamicSelect::make('Kimdən', 'supplier_id')
+                ->options(\App\Models\Supplier::pluck("name","id")->all()),
+            //->rules('required'),
             BelongsTo::make(__('Hesaba'), 'accountTo', Account::class),
             BelongsTo::make(__('Müxabirləşmə (Debet)'), 'debetAccount', DcAccount::class)->showCreateRelationButton(),
             BelongsTo::make(__('Müxabirləşmə (Kredit)'), 'creditAccount', DcAccount::class)->showCreateRelationButton(),
@@ -76,9 +79,7 @@ class IncomeOperation extends Resource
             Date::make(__("Ödəniş tarixi"),"payment_date"),
 /*            Text::make(__("Ödəniş metodu"),"operation_method"),*/
             Text::make(__("Ödəniş təyinatı"),"purpose_payment"),
-            DynamicSelect::make('Təchizatçı(Şirkət)', 'supplier_id')
-                ->options(\App\Models\Supplier::pluck("name","id")->all()),
-            //->rules('required'),
+
 
             DynamicSelect::make('Filial', 'branch_id')
                 ->options(\App\Models\Branch::pluck("name","id")->all()),
