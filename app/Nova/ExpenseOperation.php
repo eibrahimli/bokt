@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\ContractAccountFilter;
 use App\Nova\Filters\ContractBrachFilter;
 use App\Nova\Filters\ContractFilter;
 use App\Nova\Filters\ContractSupplierFilter;
@@ -159,6 +160,7 @@ class ExpenseOperation extends Resource
     public function filters(Request $request)
     {
         return [
+            new ContractAccountFilter(),
             new ContractBrachFilter(),
             new ContractSupplierFilter(),
             new ContractFilter(),
