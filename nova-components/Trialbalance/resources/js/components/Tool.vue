@@ -1,4 +1,3 @@
-<meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8">
 <template>
     <div>
         <heading class="mb-6">Sınaq balansı</heading>
@@ -275,7 +274,7 @@ export default {
 
             if(navigator.msSaveOrOpenBlob){
                 var blob = new Blob(['\ufeff', tableHTML], {
-                    type: 'text/csv,charset=UTF-8'
+                    type: dataType
                 });
                 navigator.msSaveOrOpenBlob( blob, filename);
             }else{

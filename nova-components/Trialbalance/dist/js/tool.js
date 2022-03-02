@@ -915,7 +915,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (navigator.msSaveOrOpenBlob) {
                 var blob = new Blob(['\uFEFF', tableHTML], {
-                    type: 'text/csv,charset=UTF-8'
+                    type: dataType
                 });
                 navigator.msSaveOrOpenBlob(blob, filename);
             } else {
