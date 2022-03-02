@@ -260,7 +260,7 @@ export default {
         },
         exportTableToExcel(tableID, filename = ''){
             var downloadLink;
-            var dataType = 'application/vnd.ms-excel';
+            var dataType = 'application/vnd.ms-excel;charset=UTF-8';
             var tableSelect = document.getElementById(tableID);
             var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
 

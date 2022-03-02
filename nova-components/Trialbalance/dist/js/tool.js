@@ -901,7 +901,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var filename = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
             var downloadLink;
-            var dataType = 'application/vnd.ms-excel';
+            var dataType = 'application/vnd.ms-excel;charset=UTF-8';
             var tableSelect = document.getElementById(tableID);
             var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
 
