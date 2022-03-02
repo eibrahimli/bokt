@@ -1527,7 +1527,7 @@ var render = function() {
                       staticClass: "border border-gray-300  text-center",
                       attrs: { colspan: "2" }
                     },
-                    [_vm._v("İLKİN")]
+                    [_vm._v("ILKIN")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1536,7 +1536,7 @@ var render = function() {
                       staticClass: "border border-gray-300  text-center",
                       attrs: { colspan: "2" }
                     },
-                    [_vm._v("DÖVR ÜZRƏ")]
+                    [_vm._v("DOVR UZRE")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1565,7 +1565,7 @@ var render = function() {
                   _c(
                     "th",
                     { staticClass: "border border-gray-300  text-center" },
-                    [_vm._v("KREDİT")]
+                    [_vm._v("KREDIT")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1577,7 +1577,7 @@ var render = function() {
                   _c(
                     "th",
                     { staticClass: "border border-gray-300  text-center" },
-                    [_vm._v("KREDİT")]
+                    [_vm._v("KREDIT")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1589,7 +1589,7 @@ var render = function() {
                   _c(
                     "th",
                     { staticClass: "border border-gray-300  text-center" },
-                    [_vm._v("KREDİT")]
+                    [_vm._v("KREDIT")]
                   )
                 ])
               ]),
@@ -1605,27 +1605,49 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "border border-gray-300 ..." }, [
-                      _vm._v(_vm._s(row.operations.debet.first))
+                      _vm._v(
+                        _vm._s(
+                          parseFloat(row.operations.debet.first).toFixed(2)
+                        )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "border border-gray-300 ..." }, [
-                      _vm._v(_vm._s(row.operations.credit.first))
+                      _vm._v(
+                        _vm._s(
+                          parseFloat(row.operations.credit.first).toFixed(2)
+                        )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "border border-gray-300 ..." }, [
-                      _vm._v(_vm._s(row.operations.debet.current))
+                      _vm._v(
+                        _vm._s(
+                          parseFloat(row.operations.debet.current).toFixed(2)
+                        )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "border border-gray-300 ..." }, [
-                      _vm._v(_vm._s(row.operations.credit.current))
+                      _vm._v(
+                        _vm._s(
+                          parseFloat(row.operations.credit.current).toFixed(2)
+                        )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "border border-gray-300 ..." }, [
-                      _vm._v(_vm._s(row.operations.debet.last))
+                      _vm._v(
+                        _vm._s(parseFloat(row.operations.debet.last).toFixed(2))
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "border border-gray-300 ..." }, [
-                      _vm._v(_vm._s(row.operations.credit.last))
+                      _vm._v(
+                        _vm._s(
+                          parseFloat(row.operations.credit.last).toFixed(2)
+                        )
+                      )
                     ])
                   ])
                 }),

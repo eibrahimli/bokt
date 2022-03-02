@@ -133,29 +133,29 @@
                 <thead>
                 <tr >
                     <th class="border border-gray-300 ..."></th>
-                    <th class="border border-gray-300  text-center" colspan="2">İLKİN</th>
-                    <th class="border border-gray-300  text-center" colspan="2">DÖVR ÜZRƏ</th>
+                    <th class="border border-gray-300  text-center" colspan="2">ILKIN</th>
+                    <th class="border border-gray-300  text-center" colspan="2">DOVR UZRE</th>
                     <th class="border border-gray-300  text-center" colspan="2">QALIQ</th>
                 </tr>
                 <tr>
                     <th class="border border-gray-300 text-center">Kod</th>
                     <th class="border border-gray-300  text-center">DEBET</th>
-                    <th class="border border-gray-300  text-center">KREDİT</th>
+                    <th class="border border-gray-300  text-center">KREDIT</th>
                     <th class="border border-gray-300  text-center">DEBET</th>
-                    <th class="border border-gray-300  text-center">KREDİT</th>
+                    <th class="border border-gray-300  text-center">KREDIT</th>
                     <th class="border border-gray-300  text-center">DEBET</th>
-                    <th class="border border-gray-300  text-center">KREDİT</th>
+                    <th class="border border-gray-300  text-center">KREDIT</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="row in rows">
                     <td class="border border-gray-300 ...">{{ row.code}} <br /> {{ row.name}}</td>
-                    <td class="border border-gray-300 ...">{{ row.operations.debet.first}}</td>
-                    <td class="border border-gray-300 ...">{{ row.operations.credit.first}}</td>
-                    <td class="border border-gray-300 ...">{{ row.operations.debet.current}}</td>
-                    <td class="border border-gray-300 ...">{{ row.operations.credit.current}}</td>
-                    <td class="border border-gray-300 ...">{{ row.operations.debet.last}}</td>
-                    <td class="border border-gray-300 ...">{{ row.operations.credit.last}}</td>
+                    <td class="border border-gray-300 ...">{{ parseFloat(row.operations.debet.first).toFixed(2)}}</td>
+                    <td class="border border-gray-300 ...">{{ parseFloat(row.operations.credit.first).toFixed(2)}}</td>
+                    <td class="border border-gray-300 ...">{{ parseFloat(row.operations.debet.current).toFixed(2)}}</td>
+                    <td class="border border-gray-300 ...">{{ parseFloat(row.operations.credit.current).toFixed(2)}}</td>
+                    <td class="border border-gray-300 ...">{{ parseFloat(row.operations.debet.last).toFixed(2)}}</td>
+                    <td class="border border-gray-300 ...">{{ parseFloat(row.operations.credit.last).toFixed(2)}}</td>
                 </tr>
 
                 </tbody>
