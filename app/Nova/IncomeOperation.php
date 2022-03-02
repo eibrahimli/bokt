@@ -68,7 +68,7 @@ class IncomeOperation extends Resource
             BelongsTo::make(__('Alıcı (filial)'), 'branch', Branch::class),
             BelongsTo::make(__('Təchizatçı'), 'supplier', Supplier::class),
             BelongsTo::make(__('Müqavilə'), 'contract', Contract::class),*/
-            BelongsTo::make(__('Hesabdan'), 'accountFrom', Account::class),
+            BelongsTo::make(__('Hesabdan'), 'accountFrom', Account::class)->nullable(),
             DynamicSelect::make('Kimdən', 'supplier_id')
                 ->options(\App\Models\Supplier::pluck("name","id")->all()),
             //->rules('required'),
