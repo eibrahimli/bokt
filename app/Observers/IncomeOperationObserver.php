@@ -32,7 +32,7 @@ class IncomeOperationObserver
         $registry->product_name = $incomeOperation->purpose_payment;
         $registry->branch_id = $incomeOperation->branch_id;
         $registry->account_id = $incomeOperation->account_id;
-        $registry->customer_id = $incomeOperation->customer_id;
+        $registry->customer_id = null;
         $registry->supplier_id = $incomeOperation->supplier_id;
         $registry->save();
 
