@@ -113,6 +113,8 @@
                                 </h3>
                                 <div class="p-2">
                                     <input type="submit" @click="getRows" class="btn btn-default btn-primary" value="Axtar">
+                                    <button @click="exportTableToExcel('tblData', 'Trial-Balance-Data')" class="btn btn-default btn-danger float-right">Excel</button>
+
                                 </div>
                             </div>
                         </div>
@@ -127,7 +129,7 @@
 
 
 
-            <table class="border-collapse border border-gray-400 table w-full table-default">
+            <table class="border-collapse border border-gray-400 table w-full table-default" id="tblData">
                 <thead>
                 <tr >
                     <th class="border border-gray-300 ..."></th>
@@ -158,7 +160,6 @@
 
                 </tbody>
             </table>
-
 
         </card>
     </div>
@@ -257,6 +258,36 @@ export default {
                 console.log(er)
             })
         },
+        exportTableToExcel(tableID, filename = ''){
+            var downloadLink;
+            var dataType = 'application/vnd.ms-excel';
+            var tableSelect = document.getElementById(tableID);
+            var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+            // Specify file name
+            filename = filename?filename+'.xls':'excel_data.xls';
+
+            // Create download link element
+            downloadLink = document.createElement("a");
+
+            document.body.appendChild(downloadLink);
+
+            if(navigator.msSaveOrOpenBlob){
+                var blob = new Blob(['\ufeff', tableHTML], {
+                    type: dataType
+                });
+                navigator.msSaveOrOpenBlob( blob, filename);
+            }else{
+                // Create a link to the file
+                downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+                // Setting the file name
+                downloadLink.download = filename;
+
+                //triggering the function
+                downloadLink.click();
+            }
+        }
     }
 }
 </script>
@@ -264,3 +295,6 @@ export default {
 <style>
 /* Scoped Styles */
 </style>
+
+
+
