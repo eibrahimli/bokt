@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Filters\ContractAccountFilter;
+use App\Nova\Filters\ContractAccountToFilter;
 use App\Nova\Filters\ContractBrachFilter;
 use App\Nova\Filters\ContractFilter;
 use App\Nova\Filters\ContractSupplierFilter;
@@ -79,7 +80,8 @@ class Registry extends Resource
             BelongsTo::make(__('Alıcı (filial)'), 'branch', Branch::class),
             BelongsTo::make(__('Təchizatçı'), 'supplier', Supplier::class),
             BelongsTo::make(__('Müqavilə'), 'work', Work::class),
-            BelongsTo::make(__('Hesab'), 'account', Account::class),
+            BelongsTo::make(__('Hesabdan'), 'account', Account::class),
+            BelongsTo::make(__('Hesaba'), 'accountTo', Account::class),
             BelongsTo::make('Müştəri', 'customer', Customer::class),
             Text::make(__("Tarix"),"created_at"),
 
@@ -95,7 +97,7 @@ class Registry extends Resource
     public function cards(Request $request)
     {
         return [
-            new NovaBigFilter(),
+            (new NovaBigFilter)->setMaxHeight(400),
             new RegistryMetrics(null,$this,"Yeni reyestr","new"),
             new RegistryMetrics(null,$this,"Toplam məbləğ","price"),
         ];
@@ -111,6 +113,7 @@ class Registry extends Resource
     {
         return [
             new ContractAccountFilter(),
+            new ContractAccountToFilter(),
             new ContractBrachFilter(),
             new ContractSupplierFilter(),
             new ContractFilter(),

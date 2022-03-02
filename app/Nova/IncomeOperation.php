@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\ContractAccountFilter;
+use App\Nova\Filters\ContractAccountToFilter;
 use App\Nova\Filters\ContractBrachFilter;
 use App\Nova\Filters\ContractFilter;
 use App\Nova\Filters\ContractSupplierFilter;
@@ -126,11 +128,13 @@ class IncomeOperation extends Resource
     public function filters(Request $request)
     {
         return [
+            new ContractAccountFilter(),
+            new ContractAccountToFilter(),
             new ContractBrachFilter(),
             new ContractSupplierFilter(),
-            new ContractFilter(),
             new DebetFilter(),
-            new CreditFilter()
+            new CreditFilter(),
+            new ContractFilter(),
         ];
     }
 

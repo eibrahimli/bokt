@@ -17,10 +17,6 @@ class IncomeOperationObserver
     public function created(IncomeOperation $incomeOperation)
     {
         // FROM ACCOUNT
-        $account_id = $incomeOperation->account_id;
-        $account = Account::where("id",$account_id)->first();
-        $total_price = $incomeOperation->price;
-
 
         $registry = new Registry();
         $registry->amount = $incomeOperation->price;
@@ -32,10 +28,16 @@ class IncomeOperationObserver
         $registry->product_name = $incomeOperation->purpose_payment;
         $registry->branch_id = $incomeOperation->branch_id;
         $registry->account_id = $incomeOperation->account_id;
+        $registry->account_id = $incomeOperation->account_to;
+        $registry->account_to = $incomeOperation->to;
         $registry->customer_id = null;
         $registry->supplier_id = $incomeOperation->supplier_id;
         $registry->save();
 
+
+        $account_id = $incomeOperation->account_id;
+        $account = Account::where("id",$account_id)->first();
+        $total_price = $incomeOperation->price;
 
         if($account!=null){
             $old_balance = floatval($account->balance);

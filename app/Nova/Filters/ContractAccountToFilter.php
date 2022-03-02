@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 use OptimistDigital\NovaInputFilter\InputFilter;
 
-class ContractAccountFilter extends InputFilter
+class ContractAccountToFilter extends InputFilter
 {
     /**
      * The filter's component.
@@ -18,7 +18,7 @@ class ContractAccountFilter extends InputFilter
 
     public function name()
     {
-        return __('Hesabdan');
+        return __('Hesaba');
     }
 
     /**
@@ -32,7 +32,7 @@ class ContractAccountFilter extends InputFilter
     public function apply(Request $request, $query, $value)
     {
         if ($value) {
-            return $query->where('account_id', $value);
+            return $query->where('account_to', $value);
         }
 
     }

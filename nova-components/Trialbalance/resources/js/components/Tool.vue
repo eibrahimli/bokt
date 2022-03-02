@@ -57,10 +57,23 @@
                         <div class="float-left nova-big-filter-col">
                             <div>
                                 <h3 class="text-sm uppercase tracking-wide text-80 bg-30 p-3">
-                                    Hesab
+                                    Hesabdan
                                 </h3>
                                 <div class="p-2">
                                     <select name="" v-model="account_id" class="block w-full form-control-sm form-input border-60">
+                                        <option value="0">Seçin</option>
+                                        <option v-for="(account,id) in accounts" :value="id">{{ account }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="float-left nova-big-filter-col">
+                            <div>
+                                <h3 class="text-sm uppercase tracking-wide text-80 bg-30 p-3">
+                                    Hesaba
+                                </h3>
+                                <div class="p-2">
+                                    <select name="" v-model="account_to" class="block w-full form-control-sm form-input border-60">
                                         <option value="0">Seçin</option>
                                         <option v-for="(account,id) in accounts" :value="id">{{ account }}</option>
                                     </select>
@@ -170,6 +183,7 @@ export default {
             dc_account_id: 0,
             branch_id: 0,
             account_id: 0,
+            account_to: 0,
             supplier_id: 0,
             check_null: 0
         }
@@ -200,6 +214,7 @@ export default {
                     branch_id: this.branch_id,
                     supplier_id: this.supplier_id,
                     account_id: this.account_id,
+                    account_to: this.account_to,
                     check_null : this.check_null
                 }
             }).then(data => {

@@ -34,6 +34,7 @@ class Registry extends Model
         $dc_account_id = intval($request->get("dc_account_id",0));
         $branch_id = $request->get("branch_id",0);
         $account_id = $request->get("account_id",0);
+        $account_to = $request->get("account_to",0);
         $supplier_id = $request->get("supplier_id",0);
         $check_null = $request->get("check_null",0);
         $begin_date = $request->get("begin_date",0);
@@ -67,6 +68,10 @@ class Registry extends Model
 
         if($account_id>0){
             $all = $all->where("account_id",$account_id);
+        }
+
+        if($account_to>0){
+            $all = $all->where("account_to",$account_to);
         }
 
         if($dc_account_id > 0){
@@ -134,6 +139,11 @@ class Registry extends Model
     public function account(): BelongsTo
     {
         return $this->belongsTo('App\Models\Account', 'account_id', 'id');
+    }
+
+    public function accountTo(): BelongsTo
+    {
+        return $this->belongsTo('App\Models\Account', 'account_to', 'id');
     }
 
     public function debetAccount(): \Illuminate\Database\Eloquent\Relations\BelongsTo
