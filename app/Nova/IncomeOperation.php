@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Nova\Filters\ContractAccountFilter;
 use App\Nova\Filters\ContractAccountToFilter;
+use App\Nova\Filters\ContractAdminFilter;
 use App\Nova\Filters\ContractBrachFilter;
 use App\Nova\Filters\ContractFilter;
 use App\Nova\Filters\ContractSupplierFilter;
@@ -102,6 +103,8 @@ class IncomeOperation extends Resource
                     $contracts =  $contracts->pluck("contract_number","id");
                     return $contracts;
                 }),
+
+            BelongsTo::make(__('Admin'), 'user', User::class),
         ];
     }
 
@@ -135,6 +138,8 @@ class IncomeOperation extends Resource
             new DebetFilter(),
             new CreditFilter(),
             new ContractFilter(),
+            new ContractAdminFilter()
+
         ];
     }
 

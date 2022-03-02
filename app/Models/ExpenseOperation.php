@@ -43,4 +43,9 @@ class ExpenseOperation extends Model
     {
         return $this->belongsTo('App\Models\DcAccount', 'credit', 'code');
     }
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
+    }
 }

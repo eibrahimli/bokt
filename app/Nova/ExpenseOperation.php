@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Filters\ContractAccountFilter;
+use App\Nova\Filters\ContractAdminFilter;
 use App\Nova\Filters\ContractBrachFilter;
 use App\Nova\Filters\ContractFilter;
 use App\Nova\Filters\ContractSupplierFilter;
@@ -134,6 +135,8 @@ class ExpenseOperation extends Resource
                 '1' => 'Bank hesabı',
             ])->displayUsingLabels(),
             Text::make(__("Ödəniş təyinatı"),"purpose_payment"),
+            BelongsTo::make(__('Admin'), 'user', User::class),
+
         ];
     }
 
@@ -165,7 +168,8 @@ class ExpenseOperation extends Resource
             new ContractSupplierFilter(),
             new ContractFilter(),
             new DebetFilter(),
-            new CreditFilter()
+            new CreditFilter(),
+            new ContractAdminFilter()
 
         ];
     }
