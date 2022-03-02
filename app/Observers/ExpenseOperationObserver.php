@@ -16,19 +16,6 @@ class ExpenseOperationObserver
      */
     public function created(ExpenseOperation $expenseOperation)
     {
-        //
-        $account_id = $expenseOperation->account_id;
-        $account = Account::find($account_id);
-        $total_price = $expenseOperation->total_price;
-        if($account!=null){
-            $old_balance = floatval($account->balance);
-            if(($old_balance - $total_price)>0){
-                $new_balance = $old_balance-$total_price;
-                $account->balance = $new_balance;
-                $account->save();
-            }
-        }
-
 
         $registry = new Registry();
         $registry->amount = $expenseOperation->total_price;
@@ -43,6 +30,22 @@ class ExpenseOperationObserver
         $registry->customer_id = $expenseOperation->customer_id;
         $registry->supplier_id = $expenseOperation->supplier_id;
         $registry->save();
+
+        //
+
+        $account_id = $expenseOperation->account_id;
+        $account = Account::where("id",$account_id)->first();
+        $total_price = $expenseOperation->total_price;
+
+        if($account!=null){
+            $old_balance = floatval($account->balance);
+            if(($old_balance - $total_price)>0){
+                $new_balance = $old_balance-$total_price;
+                $account->balance = $new_balance;
+                $account->saveQuietly();
+            }
+        }
+
     }
 
     /**
