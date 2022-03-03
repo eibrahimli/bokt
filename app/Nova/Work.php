@@ -60,6 +60,7 @@ class Work extends Resource
             Date::make(__("Müqavilə başlayır"),"contract_begin"),
             Date::make(__("Müqavilə bitir"),"contract_end"),
             Text::make(__("Hesab Faktura Nömrəsi"),"invoice_number"),
+            Date::make(__("Hesab Faktura tarixi"),"invoice_date"),
             NestedForm::make(__('İş və xidmətlər'),'WorkInner',WorkInner::class)->heading('İş və xidmət siyahısı')->rules("required")->min(1),
             HasMany::make(__('İş və xidmətlər'), 'workInner', WorkInner::class)->onlyOnDetail(),
             new Panel('Yekun', [

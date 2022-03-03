@@ -98,7 +98,7 @@ class ExpenseOperation extends Resource
                         $contracts = $contracts->where("branch_id",$values["branch_id"]);
                     }
 
-                    $contracts =  $contracts->pluck("contract_number","id");
+                    $contracts =  $contracts->pluck("invoice_number","id");
                     return $contracts;
                 }),
 
