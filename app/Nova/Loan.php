@@ -7,6 +7,11 @@ use App\Nova\Actions\AcceptPayment;
 use App\Nova\Actions\AcceptServiceFeeForLoan;
 use App\Nova\Actions\CloseLoan;
 use App\Nova\Actions\CreateReScheduleLoanAction;
+use App\Nova\Actions\KendTeserrufati;
+use App\Nova\Actions\MikrobiznesMuqavilesi;
+use App\Nova\Actions\SazishYeniGirovMuqavilesi;
+use App\Nova\Actions\TreatyPrint;
+use App\Nova\Actions\ZaminlikMuqavilesi;
 use App\Nova\Metrics\LoanIsApproved;
 use App\Nova\Metrics\NewLoan;
 use App\Nova\Options\Agriculture;
@@ -212,7 +217,12 @@ class Loan extends Resource
 
             new CreateReScheduleLoanAction($this->model()),
             new CloseLoan($this->model()),
-            new AcceptServiceFeeForLoan($this->model())
+            new AcceptServiceFeeForLoan($this->model()),
+            new TreatyPrint($this->model()),
+            new KendTeserrufati($this->model()),
+            new ZaminlikMuqavilesi($this->model()),
+            new MikrobiznesMuqavilesi($this->model()),
+            new SazishYeniGirovMuqavilesi($this->model()),
 //            new AcceptPayment()
         ];
     }
