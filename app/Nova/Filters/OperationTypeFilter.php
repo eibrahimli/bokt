@@ -47,9 +47,15 @@ class OperationTypeFilter extends InputFilter
     public function options(Request $request)
     {
         return [
-            "Məxaric" => "Expense",
-            "Mədaxil"  => "Income",
-            "İş və xidmət"    => "Work"
+
+            "Hesab Faktura"    => "INVOICE",
+            "Hesab Faktura ƏDV"    => "INVOICE_EDV",
+            "Mədaxil"  => "INCOME",
+            "Məxaric" => "EXPENSE",
+            "Məxaric ƏDV"    => "EXPENSE_EDV",
+            "Kredit xidmət haqqı" => "LOAN_SERVICE ",
+            "Kredit ödənişi" => "LOAN_PAYMENT ",
+            "Kredit faizi ödənişi" => "LOAN_INTEREST ",
         ];
     }
 }

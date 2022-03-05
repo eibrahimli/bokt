@@ -18,10 +18,10 @@ class ExpenseOperationObserver
     {
 
         $registry = new Registry();
-        $registry->amount = $expenseOperation->total_price;
+        $registry->amount = $expenseOperation->price;
         $registry->debet = $expenseOperation->debet;
         $registry->credit = $expenseOperation->credit;
-        $registry->reg_type = 'Expense';
+        $registry->reg_type = 'EXPENSE';
         $registry->reg_id = $expenseOperation->id;
         $registry->product_id = 0;
         $registry->product_name = $expenseOperation->purpose_payment;
@@ -30,6 +30,26 @@ class ExpenseOperationObserver
         $registry->customer_id = $expenseOperation->customer_id;
         $registry->supplier_id = $expenseOperation->supplier_id;
         $registry->save();
+
+        if($expenseOperation->edv_percent>0){
+            $price =$expenseOperation->total_price - $expenseOperation->price;
+            if($price>0){
+                $debet = 224020;
+                $registry = new Registry();
+                $registry->amount = $price;
+                $registry->debet = $debet;
+                $registry->credit = $expenseOperation->credit;
+                $registry->reg_type = 'EXPENSE_EDV';
+                $registry->reg_id = $expenseOperation->id;
+                $registry->product_id = 0;
+                $registry->product_name = $expenseOperation->purpose_payment;
+                $registry->branch_id = $expenseOperation->branch_id;
+                $registry->account_id = $expenseOperation->account_id;
+                $registry->customer_id = $expenseOperation->customer_id;
+                $registry->supplier_id = $expenseOperation->supplier_id;
+                $registry->save();
+            }
+        }
 
         //
 

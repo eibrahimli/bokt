@@ -107,7 +107,7 @@ class ExpenseOperation extends Resource
             Text::make(__("ƏDV məbləği"),"edv_price"),*/
 
 
-            BroadcasterField::make('Ödəniş məbləği', 'price'),
+            BroadcasterField::make('Ödəniş məbləği', 'price')->setType('string'),
             BroadcasterField::make('ƏDV dərəcəsi', 'edv_percent'),
 
          /*   ListenerField::make('ƏDV məbləği', 'edv_price')
