@@ -65,7 +65,7 @@ class WorkInnerObserver
     {
         //
 
-        $registry = Registry::where("reg_type",'Work')->where("reg_id",$workInner->id)->first();
+        $registry = Registry::where("reg_type",'INVOICE')->where("reg_id",$workInner->id)->first();
         if($registry!=null){
             $registry->amount = $workInner->price;
             $registry->debet = $workInner->debet;
