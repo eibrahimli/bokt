@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\Account;
 use App\Models\IncomeOperation;
 use App\Models\Registry;
 
@@ -15,7 +16,8 @@ class IncomeOperationObserver
      */
     public function created(IncomeOperation $incomeOperation)
     {
-        //
+        // FROM ACCOUNT
+
         $registry = new Registry();
         $registry->amount = $incomeOperation->price;
         $registry->debet = $incomeOperation->debet;
@@ -26,9 +28,39 @@ class IncomeOperationObserver
         $registry->product_name = $incomeOperation->purpose_payment;
         $registry->branch_id = $incomeOperation->branch_id;
         $registry->account_id = $incomeOperation->account_id;
-        $registry->customer_id = $incomeOperation->customer_id;
+        $registry->account_id = $incomeOperation->account_to;
+        $registry->account_to = $incomeOperation->to;
+        $registry->customer_id = null;
         $registry->supplier_id = $incomeOperation->supplier_id;
         $registry->save();
+
+
+        $account_id = $incomeOperation->account_id;
+        $account = Account::where("id",$account_id)->first();
+        $total_price = $incomeOperation->price;
+
+        if($account!=null){
+            $old_balance = floatval($account->balance);
+            if(($old_balance - $total_price)>0){
+                $new_balance = $old_balance-$total_price;
+                $account->balance = $new_balance;
+                $account->saveQuietly();
+            }
+        }
+
+        // TO ACCOUNT
+        $account_to_id = $incomeOperation->account_to;
+        $account = Account::where("id",$account_to_id)->first();
+        $total_price = $incomeOperation->price;
+        if($account!=null){
+            $old_balance = floatval($account->balance);
+            $new_balance = $old_balance+$total_price;
+            $account->balance = $new_balance;
+            $account->saveQuietly();
+        }
+
+        //
+
     }
 
     /**

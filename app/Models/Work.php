@@ -14,6 +14,7 @@ class Work extends Model
         'contract_begin' => 'date',
         'contract_end' => 'date',
         'contract_date' => 'date',
+        'invoice_date' => 'date',
     ];
 
     public static function boot()

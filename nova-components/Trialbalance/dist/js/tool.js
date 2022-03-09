@@ -169,7 +169,7 @@ exports = module.exports = __webpack_require__(5)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -785,6 +785,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     metaInfo: function metaInfo() {
@@ -804,6 +818,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             dc_account_id: 0,
             branch_id: 0,
             account_id: 0,
+            account_to: 0,
             supplier_id: 0,
             check_null: 0
         };
@@ -836,6 +851,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     branch_id: this.branch_id,
                     supplier_id: this.supplier_id,
                     account_id: this.account_id,
+                    account_to: this.account_to,
                     check_null: this.check_null
                 }
             }).then(function (data) {
@@ -880,6 +896,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function (er) {
                 console.log(er);
             });
+        },
+        exportTableToExcel: function exportTableToExcel(tableID) {
+            var filename = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+            var downloadLink;
+            var dataType = 'application/vnd.ms-excel;charset=UTF-8';
+            var tableSelect = document.getElementById(tableID);
+            var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+            // Specify file name
+            filename = filename ? filename + '.xls' : 'excel_data.xls';
+
+            // Create download link element
+            downloadLink = document.createElement("a");
+
+            document.body.appendChild(downloadLink);
+
+            if (navigator.msSaveOrOpenBlob) {
+                var blob = new Blob(['\uFEFF', tableHTML], {
+                    type: dataType
+                });
+                navigator.msSaveOrOpenBlob(blob, filename);
+            } else {
+                // Create a link to the file
+                downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+                // Setting the file name
+                downloadLink.download = filename;
+
+                //triggering the function
+                downloadLink.click();
+            }
         }
     }
 });
@@ -1082,7 +1130,7 @@ var render = function() {
                             _vm._v(" "),
                             _vm._l(_vm.codes, function(code, id) {
                               return _c("option", { domProps: { value: id } }, [
-                                _vm._v(_vm._s(code))
+                                _vm._v(_vm._s(id + " " + code))
                               ])
                             })
                           ],
@@ -1165,7 +1213,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                Hesab\n                            "
+                            "\n                                Hesabdan\n                            "
                           )
                         ]
                       ),
@@ -1196,6 +1244,69 @@ var render = function() {
                                     return val
                                   })
                                 _vm.account_id = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "0" } }, [
+                              _vm._v("Seçin")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.accounts, function(account, id) {
+                              return _c("option", { domProps: { value: id } }, [
+                                _vm._v(_vm._s(account))
+                              ])
+                            })
+                          ],
+                          2
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "float-left nova-big-filter-col" }, [
+                    _c("div", [
+                      _c(
+                        "h3",
+                        {
+                          staticClass:
+                            "text-sm uppercase tracking-wide text-80 bg-30 p-3"
+                        },
+                        [
+                          _vm._v(
+                            "\n                                Hesaba\n                            "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "p-2" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.account_to,
+                                expression: "account_to"
+                              }
+                            ],
+                            staticClass:
+                              "block w-full form-control-sm form-input border-60",
+                            attrs: { name: "" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.account_to = $event.target.multiple
                                   ? $$selectedVal
                                   : $$selectedVal[0]
                               }
@@ -1363,7 +1474,24 @@ var render = function() {
                           staticClass: "btn btn-default btn-primary",
                           attrs: { type: "submit", value: "Axtar" },
                           on: { click: _vm.getRows }
-                        })
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "btn btn-default btn-danger float-right",
+                            on: {
+                              click: function($event) {
+                                return _vm.exportTableToExcel(
+                                  "tblData",
+                                  "Trial-Balance-Data"
+                                )
+                              }
+                            }
+                          },
+                          [_vm._v("Excel")]
+                        )
                       ])
                     ])
                   ])
@@ -1385,7 +1513,8 @@ var render = function() {
             "table",
             {
               staticClass:
-                "border-collapse border border-gray-400 table w-full table-default"
+                "border-collapse border border-gray-400 table w-full table-default",
+              attrs: { id: "tblData" }
             },
             [
               _c("thead", [
@@ -1398,7 +1527,7 @@ var render = function() {
                       staticClass: "border border-gray-300  text-center",
                       attrs: { colspan: "2" }
                     },
-                    [_vm._v("İLKİN")]
+                    [_vm._v("ILKIN")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1407,7 +1536,7 @@ var render = function() {
                       staticClass: "border border-gray-300  text-center",
                       attrs: { colspan: "2" }
                     },
-                    [_vm._v("DÖVR ÜZRƏ")]
+                    [_vm._v("DOVR UZRE")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1436,7 +1565,7 @@ var render = function() {
                   _c(
                     "th",
                     { staticClass: "border border-gray-300  text-center" },
-                    [_vm._v("KREDİT")]
+                    [_vm._v("KREDIT")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1448,7 +1577,7 @@ var render = function() {
                   _c(
                     "th",
                     { staticClass: "border border-gray-300  text-center" },
-                    [_vm._v("KREDİT")]
+                    [_vm._v("KREDIT")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1460,7 +1589,7 @@ var render = function() {
                   _c(
                     "th",
                     { staticClass: "border border-gray-300  text-center" },
-                    [_vm._v("KREDİT")]
+                    [_vm._v("KREDIT")]
                   )
                 ])
               ]),
@@ -1476,27 +1605,49 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "border border-gray-300 ..." }, [
-                      _vm._v(_vm._s(row.operations.debet.first))
+                      _vm._v(
+                        _vm._s(
+                          parseFloat(row.operations.debet.first).toFixed(2)
+                        )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "border border-gray-300 ..." }, [
-                      _vm._v(_vm._s(row.operations.credit.first))
+                      _vm._v(
+                        _vm._s(
+                          parseFloat(row.operations.credit.first).toFixed(2)
+                        )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "border border-gray-300 ..." }, [
-                      _vm._v(_vm._s(row.operations.debet.current))
+                      _vm._v(
+                        _vm._s(
+                          parseFloat(row.operations.debet.current).toFixed(2)
+                        )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "border border-gray-300 ..." }, [
-                      _vm._v(_vm._s(row.operations.credit.current))
+                      _vm._v(
+                        _vm._s(
+                          parseFloat(row.operations.credit.current).toFixed(2)
+                        )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "border border-gray-300 ..." }, [
-                      _vm._v(_vm._s(row.operations.debet.last))
+                      _vm._v(
+                        _vm._s(parseFloat(row.operations.debet.last).toFixed(2))
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "border border-gray-300 ..." }, [
-                      _vm._v(_vm._s(row.operations.credit.last))
+                      _vm._v(
+                        _vm._s(
+                          parseFloat(row.operations.credit.last).toFixed(2)
+                        )
+                      )
                     ])
                   ])
                 }),

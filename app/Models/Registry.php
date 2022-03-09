@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Registry extends Model
 {
@@ -33,6 +34,7 @@ class Registry extends Model
         $dc_account_id = intval($request->get("dc_account_id",0));
         $branch_id = $request->get("branch_id",0);
         $account_id = $request->get("account_id",0);
+        $account_to = $request->get("account_to",0);
         $supplier_id = $request->get("supplier_id",0);
         $check_null = $request->get("check_null",0);
         $begin_date = $request->get("begin_date",0);
@@ -66,6 +68,10 @@ class Registry extends Model
 
         if($account_id>0){
             $all = $all->where("account_id",$account_id);
+        }
+
+        if($account_to>0){
+            $all = $all->where("account_to",$account_to);
         }
 
         if($dc_account_id > 0){
@@ -113,5 +119,45 @@ class Registry extends Model
          }
 
         return $datas;
+    }
+
+    public function branch(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\Branch', 'branch_id', 'id');
+    }
+
+    public function supplier(): BelongsTo
+    {
+        return $this->belongsTo('App\Models\Supplier', 'supplier_id', 'id');
+    }
+
+    public function work(): BelongsTo
+    {
+        return $this->belongsTo('App\Models\Work', 'work_id', 'id');
+    }
+
+    public function account(): BelongsTo
+    {
+        return $this->belongsTo('App\Models\Account', 'account_id', 'id');
+    }
+
+    public function accountTo(): BelongsTo
+    {
+        return $this->belongsTo('App\Models\Account', 'account_to', 'id');
+    }
+
+    public function debetAccount(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\DcAccount', 'debet', 'code');
+    }
+
+    public function creditAccount(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\DcAccount', 'credit', 'code');
+    }
+
+    public function customer(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\Customer', 'customer_id', 'id');
     }
 }

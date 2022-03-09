@@ -2,13 +2,26 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\ContractAccountFilter;
+use App\Nova\Filters\ContractAccountToFilter;
+use App\Nova\Filters\ContractBrachFilter;
+use App\Nova\Filters\ContractFilter;
+use App\Nova\Filters\ContractSupplierFilter;
+use App\Nova\Filters\CreditFilter;
+use App\Nova\Filters\DebetFilter;
+use App\Nova\Filters\OperationTypeFilter;
+use App\Nova\Filters\RegistryAmountFilter;
+use App\Nova\Filters\RegistryDateFilter;
 use App\Nova\Metrics\AssetsMetrics;
 use App\Nova\Metrics\RegistryMetrics;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use NrmlCo\NovaBigFilter\NovaBigFilter;
 
 class Registry extends Resource
 {
@@ -58,17 +71,18 @@ class Registry extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make(__("Məbləğ"),"amount"),
-            Text::make(__("Debet"),"debet"),
-            Text::make(__("Kredit"),"credit"),
+            BelongsTo::make(__('Müxabirləşmə (Debet)'), 'debetAccount', DcAccount::class)->showCreateRelationButton(),
+            BelongsTo::make(__('Müxabirləşmə (Kredit)'), 'creditAccount', DcAccount::class)->showCreateRelationButton(),
             Text::make(__("Əməliyyat"),"reg_type"),
             Text::make(__("Əməliyyat nömrəsi"),"reg_id"),
             Text::make(__("Xərcin tipi"),"product_id"),
             Text::make(__("Xərcin adı"),"product_name"),
-            Text::make(__("Filial"),"branch_id"),
-            Text::make(__("Hesab"),"account_id"),
-            Text::make(__("Müştəri"),"customer_id"),
-            Text::make(__("Müqavilə"),"contract_id"),
-            Text::make(__("Təchizatçı"),"supplier_id"),
+            BelongsTo::make(__('Alıcı (filial)'), 'branch', Branch::class),
+            BelongsTo::make(__('Təchizatçı'), 'supplier', Supplier::class),
+            BelongsTo::make(__('Müqavilə'), 'work', Work::class),
+            BelongsTo::make(__('Hesabdan'), 'account', Account::class),
+            BelongsTo::make(__('Hesaba'), 'accountTo', Account::class),
+            BelongsTo::make('Müştəri', 'customer', Customer::class),
             Text::make(__("Tarix"),"created_at"),
 
         ];
@@ -83,7 +97,7 @@ class Registry extends Resource
     public function cards(Request $request)
     {
         return [
-
+            (new NovaBigFilter)->setMaxHeight(400),
             new RegistryMetrics(null,$this,"Yeni reyestr","new"),
             new RegistryMetrics(null,$this,"Toplam məbləğ","price"),
         ];
@@ -97,7 +111,18 @@ class Registry extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new ContractAccountFilter(),
+            new ContractAccountToFilter(),
+            new ContractBrachFilter(),
+            new ContractSupplierFilter(),
+            new ContractFilter(),
+            new DebetFilter(),
+            new CreditFilter(),
+            new RegistryAmountFilter(),
+            new RegistryDateFilter(),
+            new OperationTypeFilter()
+        ];
     }
 
     /**

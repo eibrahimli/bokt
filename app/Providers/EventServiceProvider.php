@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Customer;
 use App\Models\ExpenseOperation;
 use App\Models\Guarantor;
+use App\Models\IncomeOperation;
 use App\Models\Loan;
 use App\Models\MainAsset;
 use App\Models\Transaction;
@@ -13,6 +14,7 @@ use App\Models\WorkInner;
 use App\Observers\CustomerObserver;
 use App\Observers\ExpenseOperationObserver;
 use App\Observers\GuarantorObserver;
+use App\Observers\IncomeOperationObserver;
 use App\Observers\LoanObserver;
 use App\Observers\MainAssetObserver;
 use App\Observers\TransactionObserver;
@@ -51,5 +53,6 @@ class EventServiceProvider extends ServiceProvider
         WorkInner::observe(WorkInnerObserver::class);
         MainAsset::observe(MainAssetObserver::class);
         ExpenseOperation::observe(ExpenseOperationObserver::class);
+        IncomeOperation::observe(IncomeOperationObserver::class);
     }
 }

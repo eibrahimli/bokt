@@ -18,7 +18,7 @@ class ContractFilter extends InputFilter
 
     public function name()
     {
-        return __('Müqavilə');
+        return __('Hesab Faktura');
     }
 
     /**
@@ -32,7 +32,7 @@ class ContractFilter extends InputFilter
     public function apply(Request $request, $query, $value)
     {
         if ($value) {
-            return $query->where('contract_id', $value);
+            return $query->where('work_id', $value);
         }
 
     }
@@ -45,6 +45,6 @@ class ContractFilter extends InputFilter
      */
     public function options(Request $request)
     {
-        return \App\Models\Contract::pluck("id","contract_number")->all();
+        return \App\Models\Work::pluck("id","invoice_number")->all();
     }
 }

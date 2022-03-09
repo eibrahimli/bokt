@@ -56,6 +56,7 @@ class Branch extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('Ad', 'name')->sortable(),
+            Text::make('Fillal müdürü', 'director')->sortable(),
             HasMany::make('İstifadəçi', 'users', User::class),
         ];
     }

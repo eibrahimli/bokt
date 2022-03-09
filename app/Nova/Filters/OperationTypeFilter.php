@@ -2,11 +2,13 @@
 
 namespace App\Nova\Filters;
 
+use App\Nova\CustomerType;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\In;
 use Laravel\Nova\Filters\Filter;
 use OptimistDigital\NovaInputFilter\InputFilter;
 
-class CreditFilter extends InputFilter
+class OperationTypeFilter extends InputFilter
 {
     /**
      * The filter's component.
@@ -17,7 +19,7 @@ class CreditFilter extends InputFilter
 
     public function name()
     {
-        return __('Kredit');
+        return __('Əməliyyat növü');
     }
 
     /**
@@ -31,7 +33,7 @@ class CreditFilter extends InputFilter
     public function apply(Request $request, $query, $value)
     {
         if ($value) {
-            return $query->where('credit', $value);
+            return $query->where('reg_type', $value);
         }
 
     }
@@ -44,11 +46,16 @@ class CreditFilter extends InputFilter
      */
     public function options(Request $request)
     {
-        $datas = [];
-        $values = \App\Models\DcAccount::pluck("name","code")->all();
-        foreach ($values as $key=>$value){
-            $datas[$key." ".$value] = $key;
-        }
-        return $datas;
+        return [
+
+            "Hesab Faktura"    => "INVOICE",
+            "Hesab Faktura ƏDV"    => "INVOICE_EDV",
+            "Mədaxil"  => "INCOME",
+            "Məxaric" => "EXPENSE",
+            "Məxaric ƏDV"    => "EXPENSE_EDV",
+            "Kredit xidmət haqqı" => "LOAN_SERVICE ",
+            "Kredit ödənişi" => "LOAN_PAYMENT ",
+            "Kredit faizi ödənişi" => "LOAN_INTEREST ",
+        ];
     }
 }

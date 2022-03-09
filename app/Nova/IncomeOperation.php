@@ -2,6 +2,9 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\ContractAccountFilter;
+use App\Nova\Filters\ContractAccountToFilter;
+use App\Nova\Filters\ContractAdminFilter;
 use App\Nova\Filters\ContractBrachFilter;
 use App\Nova\Filters\ContractFilter;
 use App\Nova\Filters\ContractSupplierFilter;
@@ -68,7 +71,10 @@ class IncomeOperation extends Resource
             BelongsTo::make(__('Alıcı (filial)'), 'branch', Branch::class),
             BelongsTo::make(__('Təchizatçı'), 'supplier', Supplier::class),
             BelongsTo::make(__('Müqavilə'), 'contract', Contract::class),*/
-            BelongsTo::make(__('Hesabdan'), 'accountFrom', Account::class),
+            BelongsTo::make(__('Hesabdan'), 'accountFrom', Account::class)->nullable(),
+            DynamicSelect::make('Kimdən', 'supplier_id')
+                ->options(\App\Models\Supplier::pluck("name","id")->all()),
+            //->rules('required'),
             BelongsTo::make(__('Hesaba'), 'accountTo', Account::class),
             BelongsTo::make(__('Müxabirləşmə (Debet)'), 'debetAccount', DcAccount::class)->showCreateRelationButton(),
             BelongsTo::make(__('Müxabirləşmə (Kredit)'), 'creditAccount', DcAccount::class)->showCreateRelationButton(),
@@ -76,9 +82,7 @@ class IncomeOperation extends Resource
             Date::make(__("Ödəniş tarixi"),"payment_date"),
 /*            Text::make(__("Ödəniş metodu"),"operation_method"),*/
             Text::make(__("Ödəniş təyinatı"),"purpose_payment"),
-            DynamicSelect::make('Təchizatçı(Şirkət)', 'supplier_id')
-                ->options(\App\Models\Supplier::pluck("name","id")->all()),
-            //->rules('required'),
+
 
             DynamicSelect::make('Filial', 'branch_id')
                 ->options(\App\Models\Branch::pluck("name","id")->all()),
@@ -96,9 +100,11 @@ class IncomeOperation extends Resource
                         $contracts = $contracts->where("branch_id",$values["branch_id"]);
                     }
 
-                    $contracts =  $contracts->pluck("contract_number","id");
+                    $contracts =  $contracts->pluck("invoice_number","id");
                     return $contracts;
                 }),
+
+            BelongsTo::make(__('Admin'), 'user', User::class),
         ];
     }
 
@@ -125,11 +131,15 @@ class IncomeOperation extends Resource
     public function filters(Request $request)
     {
         return [
+            new ContractAccountFilter(),
+            new ContractAccountToFilter(),
             new ContractBrachFilter(),
             new ContractSupplierFilter(),
-            new ContractFilter(),
             new DebetFilter(),
-            new CreditFilter()
+            new CreditFilter(),
+            new ContractFilter(),
+            new ContractAdminFilter()
+
         ];
     }
 

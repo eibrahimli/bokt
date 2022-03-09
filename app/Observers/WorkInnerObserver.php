@@ -18,10 +18,10 @@ class WorkInnerObserver
     {
         //
         $registry = new Registry();
-        $registry->amount = $workInner->total_price;
+        $registry->amount = $workInner->price;
         $registry->debet = $workInner->debet;
         $registry->credit = $workInner->credit;
-        $registry->reg_type = 'WorkInner';
+        $registry->reg_type = 'INVOICE';
         $registry->reg_id = $workInner->id;
         $registry->product_id = $workInner->type;
         $registry->product_name = $workInner->name;
@@ -30,6 +30,29 @@ class WorkInnerObserver
         $registry->customer_id = null;
         $registry->supplier_id = $workInner->work->supplier_id;
         $registry->save();
+
+
+        if($workInner->edv>0){
+            $price =$workInner->total_price - $workInner->price;
+            if($price>0){
+                $debet_edv = 260100;
+                $credit_edv = 224020;
+                $registry = new Registry();
+                $registry->amount = $price;
+                $registry->debet = $debet_edv;
+                $registry->credit = $credit_edv;
+                $registry->reg_type = 'INVOICE_EDV';
+                $registry->reg_id = $workInner->id;
+                $registry->product_id = $workInner->type;
+                $registry->product_name = $workInner->name;
+                $registry->branch_id = $workInner->work->branch_id;
+                $registry->account_id = null;
+                $registry->customer_id = null;
+                $registry->supplier_id = $workInner->work->supplier_id;
+                $registry->save();
+            }
+
+        }
     }
 
     /**
@@ -42,9 +65,9 @@ class WorkInnerObserver
     {
         //
 
-        $registry = Registry::where("reg_type",'WorkInner')->where("reg_id",$workInner->id)->first();
+        $registry = Registry::where("reg_type",'INVOICE')->where("reg_id",$workInner->id)->first();
         if($registry!=null){
-            $registry->amount = $workInner->total_price;
+            $registry->amount = $workInner->price;
             $registry->debet = $workInner->debet;
             $registry->credit = $workInner->credit;
             $registry->product_id = $workInner->type;
@@ -53,6 +76,8 @@ class WorkInnerObserver
             $registry->account_id = null;
             $registry->customer_id = null;
             $registry->supplier_id = $workInner->work->supplier_id;
+            $registry->reg_type = 'Work';
+            $registry->reg_id = $workInner->id;
             $registry->save();
         }
 

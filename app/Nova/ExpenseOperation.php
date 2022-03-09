@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\ContractAccountFilter;
+use App\Nova\Filters\ContractAdminFilter;
 use App\Nova\Filters\ContractBrachFilter;
 use App\Nova\Filters\ContractFilter;
 use App\Nova\Filters\ContractSupplierFilter;
@@ -96,7 +98,7 @@ class ExpenseOperation extends Resource
                         $contracts = $contracts->where("branch_id",$values["branch_id"]);
                     }
 
-                    $contracts =  $contracts->pluck("contract_number","id");
+                    $contracts =  $contracts->pluck("invoice_number","id");
                     return $contracts;
                 }),
 
@@ -105,7 +107,7 @@ class ExpenseOperation extends Resource
             Text::make(__("ƏDV məbləği"),"edv_price"),*/
 
 
-            BroadcasterField::make('Ödəniş məbləği', 'price'),
+            BroadcasterField::make('Ödəniş məbləği', 'price')->setType('string'),
             BroadcasterField::make('ƏDV dərəcəsi', 'edv_percent'),
 
          /*   ListenerField::make('ƏDV məbləği', 'edv_price')
@@ -133,6 +135,8 @@ class ExpenseOperation extends Resource
                 '1' => 'Bank hesabı',
             ])->displayUsingLabels(),
             Text::make(__("Ödəniş təyinatı"),"purpose_payment"),
+            BelongsTo::make(__('Admin'), 'user', User::class),
+
         ];
     }
 
@@ -159,11 +163,13 @@ class ExpenseOperation extends Resource
     public function filters(Request $request)
     {
         return [
+            new ContractAccountFilter(),
             new ContractBrachFilter(),
             new ContractSupplierFilter(),
             new ContractFilter(),
             new DebetFilter(),
-            new CreditFilter()
+            new CreditFilter(),
+            new ContractAdminFilter()
 
         ];
     }

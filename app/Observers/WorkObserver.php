@@ -18,9 +18,6 @@ class WorkObserver
      */
     public function created(Work $work)
     {
-        //
-        $branch_id = 0;
-        $supplier_id = 0;
         $workInner = WorkInner::where("work_id",$work->id)->get();
 
         if($work->supplier_id > 0){
@@ -40,22 +37,6 @@ class WorkObserver
                 $supplier->save();
             }
         }
-        //dd($work);
-       /*     foreach ($workInner as $inner){
-                $registry = new \App\Models\Registry();
-                $registry->amount = $inner->total_price;
-                $registry->debet = $inner->debet;
-                $registry->credit = $inner->credit;
-                $registry->reg_type = 'WorkInner';
-                $registry->reg_id = $inner->id;
-                $registry->product_id = $inner->type;
-                $registry->product_name = $inner->name;
-                $registry->branch_id = $work->branch_id;
-                $registry->account_id = null;
-                $registry->customer_id = null;
-                $registry->supplier_id = $work->supplier_id;
-                $registry->save();
-            }*/
 
 
     }
@@ -80,6 +61,7 @@ class WorkObserver
     public function deleted(Work $work)
     {
         //
+
     }
 
     /**

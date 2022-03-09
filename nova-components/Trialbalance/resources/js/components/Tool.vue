@@ -36,7 +36,7 @@
                                 <div class="p-2">
                                     <select name="" v-model="dc_account_id" v-on="getRows" class="block w-full form-control-sm form-input border-60">
                                         <option value="0">Seçin</option>
-                                        <option v-for="(code,id) in codes" :value="id">{{ code }}</option>
+                                        <option v-for="(code,id) in codes" :value="id">{{ id+" "+code }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -57,10 +57,23 @@
                         <div class="float-left nova-big-filter-col">
                             <div>
                                 <h3 class="text-sm uppercase tracking-wide text-80 bg-30 p-3">
-                                    Hesab
+                                    Hesabdan
                                 </h3>
                                 <div class="p-2">
                                     <select name="" v-model="account_id" class="block w-full form-control-sm form-input border-60">
+                                        <option value="0">Seçin</option>
+                                        <option v-for="(account,id) in accounts" :value="id">{{ account }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="float-left nova-big-filter-col">
+                            <div>
+                                <h3 class="text-sm uppercase tracking-wide text-80 bg-30 p-3">
+                                    Hesaba
+                                </h3>
+                                <div class="p-2">
+                                    <select name="" v-model="account_to" class="block w-full form-control-sm form-input border-60">
                                         <option value="0">Seçin</option>
                                         <option v-for="(account,id) in accounts" :value="id">{{ account }}</option>
                                     </select>
@@ -100,6 +113,8 @@
                                 </h3>
                                 <div class="p-2">
                                     <input type="submit" @click="getRows" class="btn btn-default btn-primary" value="Axtar">
+                                    <button @click="exportTableToExcel('tblData', 'Trial-Balance-Data')" class="btn btn-default btn-danger float-right">Excel</button>
+
                                 </div>
                             </div>
                         </div>
@@ -114,38 +129,37 @@
 
 
 
-            <table class="border-collapse border border-gray-400 table w-full table-default">
+            <table class="border-collapse border border-gray-400 table w-full table-default" id="tblData">
                 <thead>
                 <tr >
                     <th class="border border-gray-300 ..."></th>
-                    <th class="border border-gray-300  text-center" colspan="2">İLKİN</th>
-                    <th class="border border-gray-300  text-center" colspan="2">DÖVR ÜZRƏ</th>
+                    <th class="border border-gray-300  text-center" colspan="2">ILKIN</th>
+                    <th class="border border-gray-300  text-center" colspan="2">DOVR UZRE</th>
                     <th class="border border-gray-300  text-center" colspan="2">QALIQ</th>
                 </tr>
                 <tr>
                     <th class="border border-gray-300 text-center">Kod</th>
                     <th class="border border-gray-300  text-center">DEBET</th>
-                    <th class="border border-gray-300  text-center">KREDİT</th>
+                    <th class="border border-gray-300  text-center">KREDIT</th>
                     <th class="border border-gray-300  text-center">DEBET</th>
-                    <th class="border border-gray-300  text-center">KREDİT</th>
+                    <th class="border border-gray-300  text-center">KREDIT</th>
                     <th class="border border-gray-300  text-center">DEBET</th>
-                    <th class="border border-gray-300  text-center">KREDİT</th>
+                    <th class="border border-gray-300  text-center">KREDIT</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="row in rows">
                     <td class="border border-gray-300 ...">{{ row.code}} <br /> {{ row.name}}</td>
-                    <td class="border border-gray-300 ...">{{ row.operations.debet.first}}</td>
-                    <td class="border border-gray-300 ...">{{ row.operations.credit.first}}</td>
-                    <td class="border border-gray-300 ...">{{ row.operations.debet.current}}</td>
-                    <td class="border border-gray-300 ...">{{ row.operations.credit.current}}</td>
-                    <td class="border border-gray-300 ...">{{ row.operations.debet.last}}</td>
-                    <td class="border border-gray-300 ...">{{ row.operations.credit.last}}</td>
+                    <td class="border border-gray-300 ...">{{ parseFloat(row.operations.debet.first).toFixed(2)}}</td>
+                    <td class="border border-gray-300 ...">{{ parseFloat(row.operations.credit.first).toFixed(2)}}</td>
+                    <td class="border border-gray-300 ...">{{ parseFloat(row.operations.debet.current).toFixed(2)}}</td>
+                    <td class="border border-gray-300 ...">{{ parseFloat(row.operations.credit.current).toFixed(2)}}</td>
+                    <td class="border border-gray-300 ...">{{ parseFloat(row.operations.debet.last).toFixed(2)}}</td>
+                    <td class="border border-gray-300 ...">{{ parseFloat(row.operations.credit.last).toFixed(2)}}</td>
                 </tr>
 
                 </tbody>
             </table>
-
 
         </card>
     </div>
@@ -170,6 +184,7 @@ export default {
             dc_account_id: 0,
             branch_id: 0,
             account_id: 0,
+            account_to: 0,
             supplier_id: 0,
             check_null: 0
         }
@@ -200,6 +215,7 @@ export default {
                     branch_id: this.branch_id,
                     supplier_id: this.supplier_id,
                     account_id: this.account_id,
+                    account_to: this.account_to,
                     check_null : this.check_null
                 }
             }).then(data => {
@@ -242,6 +258,36 @@ export default {
                 console.log(er)
             })
         },
+        exportTableToExcel(tableID, filename = ''){
+            var downloadLink;
+            var dataType = 'application/vnd.ms-excel;charset=UTF-8';
+            var tableSelect = document.getElementById(tableID);
+            var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+            // Specify file name
+            filename = filename?filename+'.xls':'excel_data.xls';
+
+            // Create download link element
+            downloadLink = document.createElement("a");
+
+            document.body.appendChild(downloadLink);
+
+            if(navigator.msSaveOrOpenBlob){
+                var blob = new Blob(['\ufeff', tableHTML], {
+                    type: dataType
+                });
+                navigator.msSaveOrOpenBlob( blob, filename);
+            }else{
+                // Create a link to the file
+                downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+                // Setting the file name
+                downloadLink.download = filename;
+
+                //triggering the function
+                downloadLink.click();
+            }
+        }
     }
 }
 </script>
@@ -249,3 +295,6 @@ export default {
 <style>
 /* Scoped Styles */
 </style>
+
+
+
