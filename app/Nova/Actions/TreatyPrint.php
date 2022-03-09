@@ -27,7 +27,6 @@ class TreatyPrint extends Action
     {
         $loan = $models->first();
         $numberToWords = new \NumberFormatter('az',\NumberFormatter::SPELLOUT );
-        dd($numberToWords->format(5099));
 //        dd($loan->product->name);
         $t = new \PhpOffice\PhpWord\TemplateProcessor('word-template/express-kredit-mugavilesi.docx');
         $t->setValue('date', Carbon::now()->format('d/m/Y'));
@@ -49,7 +48,7 @@ class TreatyPrint extends Action
         $file = $loan->id;
         $t->saveAs($file.'.docx');
 
-        return Action::download(asset('storage/'.$file.'.docx');
+        return Action::download(asset($file.'.docx'), $file.'.docx');
     }
 
     /**

@@ -30,7 +30,8 @@ class SazishYeniGirovMuqavilesi extends Action
         $t->setValue('date', Carbon::now()->format('d/m/Y'));
         $file = $loan->id;
         $t->saveAs($file.'.docx');
-        return response()->download($file.'.docx')->deleteFileAfterSend(false);
+
+        return Action::download(asset($file.'.docx'), $file.'.docx');
     }
 
     /**

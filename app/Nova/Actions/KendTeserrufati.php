@@ -48,7 +48,8 @@ class KendTeserrufati extends Action
         $t->setValue('director', $loan->branch->director);
         $file = $loan->id;
         $t->saveAs($file.'.docx');
-        return response()->download($file.'.docx')->deleteFileAfterSend(false);
+
+        return Action::download(asset($file.'.docx'), $file.'.docx');
     }
 
     /**

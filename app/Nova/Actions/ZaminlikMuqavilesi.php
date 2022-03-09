@@ -43,7 +43,8 @@ class ZaminlikMuqavilesi extends Action
         $t->setValue('price', $loan->price);
         $file = $loan->id;
         $t->saveAs($file.'.docx');
-        return response()->download($file.'.docx')->deleteFileAfterSend(false);
+
+        return Action::download(asset($file.'.docx'), $file.'.docx');
     }
 
     /**

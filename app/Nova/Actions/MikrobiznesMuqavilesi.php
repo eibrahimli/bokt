@@ -42,7 +42,8 @@ class MikrobiznesMuqavilesi extends Action
         $t->setValue('lastMouth', $loan->loanReports->last()->shouldPay);
         $file = $loan->id;
         $t->saveAs($file.'.docx');
-        return response()->download($file.'.docx')->deleteFileAfterSend(false);
+
+        return Action::download(asset($file.'.docx'), $file.'.docx');
     }
 
     /**
