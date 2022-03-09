@@ -56,7 +56,7 @@ class CreditHelper {
     }
 
     private function findPaymentMonth()  {
-        $currentTime = $this->nextMonthPayment ?: Carbon::now()->subYear(3);
+        $currentTime = $this->nextMonthPayment ?: Carbon::now();
         $this->nextMonthPayment = $currentTime->addMonth();
         if($this->nextMonthPayment->dayOfWeek == Carbon::SATURDAY):
             $this->nextMonthPayment = $this->nextMonthPayment->addDays(2);
