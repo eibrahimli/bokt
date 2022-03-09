@@ -2,31 +2,30 @@
 
 namespace App\Nova\Metrics;
 
-use App\Models\Customer;
-use Illuminate\Support\Carbon;
+use App\Models\Transaction;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 
 class FakeReceivedTransaction extends Value
 {
     public $model,$name;
-    public function __construct($component = null,$model = null,$name = '', $value = 567976)
+
+    public function __construct($component = null,$model = null,$name = '')
     {
         parent::__construct($component);
         $this->model = $model;
         $this->name = $name;
-        $this->value = $value;
     }
 
     public function calculate(NovaRequest $request)
     {
+        $sum = Transaction::sum('price');
+        dd($sum);
+        if($request->range === null):
+            $this->result($sum);
+        endif;    
 
-        $query = $this->model::query();
-
-        if ($request->range) {
-            $query->where('created_at', '>', (new Carbon('-' . $request->range . ' days'))->format('Y-m-d'));
-        }
-        return $this->result($this->value)->allowZeroResult();
+        return $this->sum($request, Transaction::class, 'price');
     }
 
     /**
@@ -38,22 +37,14 @@ class FakeReceivedTransaction extends Value
     {
         return [
             null => __('All time'),
-            1 => 'Bu gün',
-            7 => 'Bu həftə',
             30 => __('30 Days'),
             60 => __('60 Days'),
             365 => __('365 Days'),
+            'TODAY' => __('Today'),
+            'MTD' => __('Month To Date'),
+            'QTD' => __('Quarter To Date'),
+            'YTD' => __('Year To Date'),
         ];
-    }
-
-    /**
-     * Determine for how many minutes the metric should be cached.
-     *
-     * @return  \DateTimeInterface|\DateInterval|float|int
-     */
-    public function cacheFor()
-    {
-        // return now()->addMinutes(5);
     }
 
     /**
@@ -63,7 +54,7 @@ class FakeReceivedTransaction extends Value
      */
     public function uriKey()
     {
-        return 'data-about-models';
+        return $this->name();
     }
 
     public function name()

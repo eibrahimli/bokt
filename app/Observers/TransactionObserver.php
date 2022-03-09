@@ -205,11 +205,11 @@ class TransactionObserver
         $reyester = new Registry();
 
         if($transaction->service_fee):
-            $this->createRegisrty($transaction, $loan,127020, 420010,$transaction->price, 'Loan Service');;
+            $this->createRegisrty($transaction, $loan,127020, 420010,$transaction->price, 'LOAN_SERVICE');;
 
         else:
-            $this->createRegisrty($transaction, $loan,127020, 221100,$this->totalPayedMainPrice, 'Loan Payment');
-            $this->createRegisrty($transaction, $loan,127020, 420060,$this->totalPayedPercentagePrice, 'Loan Interest');
+            $this->createRegisrty($transaction, $loan,127020, 221100,$this->totalPayedMainPrice, 'LOAN_PAYMENT');
+            $this->createRegisrty($transaction, $loan,127020, 420060,$this->totalPayedPercentagePrice, 'LOAN_INTEREST');
 
         endif;
 

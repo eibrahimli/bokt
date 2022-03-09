@@ -21,7 +21,7 @@ class LoanDashboards extends Dashboard
             new LoanIsApproved(null,'Təsdiqlənməmiş kreditlər',false),
             new NewCustomer(),
             new NewCustomer(null, Customer::class,null,'Aktiv Müştərilər'),
-            new FakeReceivedTransaction(null,Transaction::class,'Qəbul edilən ödənişlər', 76896),
+            new FakeReceivedTransaction(null,Transaction::class,'Qəbul edilən ödənişlər'),
             new FakeTotalTransaction(),
         ];
     }
