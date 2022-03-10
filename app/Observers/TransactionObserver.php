@@ -22,7 +22,7 @@ class TransactionObserver
 
         $totalPrice = round(($loanReport->totalDept - $loanReport->percentage_remainder - $loanReport->main_remainder) + $loanReport->penalty, 2);
 
-        if($loan->serviceFeePayed):
+        if($transaction->description != 'Xidmət haqqı ödənişinin qəbulu'):
 
             //       Əgər kredit ödəyən şəxs tam məbləği ödəyibsə kreditini həmin ay üçün bağla
             if($totalPrice == $transaction->price) {
