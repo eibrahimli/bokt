@@ -74,24 +74,34 @@ class TransactionObserver
             }
             // Əgər kredit ödəyicisi az ödəyibsə bu if bloku çalışacaq
             elseif($totalPrice > $transaction->price) {
-
+                // Qəbul edilən məbləğ
                 $price = $transaction->price - $loanReport->penalty;
-                //Update percentage remainder
-                if($price > $loanReport->percentDept):
-                    $loanReport->percentage_remainder = $loanReport->percentDept;
-                    $loanReport->main_remainder = $price - $loanReport->percentDept;
+                
+                // Qalıq faiz məbləği
+                $percentage_remainder = $loanReport->percentDept - $loanReport->percentage_remainder;
 
-                    $this->setPayedPercentageAndMainPrice($loanReport->percentDept, $price - $loanReport->percentDept);
+                //Update percentage remainder
+                if($price > $percentage_remainder && $percentage_remainder != 0):
+                    $loanReport->percentage_remainder = $loanReport->percentDept;
+                    $loanReport->main_remainder = $price - $percentage_remainder;
+
+                    $this->setPayedPercentageAndMainPrice($percentage_remainder, $price - $percentage_remainder);
 
                     $loanReport->saveQuietly();
-                elseif ($price == $loanReport->percentDept):
+                elseif ($price == $percentage_remainder && $percentage_remainder != 0):
                     $this->setPayedPercentageAndMainPrice($loanReport->percentDept, 0);
                     $loanReport->percentage_remainder = $loanReport->percentDept;
                     $loanReport->saveQuietly();
-                else:
+                elseif($price < $percentage_remainder && $percentage_remainder != 0):
+
                     $this->setPayedPercentageAndMainPrice($price, 0);
-                    $loanReport->percentage_remainder = $price;
+                    $loanReport->percentage_remainder += $price;
                     $loanReport->saveQuietly();
+
+                elseif($percentage_remainder == 0):
+                    $this->setPayedPercentageAndMainPrice(0, $price);
+                    $loanReport->main_remainder += $price;
+                    $loanReport->saveQuietly(); 
                 endif;
 
                 if($loan->rescheduled):

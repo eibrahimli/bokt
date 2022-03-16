@@ -13,8 +13,6 @@ use Coroowicaksono\ChartJsIntegration\StackedChart;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Illuminate\Http\Request;
-use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
-use KirschbaumDevelopment\NovaChartjs\InlinePanel;
 use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -31,8 +29,6 @@ use Eibrahimli\HiddenField\HiddenField;
 use Eibrahimli\ContactPhonesFields\ContactPhonesFields;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use NrmlCo\NovaBigFilter\NovaBigFilter;
-use OptimistDigital\NovaInputFilter\InputFilter;
-use Yassi\NestedForm\NestedForm;
 
 class Customer extends Resource
 {
@@ -75,11 +71,11 @@ class Customer extends Resource
                 ->dependsOn('legalStatus.id', 2),
             Text::make("Ad", 'name')->rules(['required'])->sortable(),
             NovaDependencyContainer::make([
-                Text::make('Soyad','surname')->sortable(),
-                Text::make('Ata Adı', 'fathername')->sortable(),
+                Text::make('Soyad','surname')->showOnIndex()->sortable(),
+                Text::make('Ata Adı', 'fathername')->showOnIndex()->sortable(),
                 Text::make('Fin', 'fin')->sortable()->rules(['required', 'string', 'size:7']),
                 Text::make('Ş.V. Seriya №', 'identity_number')->sortable(),
-            ])->dependsOnNot('legalStatus.id',1),
+            ])->dependsOnNot('legalStatus.id',1)->showOnIndex(),
             Textarea::make('Qeydiyyat ünvanı','registration_address')->hideFromIndex(),
             Textarea::make('Yaşayış ünvanı','residential_address')->hideFromIndex(),
             Select::make('Cins','gender')->options([

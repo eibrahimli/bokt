@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\LoanPenalty;
 
 class Loan extends Model
 {
@@ -95,5 +96,9 @@ class Loan extends Model
 
     public static function scopeUnclosed($query) {
         return $query->where('closed', 0);
+    }
+
+    public function loanPenalties() {
+        return $this->hasMany(LoanPenalty::class);
     }
 }

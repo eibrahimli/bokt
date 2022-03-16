@@ -22,4 +22,8 @@ class LoanReport extends Model
     {
         return $query->where('paid', false);
     }
+
+    public static function scopeStopPenalty($query) {
+        return $query->where('stopPenalty', 0);
+    }
 }

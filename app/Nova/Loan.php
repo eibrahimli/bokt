@@ -188,7 +188,9 @@ class Loan extends Resource
 
     public function lenses(Request $request): array
     {
-        return [];
+        return [
+            // new \App\Nova\Lenses\ClosedCreditsLens
+        ];
     }
 
     public function actions(Request $request): array

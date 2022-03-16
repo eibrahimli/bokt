@@ -84,7 +84,8 @@ class Transaction extends Resource
             ))->dependsOn('is_civil', 1),
 
             Text::make("Əsas məbləğ üzrə", 'main_price', function ($val) use($request) {
-                if($val) return $val;
+
+                if(gettype($val) == 'double') return $val;
 
                 $allReportRelatedLoan = $this->getReport($request->viaResourceId);
 
@@ -95,7 +96,7 @@ class Transaction extends Resource
                 ->readonly()
                 ->sortable(),
             Text::make("Marağ faizi üzrə", 'interested_price', function ($val) use($request) {
-                if($val) return $val;
+                if(gettype($val) == 'double') return $val;
 
                 $allReportRelatedLoan = $this->getReport($request->viaResourceId);
 
