@@ -89,7 +89,7 @@ class TransactionObserver
 
                     $loanReport->saveQuietly();
                 elseif ($price == $percentage_remainder && $percentage_remainder != 0):
-                    $this->setPayedPercentageAndMainPrice($loanReport->percentDept, 0);
+                    $this->setPayedPercentageAndMainPrice($price, 0);
                     $loanReport->percentage_remainder = $loanReport->percentDept;
                     $loanReport->saveQuietly();
                 elseif($price < $percentage_remainder && $percentage_remainder != 0):

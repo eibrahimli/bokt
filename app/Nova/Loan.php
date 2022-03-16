@@ -140,22 +140,28 @@ class Loan extends Resource
             new Panel('Müştərinin biznes sahəsi', [
 
                 BelongsTo::make('İstehlak', 'consumption', Consumption::class)
+                    ->nullable()
                     ->hideFromIndex()
                     ->showCreateRelationButton(),
                 BelongsTo::make('İstehsal', 'production', Production::class)
+                    ->nullable()
                     ->hideFromIndex()
                     ->showCreateRelationButton(),
                 BelongsTo::make('Kənd Təsərrüfatı', 'agriculture', Agriculture::class)
+                    ->nullable()
                     ->hideFromIndex()
                     ->showCreateRelationButton(),
 
                 BelongsTo::make('Ticarət', 'trade', Trade::class)
+                    ->nullable()
                     ->hideFromIndex()
                     ->showCreateRelationButton(),
                 BelongsTo::make('Xidmət', 'service', Service::class)
+                    ->nullable()
                     ->hideFromIndex()
                     ->showCreateRelationButton(),
                 BelongsTo::make('Nəqliyyat', 'transportation', Transportation::class)
+                    ->nullable()
                     ->hideFromIndex()
                     ->showCreateRelationButton(),
                 Boolean::make("Kredit prosesini təsdiqləmək", 'status')
