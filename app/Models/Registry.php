@@ -121,7 +121,7 @@ class Registry extends Model
             }
         }
 
-
+        dd($m_ids);
         if(count($m_ids)>0){
             $all = Registry::where("amount",">",0)->whereIn("id",$m_ids)->get();
             foreach ($all as $a){
