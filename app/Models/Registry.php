@@ -121,9 +121,9 @@ class Registry extends Model
             }
         }
 
-        dd($m_ids);
         if(count($m_ids)>0){
             $all = Registry::where("amount",">",0)->whereIn("id",$m_ids)->get();
+            dd($all);
             foreach ($all as $a){
                 $created_at = date("Y-m-d",strtotime($a->created_at));
                 if($created_at>=$begin and $created_at<=$end){
