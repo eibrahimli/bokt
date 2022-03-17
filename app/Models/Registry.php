@@ -99,7 +99,7 @@ class Registry extends Model
 
             if($a->debet>0 and isset($datas[$a->debet])){
                 if(in_array($a->debet,$main_ids)){
-                    if(!isset($m_ids[$a->debet])) $m_ids[] = $a->debet;
+                    if(!in_array($a->debet,$m_ids)) $m_ids[] = $a->debet;
                 }else{
                     $old = $datas[$a->debet]["operations"]["debet"][$type];
                     $price = $a->amount;
@@ -111,7 +111,7 @@ class Registry extends Model
 
             if($a->credit>0 and  isset($datas[$a->credit])){
                 if(in_array($a->credit,$main_ids)){
-                    if(!isset($m_ids[$a->credit])) $m_ids[] = $a->credit;
+                    if(!in_array($a->credit,$m_ids)) $m_ids[] = $a->credit;
                 }else {
                     $old = $datas[$a->credit]["operations"]["credit"][$type];
                     $price = $a->amount;
@@ -121,7 +121,6 @@ class Registry extends Model
             }
         }
 
-        dd($m_ids);
 
         if(count($m_ids)>0){
             $all = Registry::where("amount",">",0)->whereIn("id",$m_ids)->get();
