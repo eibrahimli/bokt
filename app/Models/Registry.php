@@ -122,7 +122,7 @@ class Registry extends Model
         }
 
         if(count($m_ids)>0){
-            $all = Registry::where("amount",">",0)->whereIn("id",$m_ids)->get();
+            $all = Registry::where("amount",">",0)->orWhereIn("debet",$m_ids)->orWhereIn("credit",$m_ids)->get();
             dd($all);
             foreach ($all as $a){
                 $created_at = date("Y-m-d",strtotime($a->created_at));
