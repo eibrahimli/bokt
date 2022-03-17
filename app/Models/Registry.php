@@ -15,8 +15,13 @@ class Registry extends Model
     public static function allDebetCredit($request)
     {
         $datas = [] ;
+        $main_ids = [];
+        $m_ids = [];
         $accounts = \App\Models\DcAccount::all();
         foreach ($accounts as $account){
+            if($account->is_main>0){
+                $main_ids[] = $account->code;
+            }
             $datas[$account->code] = [
                 "code" => $account->code,
                 "name" => $account->name,
@@ -93,18 +98,58 @@ class Registry extends Model
 
 
             if($a->debet>0 and isset($datas[$a->debet])){
-                $old = $datas[$a->debet]["operations"]["debet"][$type];
-                $price = $a->amount;
-                $new = $old+$price;
-                $datas[$a->debet]["operations"]["debet"][$type] = $new;
+                if(in_array($a->debet,$main_ids)){
+                    if(!isset($m_ids[$a->debet])) $m_ids[] = $a->debet;
+                }else{
+                    $old = $datas[$a->debet]["operations"]["debet"][$type];
+                    $price = $a->amount;
+                    $new = $old+$price;
+                    $datas[$a->debet]["operations"]["debet"][$type] = $new;
+                }
+
             }
 
             if($a->credit>0 and  isset($datas[$a->credit])){
-                $old = $datas[$a->credit]["operations"]["credit"][$type];
-                $price = $a->amount;
-                $new = $old+$price;
-                $datas[$a->credit]["operations"]["credit"][$type] = $new;
+                if(in_array($a->credit,$main_ids)){
+                    if(!isset($m_ids[$a->credit])) $m_ids[] = $a->credit;
+                }else {
+                    $old = $datas[$a->credit]["operations"]["credit"][$type];
+                    $price = $a->amount;
+                    $new = $old + $price;
+                    $datas[$a->credit]["operations"]["credit"][$type] = $new;
+                }
             }
+        }
+
+
+
+        if(count($m_ids)>0){
+            $all = Registry::where("amount",">",0)->whereIn("id",$m_ids)->get();
+            foreach ($all as $a){
+                $created_at = date("Y-m-d",strtotime($a->created_at));
+                if($created_at>=$begin and $created_at<=$end){
+                    $type = 'current';
+                }elseif($created_at<$begin){
+                    $type = 'first';
+                }
+
+
+                if($a->debet>0 and isset($datas[$a->debet])){
+                    $old = $datas[$a->debet]["operations"]["debet"][$type];
+                    $price = $a->amount;
+                    $new = $old+$price;
+                    $datas[$a->debet]["operations"]["debet"][$type] = $new;
+                }
+
+                if($a->credit>0 and  isset($datas[$a->credit])){
+                    $old = $datas[$a->credit]["operations"]["credit"][$type];
+                    $price = $a->amount;
+                    $new = $old + $price;
+                    $datas[$a->credit]["operations"]["credit"][$type] = $new;
+
+                }
+            }
+
         }
 
         foreach ($datas as $code=>$d){
