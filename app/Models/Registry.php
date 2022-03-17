@@ -127,7 +127,6 @@ class Registry extends Model
                     $query->orWhereIn("debet",$m_ids)->orWhereIn("credit",$m_ids);
                 })
                 ->get();
-            dd($all); 
             foreach ($all as $a){
                 $created_at = date("Y-m-d",strtotime($a->created_at));
                 if($created_at>=$begin and $created_at<=$end){
@@ -137,14 +136,14 @@ class Registry extends Model
                 }
 
 
-                if($a->debet>0 and isset($datas[$a->debet])){
+                if($a->debet>0 and isset($datas[$a->debet]) and in_array($a->debet,$m_ids)){
                     $old = $datas[$a->debet]["operations"]["debet"][$type];
                     $price = $a->amount;
                     $new = $old+$price;
                     $datas[$a->debet]["operations"]["debet"][$type] = $new;
                 }
 
-                if($a->credit>0 and  isset($datas[$a->credit])){
+                if($a->credit>0 and  isset($datas[$a->credit]) and in_array($a->credit,$m_ids)){
                     $old = $datas[$a->credit]["operations"]["credit"][$type];
                     $price = $a->amount;
                     $new = $old + $price;
