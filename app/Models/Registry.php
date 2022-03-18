@@ -143,13 +143,13 @@ class Registry extends Model
                     $datas[$a->debet]["operations"]["debet"][$type] = $new;
                 }
 
-                if($a->credit>0 and  isset($datas[$a->credit]) and in_array($a->credit,$m_ids)){
+                /*if($a->credit>0 and  isset($datas[$a->credit]) and in_array($a->credit,$m_ids)){
                     $old = $datas[$a->credit]["operations"]["credit"][$type];
                     $price = $a->amount;
                     $new = $old + $price;
                     $datas[$a->credit]["operations"]["credit"][$type] = $new;
 
-                }
+                }*/
             }
 
         }
