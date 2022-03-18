@@ -18,7 +18,7 @@ class WorkInnerObserver
     {
         //
         $registry = new Registry();
-        $registry->amount = $workInner->price;
+        $registry->amount = $workInner->total_price;
         $registry->debet = $workInner->debet;
         $registry->credit = $workInner->credit;
         $registry->reg_type = 'INVOICE';
