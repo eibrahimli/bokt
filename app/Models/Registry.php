@@ -154,7 +154,7 @@ class Registry extends Model
                         $old = $datas[$a->credit]["operations"]["credit"][$type];
                         $price = $a->amount;
                         $new = $datas[$a->credit]["operations"]["debet"][$type] - $price;
-                        $datas[$a->credit]["operations"]["credit"][$type] = $new;
+                        $datas[$a->credit]["operations"]["debet"][$type] = $new;
                     }
 
                 }
