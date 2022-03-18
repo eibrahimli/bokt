@@ -18,7 +18,7 @@ class ExpenseOperationObserver
     {
 
         $registry = new Registry();
-        $registry->amount = $expenseOperation->total_price;
+        $registry->amount = $expenseOperation->price;
         $registry->debet = $expenseOperation->debet;
         $registry->credit = $expenseOperation->credit;
         $registry->reg_type = 'EXPENSE';
