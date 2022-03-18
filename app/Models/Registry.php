@@ -167,11 +167,11 @@ class Registry extends Model
                 $datas[$code]["operations"]["debet"]["current"] == 0 and $datas[$code]["operations"]["credit"]["current"]==0){
                 unset($datas[$code]);
             }else{
-                $datas[$code]["operations"]["debet"]["last"] = $datas[$code]["operations"]["debet"]["first"]+$datas[$code]["operations"]["debet"]["current"]-$datas[$code]["operations"]["credit"]["current"];
+                $datas[$code]["operations"]["debet"]["last"] = $datas[$code]["operations"]["debet"]["first"]+$datas[$code]["operations"]["debet"]["current"]-$datas[$code]["operations"]["credit"]["current"]-$datas[$code]["operations"]["credit"]["first"];
                 if($datas[$code]["operations"]["debet"]["last"]<0){
                     $datas[$code]["operations"]["debet"]["last"] = 0;
                 }
-                $datas[$code]["operations"]["credit"]["last"] =$datas[$code]["operations"]["credit"]["first"]+$datas[$code]["operations"]["credit"]["current"]-$datas[$code]["operations"]["debet"]["current"];;
+                $datas[$code]["operations"]["credit"]["last"] =$datas[$code]["operations"]["credit"]["first"]+$datas[$code]["operations"]["credit"]["current"]-$datas[$code]["operations"]["debet"]["current"]-$datas[$code]["operations"]["debet"]["first"];
                 if($datas[$code]["operations"]["credit"]["last"]<0){
                     $datas[$code]["operations"]["credit"]["last"] = 0;
                 }
