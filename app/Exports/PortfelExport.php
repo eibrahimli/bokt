@@ -9,6 +9,7 @@
     use Maatwebsite\Excel\Concerns\FromCollection;
     use Maatwebsite\Excel\Concerns\ShouldAutoSize;
     use Maatwebsite\Excel\Concerns\WithHeadings;
+    use Illuminate\Support\Str;
 
     class PortfelExport implements FromCollection,WithHeadings,ShouldAutoSize
     {
@@ -66,7 +67,7 @@
                 $data['month'] = $item->month;
                 $data['gender'] = $customer->gender == 'male' ? 'Kişi' : 'Qadın';
                 $data['address'] = $customer->residential_address;
-                $data['contact_phones'] = $customer->contact_phone .','.$customer->contact_phone_1.','.$customer->contact_phone_2.','.$customer->contact_phone_3;
+                $data['contact_phones'] = Str::replace(',null','',$customer->contact_phone .','.$customer->contact_phone_1.','.$customer->contact_phone_2.','.$customer->contact_phone_3);
                 $data['fin'] = $customer->fin;
                 $data['identity_number'] = $customer->identity_number;
                 $data['last_payed_date'] = $item->transactions->count() > 0 ? Carbon::parse($item->transactions->first()->created_at)->toDateString() : '';

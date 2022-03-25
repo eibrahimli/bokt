@@ -201,18 +201,17 @@ class Loan extends Resource
 
     public function actions(Request $request): array
     {
-        return [
+        return array_filter([
             new PortfelHesabat(),
             new CreateReScheduleLoanAction($this->model()),
             new CloseLoan($this->model()),
-            new AcceptServiceFeeForLoan($this->model()),
+            !$this->serviceFeePayed ? (new AcceptServiceFeeForLoan($this->model()))->canRun(fn() => true) : null,
             new TreatyPrint($this->model()),
             new KendTeserrufati($this->model()),
             new ZaminlikMuqavilesi($this->model()),
             new MikrobiznesMuqavilesi($this->model()),
             new SazishYeniGirovMuqavilesi($this->model()),
-//            new AcceptPayment()
-        ];
+        ]);
     }
 
     protected function getProduct($id) {

@@ -41,7 +41,7 @@ class AcceptServiceFeeForLoan extends Action
         $model->payed_balance += $report->service_fee;
         $model->serviceFeePayed = true;
 
-        $model->save();
+        $model->saveQuietly();
 
         return Action::message('Xidmət haqqı ödənişi uğurla qəbul edildi');
     }

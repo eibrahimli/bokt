@@ -28,7 +28,7 @@ class LoanPolicy
 
     public function update(User $user, Loan $loan)
     {
-        return false;
+        return $user->role === 'cashier' ? false : true;
     }
 
     public function delete(User $user, Loan $loan)
@@ -49,7 +49,7 @@ class LoanPolicy
 
     public function addTransaction (User $user, Loan $loan): bool
     {
-        return $loan->loanReports()->active()->count() > 0;
+        return $loan->loanReports()->active()->count() > 0 && $loan->serviceFeePayed;
     }
 
 }
