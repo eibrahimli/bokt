@@ -57,7 +57,7 @@
                 $data['service_fee'] = $loanReports->first()->service_fee;
                 $data['main_price_remainder'] = LoanHelper::findMainDept($item);
                 $data['percentage_price_remainder'] = LoanHelper::findPercentDept($item);
-                $data['penalty'] = $activeLoanReports->first()?->penalty;
+                $data['penalty'] = $activeLoanReports->count() > 0 ? $activeLoanReports->first()->penalty : null;
                 $data['total'] = round($data['service_fee'] + $data['main_price_remainder'] + $data['percentage_price_remainder'] + $data['penalty'],'2');
                 $data['payed_main'] = LoanHelper::findPayedMainAndPercent($item);
                 $data['payed_percentage'] = LoanHelper::findPayedMainAndPercent($item, 'interest');
