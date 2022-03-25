@@ -62,14 +62,14 @@
                 $data['payed_main'] = LoanHelper::findPayedMainAndPercent($item);
                 $data['payed_percentage'] = LoanHelper::findPayedMainAndPercent($item, 'interest');
                 $data['payed_penalty'] = LoanHelper::findPayedMainAndPercent($item, 'penalty');
-                $data['created_at'] = Carbon::parse($item->created_at)->toDateString();
+                $data['created_at'] = Carbon:e:parse($item->created_at)->toDateString();
                 $data['month'] = $item->month;
                 $data['gender'] = $customer->gender == 'male' ? 'Kişi' : 'Qadın';
                 $data['address'] = $customer->residential_address;
                 $data['contact_phones'] = $customer->contact_phone .','.$customer->contact_phone_1.','.$customer->contact_phone_2.','.$customer->contact_phone_3;
                 $data['fin'] = $customer->fin;
                 $data['identity_number'] = $customer->identity_number;
-                $data['last_payed_date'] = $item->transactions ? Carbon::parse($item->transactions->first()->created_at)->toDateString() : '';
+                $data['last_payed_date'] = $item->transactions->count > 0 ? Carbon::parse($item->transactions->first()->created_at)->toDateString() : '';
                 return $data;
             });
 
