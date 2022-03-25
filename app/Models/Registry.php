@@ -15,8 +15,13 @@ class Registry extends Model
     public static function allDebetCredit($request)
     {
         $datas = [] ;
+        $main_ids = [];
+        $m_ids = [];
         $accounts = \App\Models\DcAccount::all();
         foreach ($accounts as $account){
+            if($account->is_main>0){
+                $main_ids[] = $account->code;
+            }
             $datas[$account->code] = [
                 "code" => $account->code,
                 "name" => $account->name,
@@ -93,18 +98,68 @@ class Registry extends Model
 
 
             if($a->debet>0 and isset($datas[$a->debet])){
-                $old = $datas[$a->debet]["operations"]["debet"][$type];
-                $price = $a->amount;
-                $new = $old+$price;
-                $datas[$a->debet]["operations"]["debet"][$type] = $new;
+                if(in_array($a->debet,$main_ids)){
+                    if(!in_array($a->debet,$m_ids)) $m_ids[] = $a->debet;
+                }else{
+                    $old = $datas[$a->debet]["operations"]["debet"][$type];
+                    $price = $a->amount;
+                    $new = $old+$price;
+                    $datas[$a->debet]["operations"]["debet"][$type] = $new;
+                }
+
             }
 
             if($a->credit>0 and  isset($datas[$a->credit])){
-                $old = $datas[$a->credit]["operations"]["credit"][$type];
-                $price = $a->amount;
-                $new = $old+$price;
-                $datas[$a->credit]["operations"]["credit"][$type] = $new;
+                if(in_array($a->credit,$main_ids)){
+                    if(!in_array($a->credit,$m_ids)) $m_ids[] = $a->credit;
+                }else {
+                    $old = $datas[$a->credit]["operations"]["credit"][$type];
+                    $price = $a->amount;
+                    $new = $old + $price;
+                    $datas[$a->credit]["operations"]["credit"][$type] = $new;
+                }
             }
+        }
+
+        if(count($m_ids)>0){
+            $all = Registry::where("amount",">",0)
+                ->where(function ($query) use ($m_ids) {
+                    $query->orWhereIn("debet",$m_ids)->orWhereIn("credit",$m_ids);
+                })
+                ->get();
+            foreach ($all as $a){
+                $created_at = date("Y-m-d",strtotime($a->created_at));
+                if($created_at>=$begin and $created_at<=$end){
+                    $type = 'current';
+                }elseif($created_at<$begin){
+                    $type = 'first';
+                }
+
+
+                if($a->debet>0 and isset($datas[$a->debet]) and in_array($a->debet,$m_ids)){
+                    $old = $datas[$a->debet]["operations"]["debet"][$type];
+                    $price = $a->amount;
+                    $new = $old+$price;
+                    $datas[$a->debet]["operations"]["debet"][$type] = $new;
+                }
+
+                if($a->credit>0 and  isset($datas[$a->credit]) and in_array($a->credit,$m_ids)){
+                    if($type == 'current'){
+
+                        $old = $datas[$a->credit]["operations"]["credit"][$type];
+                        $price = $a->amount;
+                        $new = $old + $price;
+                        $datas[$a->credit]["operations"]["credit"][$type] = $new;
+                    }else{
+                        $old = $datas[$a->credit]["operations"]["credit"][$type];
+                        $price = $a->amount;
+                        $new = $datas[$a->credit]["operations"]["debet"][$type] - $price;
+                        $datas[$a->credit]["operations"]["debet"][$type] = $new;
+                    }
+
+                }
+            }
+
         }
 
         foreach ($datas as $code=>$d){
@@ -112,9 +167,14 @@ class Registry extends Model
                 $datas[$code]["operations"]["debet"]["current"] == 0 and $datas[$code]["operations"]["credit"]["current"]==0){
                 unset($datas[$code]);
             }else{
-                $datas[$code]["operations"]["debet"]["last"] = $datas[$code]["operations"]["debet"]["first"]+$datas[$code]["operations"]["debet"]["current"]-$datas[$code]["operations"]["credit"]["current"];
-                $datas[$code]["operations"]["credit"]["last"] =$datas[$code]["operations"]["credit"]["first"]+$datas[$code]["operations"]["credit"]["current"]-$datas[$code]["operations"]["debet"]["current"];;
-
+                $datas[$code]["operations"]["debet"]["last"] = $datas[$code]["operations"]["debet"]["first"]+$datas[$code]["operations"]["debet"]["current"]-$datas[$code]["operations"]["credit"]["current"]-$datas[$code]["operations"]["credit"]["first"];
+                if($datas[$code]["operations"]["debet"]["last"]<0){
+                    $datas[$code]["operations"]["debet"]["last"] = 0;
+                }
+                $datas[$code]["operations"]["credit"]["last"] =$datas[$code]["operations"]["credit"]["first"]+$datas[$code]["operations"]["credit"]["current"]-$datas[$code]["operations"]["debet"]["current"]-$datas[$code]["operations"]["debet"]["first"];
+                if($datas[$code]["operations"]["credit"]["last"]<0){
+                    $datas[$code]["operations"]["credit"]["last"] = 0;
+                }
             }
          }
 
