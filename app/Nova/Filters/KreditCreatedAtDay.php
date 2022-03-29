@@ -12,9 +12,11 @@ class KreditCreatedAtDay extends DateFilter
 
     public function apply(Request $request, $query, $value)
     {
-        
-        $value = Carbon::parse($value);
 
-        return $query->whereDate('created_at', $value)->get();
+        $value = Carbon::parse($value);
+        if(!$value) {
+            return $query;
+        }
+        return $query->whereDate('created_at', $value);
     }
 }

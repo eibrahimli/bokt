@@ -10,6 +10,8 @@ use App\Nova\Metrics\FakeReceivedTransaction;
 use App\Nova\Metrics\FakeTotalTransaction;
 use App\Nova\Metrics\LoanIsApproved;
 use App\Nova\Metrics\NewCustomer;
+use App\Nova\Metrics\RescheduledLoans;
+use App\Nova\Metrics\SummOfTransactions;
 use Coroowicaksono\ChartJsIntegration\AreaChart;
 use Coroowicaksono\ChartJsIntegration\BarChart;
 use Coroowicaksono\ChartJsIntegration\LineChart;
@@ -49,6 +51,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         return [
 
             new BranchsCard(),
+            new SummOfTransactions(null, 'price', 'cemi-odenisler', 'Cəmi Ödənişlər'),
+            new SummOfTransactions(null, 'main_price', 'esas-cemi-odenisler', 'Əsas üzrə ödənişlər'),
+            new SummOfTransactions(null, 'interested_price', 'faiz-cemi-odenisler', 'Faiz üzrə ödənişlər'),
+            new RescheduledLoans(),
+
             (new AreaChart())
                 ->title('Kreditlər')
                 ->animations([
@@ -82,28 +89,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     'label' => 'Ortalama Satış #2',
                     'borderColor' => '#90ed7d',
                     'data' => [90, 80, 40, 22, 79, 129, 30, 40, 90, 92, 91, 80],
-                ]))
-                ->options([
-                    'xaxis' => [
-                        'categories' => [ 'Jan', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct' ]
-                    ],
-                ]),
-            (new BarChart())
-                ->title('Ayda ödənilən kapital')
-                ->animations([
-                    'enabled' => true,
-                    'easing' => 'easeinout',
-                ])
-                ->series(array([
-                    'barPercentage' => 0.5,
-                    'label' => 'Average Sales',
-                    'backgroundColor' => '#999',
-                    'data' => [80, 90, 80, 40, 62, 79, 79, 90, 90, 90, 92, 91],
-                ],[
-                    'barPercentage' => 0.5,
-                    'label' => 'Average Sales 2',
-                    'backgroundColor' => '#F87900',
-                    'data' => [40, 62, 79, 80, 90, 79, 90, 90, 90, 92, 91, 80],
                 ]))
                 ->options([
                     'xaxis' => [

@@ -13,9 +13,13 @@ use App\Nova\Actions\SazishYeniGirovMuqavilesi;
 use App\Nova\Actions\TreatyPrint;
 use App\Nova\Actions\ZaminlikMuqavilesi;
 use App\Nova\Actions\PortfelHesabat;
+use App\Nova\Filters\ClosedLoans;
 use App\Nova\Filters\KreditCreatedAtDay;
 use App\Nova\Metrics\LoanIsApproved;
 use App\Nova\Metrics\NewLoan;
+use App\Nova\Metrics\OverdueLoans;
+use App\Nova\Metrics\RescheduledLoans;
+use App\Nova\Metrics\SummOfTransactions;
 use App\Nova\Options\Agriculture;
 use App\Nova\Options\Consumption;
 use App\Nova\Options\Production;
@@ -182,13 +186,20 @@ class Loan extends Resource
             new NewLoan(),
             new LoanIsApproved(null,'Təsdiqlənmiş kreditlər',true),
             new LoanIsApproved(null,'Təsdiqlənməmiş kreditlər',false),
+            new SummOfTransactions(null, 'price', 'cemi-odenisler', 'Cəmi Ödənişlər'),
+            new SummOfTransactions(null, 'main_price', 'esas-cemi-odenisler', 'Əsas üzrə ödənişlər'),
+            new SummOfTransactions(null, 'interested_price', 'faiz-cemi-odenisler', 'Faiz üzrə ödənişlər'),
+            new RescheduledLoans(),
+//            new OverdueLoans(),
+
         ];
     }
 
     public function filters(Request $request): array
     {
         return [
-            new KreditCreatedAtDay()
+            new KreditCreatedAtDay(),
+            new ClosedLoans(),
         ];
     }
 
