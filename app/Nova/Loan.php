@@ -40,7 +40,9 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
@@ -94,6 +96,11 @@ class Loan extends Resource
             BelongsTo::make('Müştəri','customer', Customer::class),
             NovaBelongsToDepend::make('Məhsulun adı', 'product', Product::class)
                 ->options(\App\Models\Product::all()),
+            Stack::make('Cərimə',[
+                Line::make('Cərimə', function () {
+                    return $this->model()->loanPenalties->count() > 0 ? 'Var' : 'Yoxdur';
+                })->extraClasses(['text-red-600']),
+            ]),
 
             Tabs::make('Cədvəllər',array_merge(@$this->rescheduled ? [
                     new Panel('Yeni Cədvəl',array_merge($this->reScheduledFields($request),[

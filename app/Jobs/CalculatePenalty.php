@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Helpers\LoanHelper;
+use App\Helpers\PenaltyHelper;
+use App\Models\LoanPenalty;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -25,30 +27,46 @@ class CalculatePenalty implements ShouldQueue
     public function __construct()
     {
         $loans = $this->getAllLoans();
+        $now = Carbon::now()->addMonths(4)->addDay();
 
         foreach ($loans as $loan) {
-            $loanReport = $this->getLoanCurrentMonth($loan);
+            $loanReports = $loan->loanReports()->active()->get();
 
-            if($loanReport):
-                $mainDept = LoanHelper::findMainDept($loan);
-
-                // Ödəməli olduğu tarix
-                $shouldPay = Carbon::parse($loanReport->shouldPay);
-                $now = Carbon::now();
-
-                if($shouldPay < $now) {
-                    $differenceDays = $shouldPay->diffInDays($now);
-
-                    $penalty = $mainDept * 1 / 100;
-
-                    $totalPenalty = $penalty * $differenceDays;
-
-                    $loanReport->penalty = $totalPenalty;
-                    $loanReport->penalty_day = $differenceDays;
-
-                    $loanReport->save();
+            $loansHavePenalty = collect($loanReports)->map(function ($report) use ($now) {
+                $shouldPay = Carbon::parse($report->shouldPay);
+                if ($shouldPay < $now) {
+                    return $report;
                 }
+            })->filter();
+
+            if ($loansHavePenalty->count() > 0):
+                $mainDept = PenaltyHelper::findPenaltyMainDept($loansHavePenalty);
+                $firstReport = $loansHavePenalty->first()->toArray();
+
+                $firstShouldPayDate = Carbon::parse($firstReport['shouldPay']);
+                $differenceDays = $firstShouldPayDate->diffInDays($now);
+
+                $penalty = $mainDept * 1 / 100;
+
+                $totalPenalty = $penalty * $differenceDays;
+
+                $penalty = LoanPenalty::where('loan_id', $firstReport['loan_id'])->first();
+
+                if ($penalty):
+                    $penalty->day = $differenceDays;
+                    $penalty->price = $totalPenalty;
+
+                    $penalty->save();
+                else:
+                    $penalty = LoanPenalty::create([
+                        'loan_id' => $firstReport['loan_id'],
+                        'price' => $totalPenalty,
+                        'day' => $differenceDays
+                    ]);
+                endif;
+
             endif;
+
         }
     }
 
@@ -66,7 +84,7 @@ class CalculatePenalty implements ShouldQueue
         return Loan::active()->unclosed()->get();
     }
 
-    protected function getLoanCurrentMonth(Loan $loan) {
-        return $loan->loanReports()->active()->first();
+    protected function getLoanReports(Loan $loan) {
+        return $loan->loanReports()->active()->get();
     }
 }

@@ -70,6 +70,8 @@ class Customer extends Resource
                 ->dependsOn('legalStatus.id', 1)
                 ->dependsOn('legalStatus.id', 2),
             Text::make("Ad", 'name')->rules(['required'])->sortable(),
+            Text::make("Vəsiqənin verildiyi orqan", 'indentity_agency')->rules(['required'])->sortable(),
+            Date::make("Vəsiqənin verildiyi tarix", 'intentity_given_date')->rules(['required'])->sortable(),
             NovaDependencyContainer::make([
                 Text::make('Soyad','surname')->showOnIndex()->sortable(),
                 Text::make('Ata Adı', 'fathername')->showOnIndex()->sortable(),

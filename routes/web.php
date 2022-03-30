@@ -1,19 +1,21 @@
 <?php
 
+use App\Helpers\PenaltyHelper;
+use App\Models\Loan;
+use App\Models\LoanPenalty;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
 use Mortgage\Facades\Annuity;
 
-Route::get('/letters/{customer}.pdf', [\App\Http\Controllers\DownloadController::class,'letterPDF'])
+Route::get('/letters/{customer}.pdf', [\App\Http\Controllers\DownloadController::class, 'letterPDF'])
     ->middleware('auth');
-Route::get('/lang/{lang}',[LanguageController::class, 'switchLang'])
+Route::get('/lang/{lang}', [LanguageController::class, 'switchLang'])
     ->name('lang.switch')
     ->middleware('auth');
 
 Route::get('test', function () {
 
-     dd($now = Carbon::now()->addDays(24)->toDateString());
 
 });
 

@@ -98,7 +98,8 @@ class Loan extends Model
         return $query->where('closed', 0);
     }
 
-    public function loanPenalties() {
+    public function loanPenalties(): HasMany
+    {
         return $this->hasMany(LoanPenalty::class);
     }
 }
