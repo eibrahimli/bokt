@@ -10,11 +10,11 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 
-class ZaminlikMuqavilesi extends Action
+class Sazish extends Action
 {
     use InteractsWithQueue, Queueable;
 
-    public $name = 'Zaminlik müqaviləsi';
+    public $name = 'SAZİŞ';
     /**
      * Perform the action on the given models.
      *
@@ -24,25 +24,15 @@ class ZaminlikMuqavilesi extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        //zaminlik-muqavilesi
+        //sazish-yeni-girov-mugavilesi
         $loan = $models->first();
-//        dd($loan->customer->guarantors->first()->identity_number);
-        $t = new \PhpOffice\PhpWord\TemplateProcessor('word-template/zaminlik-muqavilesi.docx');
+        $t = new \PhpOffice\PhpWord\TemplateProcessor('word-template/sazish-yeni-girov-mugavilesi-1.docx');
         $t->setValue('date', Carbon::now()->format('d/m/Y'));
-        $t->setValue('director', $loan->branch->director);
+        $t->setValue('ID', $loan->id);
+        $file = $loan->id;
         $t->setValue('ASA', $loan->customer->name
             .' '.$loan->customer->surname
             .' '.$loan->customer->fathername);
-        $t->setValue('ID', $loan->id);
-        $t->setValue('identity_number', $loan->customer->identity_number);
-        $t->setValue('guarantor', $loan->customer->guarantors->first()->name
-            .' '.$loan->customer->guarantors->first()->surname
-            .' '.$loan->customer->guarantors->first()->fathername);
-        $t->setValue('guarantor_identity_number', $loan->customer->guarantors->first()->identity_number);
-        $t->setValue('id', $loan->id);
-        $t->setValue('percentage', $loan->percentage);
-        $t->setValue('price', $loan->price);
-        $file = $loan->id;
         $t->saveAs($file.'.docx');
 
         return Action::download(asset($file.'.docx'), $file.'.docx');

@@ -8,15 +8,18 @@ use Laravel\Nova\Filters\DateFilter;
 
 class KreditCreatedAtDay extends DateFilter
 {
-    public $name = 'Gün Seçin';
+    public $name = 'Start';
 
     public function apply(Request $request, $query, $value)
     {
 
+//        $value = Carbon::parse($value);
+//        if(!$value) {
+//            return $query;
+//        }
+//        return $query->whereDate('created_at', $value);
+
         $value = Carbon::parse($value);
-        if(!$value) {
-            return $query;
-        }
-        return $query->whereDate('created_at', $value);
+        return $query->where('created_at', '>=', $value);
     }
 }

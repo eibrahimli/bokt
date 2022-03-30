@@ -9,12 +9,14 @@ use App\Nova\Actions\CloseLoan;
 use App\Nova\Actions\CreateReScheduleLoanAction;
 use App\Nova\Actions\KendTeserrufati;
 use App\Nova\Actions\MikrobiznesMuqavilesi;
-use App\Nova\Actions\SazishYeniGirovMuqavilesi;
+use App\Nova\Actions\Sazish;
 use App\Nova\Actions\TreatyPrint;
+use App\Nova\Actions\YeniQirovMuqavilesi;
 use App\Nova\Actions\ZaminlikMuqavilesi;
 use App\Nova\Actions\PortfelHesabat;
 use App\Nova\Filters\ClosedLoans;
 use App\Nova\Filters\KreditCreatedAtDay;
+use App\Nova\Filters\KreditCreatedEndDay;
 use App\Nova\Metrics\LoanIsApproved;
 use App\Nova\Metrics\NewLoan;
 use App\Nova\Metrics\OverdueLoans;
@@ -43,6 +45,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use NrmlCo\NovaBigFilter\NovaBigFilter;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use PortfelExport;
 use Titasgailius\SearchRelations\SearchesRelations;
@@ -190,6 +193,8 @@ class Loan extends Resource
             new SummOfTransactions(null, 'main_price', 'esas-cemi-odenisler', 'Əsas üzrə ödənişlər'),
             new SummOfTransactions(null, 'interested_price', 'faiz-cemi-odenisler', 'Faiz üzrə ödənişlər'),
             new RescheduledLoans(),
+            new NovaBigFilter(),
+
 //            new OverdueLoans(),
 
         ];
@@ -199,6 +204,7 @@ class Loan extends Resource
     {
         return [
             new KreditCreatedAtDay(),
+            new KreditCreatedEndDay(),
             new ClosedLoans(),
         ];
     }
@@ -221,7 +227,8 @@ class Loan extends Resource
             new KendTeserrufati($this->model()),
             new ZaminlikMuqavilesi($this->model()),
             new MikrobiznesMuqavilesi($this->model()),
-            new SazishYeniGirovMuqavilesi($this->model()),
+            new Sazish($this->model()),
+            new YeniQirovMuqavilesi($this->model()),
         ]);
     }
 

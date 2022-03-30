@@ -28,12 +28,14 @@ class TreatyPrint extends Action
         $loan = $models->first();
         $numberToWords = new \NumberFormatter('az',\NumberFormatter::SPELLOUT );
 //        dd($loan->product->name);
-        $t = new \PhpOffice\PhpWord\TemplateProcessor('word-template/express-kredit-mugavilesi.docx');
+        $t = new \PhpOffice\PhpWord\TemplateProcessor('word-template/express-kredit-mugavilesi-1.docx');
         $t->setValue('date', Carbon::now()->format('d/m/Y'));
+        $t->setValue('ID', $loan->id);
         $t->setValue('ASA', $loan->customer->name
             .' '.$loan->customer->surname
             .' '.$loan->customer->fathername);
         $t->setValue('fin', $loan->customer->fin);
+        $t->setValue('FIFD', (($loan->price - $loan->loanReports->first()->service_fee) / $loan->loanReports->first()->totalDept) * 12);
         $t->setValue('whole_payable_balance', $loan->whole_payable_balance);
         $t->setValue('price', $loan->price);
         $t->setValue('price_to_word', $numberToWords->format($loan->price));

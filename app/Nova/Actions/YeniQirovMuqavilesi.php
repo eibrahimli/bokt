@@ -10,11 +10,12 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 
-class SazishYeniGirovMuqavilesi extends Action
+class YeniQirovMuqavilesi extends Action
 {
     use InteractsWithQueue, Queueable;
 
-    public $name = 'SAZİŞ - Yeni Girov Müqaviləsinə əlavə';
+    public $name = "Yeni Girov Müqaviləsi";
+
     /**
      * Perform the action on the given models.
      *
@@ -24,10 +25,16 @@ class SazishYeniGirovMuqavilesi extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        //sazish-yeni-girov-mugavilesi
         $loan = $models->first();
-        $t = new \PhpOffice\PhpWord\TemplateProcessor('word-template/sazish-yeni-girov-mugavilesi.docx');
+        $numberToWords = new \NumberFormatter('az',\NumberFormatter::SPELLOUT );
+        $t = new \PhpOffice\PhpWord\TemplateProcessor('word-template/yeni-qirov-muqavilesi.docx');
         $t->setValue('date', Carbon::now()->format('d/m/Y'));
+        $t->setValue('ID', $loan->id);
+        $t->setValue('director', $loan->branch->director);
+        $t->setValue('ASA', $loan->customer->name
+            .' '.$loan->customer->surname
+            .' '.$loan->customer->fathername);
+        $t->setValue('price', $loan->price);
         $file = $loan->id;
         $t->saveAs($file.'.docx');
 
