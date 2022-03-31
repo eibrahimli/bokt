@@ -43,6 +43,7 @@ class AcceptPenaltyForLoan extends Action
         $transaction->main_price = 0.00;
         $transaction->interested_price = 0.00;
         $transaction->user_id = Auth::id();
+        $transaction->description = 'Cərimə ödənişi';
 
         if ($model->rescheduled):
             $model->rescheduled_payed_balance += $transaction->price;
