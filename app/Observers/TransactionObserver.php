@@ -22,7 +22,7 @@ class TransactionObserver
 
         $totalPrice = round(($loanReport->totalDept - $loanReport->percentage_remainder - $loanReport->main_remainder) + $loanReport->penalty, 2);
 
-        if(!$transaction->service_fee):
+        if(!$transaction->service_fee && $transaction->type !== 'penalty'):
 
             //       Əgər kredit ödəyən şəxs tam məbləği ödəyibsə kreditini həmin ay üçün bağla
             if($totalPrice == $transaction->price) {
@@ -76,7 +76,7 @@ class TransactionObserver
             elseif($totalPrice > $transaction->price) {
                 // Qəbul edilən məbləğ
                 $price = $transaction->price - $loanReport->penalty;
-                
+
                 // Qalıq faiz məbləği
                 $percentage_remainder = $loanReport->percentDept - $loanReport->percentage_remainder;
 
@@ -101,7 +101,7 @@ class TransactionObserver
                 elseif($percentage_remainder == 0):
                     $this->setPayedPercentageAndMainPrice(0, $price);
                     $loanReport->main_remainder += $price;
-                    $loanReport->saveQuietly(); 
+                    $loanReport->saveQuietly();
                 endif;
 
                 if($loan->rescheduled):
@@ -116,10 +116,14 @@ class TransactionObserver
 
         // Əgər cədvəl yenidən yaradılıb və ya yaradılmayıbsa kredit reportunu yenilə
         if($loan->rescheduled):
-
+            if($transaction->type === 'penalty'):
+                $loan->rescheduled_payed_balance += $transaction->price;
+            endif;
             $loan->rescheduled_report = $loan->loanReports;
         else:
-
+            if($transaction->type === 'penalty'):
+                $loan->payed_balance += $transaction->price;
+            endif;
             $loan->current_main_price = LoanHelper::findMainDept($loan);
             $loan->credit_report = $loan->loanReports;
         endif;
@@ -141,9 +145,7 @@ class TransactionObserver
         $transaction->main_price = $this->totalPayedMainPrice;
         $transaction->interested_price = $this->totalPayedPercentagePrice;
         $transaction->shouldPay = $loanReport->shouldPay;
-        $transaction->calculated_price = $loanReport->penalty;
-        $transaction->penalty_day = $loanReport->penalty_day;
-        if(!$transaction->service_fee):
+        if(!$transaction->service_fee && $transaction->type !== 'penalty'):
             $transaction->expected_price = $totalPrice;
         endif;
         $transaction->saveQuietly();

@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Exports\PortfelExport as ExportsPortfelExport;
 use App\Helpers\LoanHelper;
+use App\Nova\Actions\AcceptPenaltyForLoan;
 use App\Nova\Actions\AcceptServiceFeeForLoan;
 use App\Nova\Actions\CloseLoan;
 use App\Nova\Actions\CreateReScheduleLoanAction;
@@ -29,11 +30,15 @@ use App\Nova\Options\Service;
 use App\Nova\Options\Trade;
 use App\Nova\Options\Transportation;
 use App\Rules\BooleanHasToBeTrue;
-use App\Rules\CheckLoanDateAndPriceRange;;
+use App\Rules\CheckLoanDateAndPriceRange;
+
+;
+
 use Eibrahimli\MonthlyCreditPaymentReport\MonthlyCreditPaymentReport;
 use Eibrahimli\PercentageField\PercentageField;
 use Eminiarts\Tabs\Tabs;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -56,6 +61,7 @@ use Yassi\NestedForm\NestedForm;
 class Loan extends Resource
 {
     use SearchesRelations;
+
     public static $model = \App\Models\Loan::class;
 
     public static $title = 'id';
@@ -71,7 +77,7 @@ class Loan extends Resource
     }
 
     public static $searchRelations = [
-        'customer' => ['id','name', 'surname', 'fin']
+        'customer' => ['id', 'name', 'surname', 'fin']
     ];
 
     public static function singularLabel(): string
@@ -90,50 +96,50 @@ class Loan extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make(__('Filial'), function () {
-                return $this->id.' - '.$this->branch->name;
+                return $this->id . ' - ' . $this->branch->name;
             })->exceptOnForms()->sortable(),
 
-            BelongsTo::make('Müştəri','customer', Customer::class),
+            BelongsTo::make('Müştəri', 'customer', Customer::class),
             NovaBelongsToDepend::make('Məhsulun adı', 'product', Product::class)
                 ->options(\App\Models\Product::all()),
-            Stack::make('Cərimə',[
+            Stack::make('Cərimə', [
                 Line::make('Cərimə', function () {
-                    return $this->model()->loanPenalties->count() > 0 ? 'Var' : 'Yoxdur';
+                    return $this->model()->loanPenalties()->unPaid()->count() > 0 ? 'Var' : 'Yoxdur';
                 })->extraClasses(['text-red-600']),
             ]),
 
-            Tabs::make('Cədvəllər',array_merge(@$this->rescheduled ? [
-                    new Panel('Yeni Cədvəl',array_merge($this->reScheduledFields($request),[
-                            MonthlyCreditPaymentReport::make('rescheduled_report')
-                                ->hideFromIndex()
-                                ->hideWhenUpdating()
-                                ->hideWhenCreating(),
-                        ])
-                    ),
-                ] : []
-                ,[
+            Tabs::make('Cədvəllər', array_merge(@$this->rescheduled ? [
+                new Panel('Yeni Cədvəl', array_merge($this->reScheduledFields($request), [
+                        MonthlyCreditPaymentReport::make('rescheduled_report')
+                            ->hideFromIndex()
+                            ->hideWhenUpdating()
+                            ->hideWhenCreating(),
+                    ])
+                ),
+            ] : []
+                , [
                     new Panel('İlkin Cədvəl', [
                         PercentageField::make('Faiz', 'percentage')
                             ->hideFromIndex($this->rescheduled)
                             ->readonly(),
                         Number::make('Müddət (Ay)', 'month')->rules([
-                            'required', 'integer',$product ? new CheckLoanDateAndPriceRange($product, 'month') : ''
+                            'required', 'integer', $product ? new CheckLoanDateAndPriceRange($product, 'month') : ''
                         ])->hideFromIndex($this->rescheduled),
                         Currency::make('Məbləğ', 'price')->rules([
-                            'required', 'integer',$product ? new CheckLoanDateAndPriceRange($product, 'price') : ''
+                            'required', 'integer', $product ? new CheckLoanDateAndPriceRange($product, 'price') : ''
                         ])->hideFromIndex($this->rescheduled)->currency('AZN'),
-                        Currency::make('Ümumi ödəniləcək məbləğ','whole_payable_balance')
+                        Currency::make('Ümumi ödəniləcək məbləğ', 'whole_payable_balance')
                             ->hideWhenCreating()
                             ->hideWhenUpdating()
                             ->hideFromIndex($this->rescheduled)
                             ->currency('AZN'),
-                        Currency::make('Ödənilən məbləğ','payed_balance')
+                        Currency::make('Ödənilən məbləğ', 'payed_balance')
                             ->hideWhenCreating()
                             ->hideWhenUpdating()
                             ->hideFromIndex($this->rescheduled)
                             ->currency('AZN'),
 
-                        Currency::make('Qalıq borc',function () {
+                        Currency::make('Qalıq borc', function () {
                             return $this->whole_payable_balance - $this->payed_balance;
                         })
                             ->hideWhenCreating()
@@ -141,7 +147,7 @@ class Loan extends Resource
                             ->hideFromIndex($this->rescheduled)
                             ->currency('AZN'),
 
-                        Currency::make('Qalıq əsas məbləğ','current_main_price')
+                        Currency::make('Qalıq əsas məbləğ', 'current_main_price')
                             ->hideWhenCreating()
                             ->hideWhenUpdating()
                             ->hideFromIndex($this->rescheduled)
@@ -194,8 +200,8 @@ class Loan extends Resource
     {
         return [
             new NewLoan(),
-            new LoanIsApproved(null,'Təsdiqlənmiş kreditlər',true),
-            new LoanIsApproved(null,'Təsdiqlənməmiş kreditlər',false),
+            new LoanIsApproved(null, 'Təsdiqlənmiş kreditlər', true),
+            new LoanIsApproved(null, 'Təsdiqlənməmiş kreditlər', false),
             new SummOfTransactions(null, 'price', 'cemi-odenisler', 'Cəmi Ödənişlər'),
             new SummOfTransactions(null, 'main_price', 'esas-cemi-odenisler', 'Əsas üzrə ödənişlər'),
             new SummOfTransactions(null, 'interested_price', 'faiz-cemi-odenisler', 'Faiz üzrə ödənişlər'),
@@ -225,51 +231,77 @@ class Loan extends Resource
 
     public function actions(Request $request): array
     {
-        return array_filter([
+        $loan = $this->model();
+        return [
+            (new AcceptPenaltyForLoan($loan))
+                ->canRun(function () {
+                    return true;
+                }),
             new PortfelHesabat(),
             new CreateReScheduleLoanAction($this->model()),
             new CloseLoan($this->model()),
-            !$this->serviceFeePayed ? (new AcceptServiceFeeForLoan($this->model()))->canRun(fn() => true) : null,
             new TreatyPrint($this->model()),
             new KendTeserrufati($this->model()),
             new ZaminlikMuqavilesi($this->model()),
             new MikrobiznesMuqavilesi($this->model()),
             new Sazish($this->model()),
             new YeniQirovMuqavilesi($this->model()),
-        ]);
+            (new AcceptServiceFeeForLoan($loan))
+                ->canSee(function () use ($loan) {
+                    return !$loan->serviceFeePayed;
+                })
+                ->canRun(function () { return true;}),
+        ];
     }
 
-    protected function getProduct($id) {
+    protected function getProduct($id)
+    {
         return \App\Models\Product::find($id);
     }
 
-    protected function reScheduledFields($request) {
+    protected function reScheduledFields($request)
+    {
         return [
             PercentageField::make('Faiz', 'percentage')->readonly(),
             Number::make('Müddət (Ay)', 'rescheduled_month')->showOnIndex($this->rescheduled)->exceptOnForms(),
             Currency::make('Məbləğ', 'rescheduled_price')
                 ->exceptOnForms()
                 ->currency('AZN'),
-            Currency::make('Ümumi ödəniləcək məbləğ','rescheduled_whole_payable_balance')
+            Currency::make('Ümumi ödəniləcək məbləğ', 'rescheduled_whole_payable_balance')
                 ->exceptOnForms()
                 ->currency('AZN'),
-            Currency::make('Ödənilən məbləğ','rescheduled_payed_balance')
+            Currency::make('Ödənilən məbləğ', 'rescheduled_payed_balance')
                 ->exceptOnForms()
                 ->currency('AZN'),
 
-            Currency::make('Qalıq borc',function () {
+            Currency::make('Qalıq borc', function () {
                 return $this->rescheduled_whole_payable_balance - $this->rescheduled_payed_balance;
             })
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->currency('AZN'),
 
-            Currency::make('Qalıq əsas məbləğ',function () {
+            Currency::make('Qalıq əsas məbləğ', function () {
                 return LoanHelper::findMainDept($this->model());
             })
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->currency('AZN'),
         ];
+    }
+
+    protected function getFilteredActions(Model $model): array
+    {
+        return array_filter([
+            (new AcceptServiceFeeForLoan($model))
+                ->canSee(function () use ($model) {
+                    return !$model->serviceFeePayed;
+                }),
+
+            (new AcceptPenaltyForLoan($model))
+                ->canSee(function () use ($model) {
+                    return $model->loanPenalties()->unPaid()->count() > 0;
+                }),
+        ]);
     }
 }
