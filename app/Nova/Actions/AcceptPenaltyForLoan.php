@@ -41,6 +41,7 @@ class AcceptPenaltyForLoan extends Action
         $transaction->type = 'penalty';
         $transaction->loan_id = $model->id;
         $transaction->main_price = 0.00;
+        $transaction->interested_price = 0.00;
         $transaction->user_id = Auth::id();
 
         if ($model->rescheduled):

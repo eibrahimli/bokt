@@ -104,9 +104,18 @@ class Loan extends Resource
                 ->options(\App\Models\Product::all()),
             Stack::make('Cərimə', [
                 Line::make('Cərimə', function () {
-                    return $this->model()->loanPenalties()->unPaid()->count() > 0 ? 'Var' : 'Yoxdur';
+                    $penalty = $this->model()->loanPenalties()->unPaid()->first();
+                    return $penalty ? 'Gecikmə miqdarı => '.round($penalty->price,1) : 'Gecikmə miqdarı => 0';
                 })->extraClasses(['text-red-600']),
-            ]),
+                Line::make('Cərimə', function () {
+                    $penalty = $this->model()->loanPenalties()->unPaid()->first();
+                    return $penalty ? 'Ödənilmiş cərimə => '.round($penalty->price_remainder,1) : 'Ödənilmiş cərimə => 0';
+                })->extraClasses(['text-red-600']),
+                Line::make('Gecikmə gün sayı', function () {
+                    $penalty = $this->model()->loanPenalties()->unPaid()->first();
+                    return $penalty ? 'Günlərin sayı => '.$penalty->day : 'Günlərin sayı => 0';
+                })->extraClasses(['text-red-600']),
+            ])->hideFromIndex(),
 
             Tabs::make('Cədvəllər', array_merge(@$this->rescheduled ? [
                 new Panel('Yeni Cədvəl', array_merge($this->reScheduledFields($request), [
