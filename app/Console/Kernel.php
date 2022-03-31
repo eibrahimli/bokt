@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new CalculatePenalty())->everyMinute();
+        $schedule->job(new CalculatePenalty())->everyMinute(); // weekdays()
     }
 
     /**

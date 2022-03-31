@@ -27,14 +27,14 @@ class CalculatePenalty implements ShouldQueue
     public function __construct()
     {
         $loans = $this->getAllLoans();
-        $now = Carbon::now()->addMonths(4)->addDay();
+        $now = Carbon::now()->addDays(87);
 
         foreach ($loans as $loan) {
             $loanReports = $loan->loanReports()->active()->get();
 
             $loansHavePenalty = collect($loanReports)->map(function ($report) use ($now) {
                 $shouldPay = Carbon::parse($report->shouldPay);
-                if ($shouldPay < $now) {
+                if ($shouldPay < $now && !$now->isWeekend()) {
                     return $report;
                 }
             })->filter();
@@ -44,7 +44,9 @@ class CalculatePenalty implements ShouldQueue
                 $firstReport = $loansHavePenalty->first()->toArray();
 
                 $firstShouldPayDate = Carbon::parse($firstReport['shouldPay']);
-                $differenceDays = $firstShouldPayDate->diffInDays($now);
+                $differenceDays = $firstShouldPayDate->diffInDaysFiltered(function(Carbon $date) {
+                    return !$date->isWeekend();
+                },$now);
 
                 $penalty = $mainDept * 1 / 100;
 
