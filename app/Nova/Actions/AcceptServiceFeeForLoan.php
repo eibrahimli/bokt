@@ -36,6 +36,7 @@ class AcceptServiceFeeForLoan extends Action
             'price' => $report->service_fee,
             'expected_price' => $report->service_fee,
             'shouldPay' => now(),
+            'type' => 'service_fee',
         ]);
 
         $model->payed_balance += $report->service_fee;

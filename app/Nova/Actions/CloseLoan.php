@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use App\Models\Transaction;
 
 class CloseLoan extends Action
 {
@@ -43,7 +44,21 @@ class CloseLoan extends Action
 
         $model->save();
 
-        return Action::redirect(url('/resources/loans'));
+        $transaction = new Transaction();
+
+        $transaction->calculated_price = 0;
+        $transaction->expected_price = $fields->price;
+        $transaction->price = $fields->price;
+        $transaction->type = 'loan_closed';
+        $transaction->loan_id = $model->id;
+        $transaction->main_price = $fields->price;
+        $transaction->interested_price = 0.00;
+        $transaction->user_id = \Auth::id();
+        $transaction->description = 'Kredit bağlanması';
+
+        $transaction->saveQuietly();
+
+        return Action::message('Kredit uğurlu şəkildə bağlanıldı');
     }
 
     /**
@@ -53,7 +68,7 @@ class CloseLoan extends Action
      */
     public function fields()
     {
-        $price = round($this->findMainDept(), '2');
+        $price = round($this->findMainDept(), '1');
 
         return [
             \Laravel\Nova\Fields\Currency::make('Qəbul ediləcək məbləğ','price')

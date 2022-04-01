@@ -157,6 +157,9 @@ class Loan extends Resource
                             ->currency('AZN'),
 
                         Currency::make('Qalıq əsas məbləğ', 'current_main_price')
+                            ->displayUsing(function($value) {
+                                return round($value,1);
+                            })
                             ->hideWhenCreating()
                             ->hideWhenUpdating()
                             ->hideFromIndex($this->rescheduled)
@@ -216,8 +219,6 @@ class Loan extends Resource
             new SummOfTransactions(null, 'interested_price', 'faiz-cemi-odenisler', 'Faiz üzrə ödənişlər'),
             new RescheduledLoans(),
             new NovaBigFilter(),
-
-//            new OverdueLoans(),
 
         ];
     }
@@ -291,7 +292,7 @@ class Loan extends Resource
                 ->currency('AZN'),
 
             Currency::make('Qalıq əsas məbləğ', function () {
-                return LoanHelper::findMainDept($this->model());
+                return round(LoanHelper::findMainDept($this->model()),1);
             })
                 ->hideWhenCreating()
                 ->hideWhenUpdating()

@@ -32,7 +32,7 @@ class TransactionPolicy
 
     public function delete(User $user, Transaction $transaction)
     {
-        //
+        return true;
     }
 
 

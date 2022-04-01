@@ -52,17 +52,17 @@ class CalculatePenalty implements ShouldQueue
 
                 $totalPenalty = $penalty * $differenceDays;
 
-                $penalty = LoanPenalty::where('loan_id', $firstReport['loan_id'])->first();
+                $penalty = LoanPenalty::where('loan_id', $firstReport['loan_id'])->unPaid()->first();
 
                 if ($penalty):
                     $penalty->day = $differenceDays;
-                    $penalty->price = $totalPenalty;
+                    $penalty->price = round($totalPenalty,'1');
 
                     $penalty->save();
                 else:
                     $penalty = LoanPenalty::create([
                         'loan_id' => $firstReport['loan_id'],
-                        'price' => $totalPenalty,
+                        'price' => round($totalPenalty,'1'),
                         'day' => $differenceDays
                     ]);
                 endif;

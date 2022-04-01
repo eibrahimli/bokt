@@ -57,7 +57,7 @@ class AcceptPenaltyForLoan extends Action
 
         $penalty->price_remainder += $fields->calculated_price;
 
-        if ($penalty->price <= $fields->calculated_price + $penalty->price_remainder ):
+        if (round($penalty->price,1) <= round($fields->calculated_price + $penalty->price_remainder,1) ):
             $penalty->paid = true;
             $penalty->paid_at = now();
         endif;

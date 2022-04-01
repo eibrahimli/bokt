@@ -49,7 +49,7 @@ class LoanPolicy
 
     public function addTransaction (User $user, Loan $loan): bool
     {
-        return $loan->loanReports()->active()->count() > 0 && $loan->serviceFeePayed && $loan->loanPenalties->count() === 0;
+        return $loan->loanReports()->active()->count() > 0 && $loan->serviceFeePayed && $loan->loanPenalties()->unPaid()->count() === 0;
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Loan;
+use App\Models\Transaction;
 
 class LoanHelper
 {
@@ -57,5 +58,16 @@ class LoanHelper
             return 0;
         endif;
 
+    }
+
+    public static function decreaseLoanPayedBalance(Loan $loan, Transaction $transaction) {
+        if($loan->rescheduled):
+            $loan->rescheduled_payed_balance -= $transaction->price;
+        else:
+        
+            $loan->payed_balance -= $transaction->price;
+        endif; 
+
+        return $loan;
     }
 }

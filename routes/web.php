@@ -14,8 +14,9 @@ Route::get('/lang/{lang}', [LanguageController::class, 'switchLang'])
     ->name('lang.switch')
     ->middleware('auth');
 
-Route::get('test', function () {
-
-
+Route::get('redirecto/{url}', function ($url) {
+    dd($url);
+    return redirect()->to($url);
 });
+
 
