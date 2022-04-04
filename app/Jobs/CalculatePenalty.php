@@ -67,6 +67,10 @@ class CalculatePenalty implements ShouldQueue
                     ]);
                 endif;
 
+                $loan->penalty = round($penalty->price - $loan->loanPenalties->sum('price_remainder'),1);
+
+                $loan->saveQuietly();
+
             endif;
 
         }

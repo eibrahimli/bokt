@@ -31,9 +31,6 @@ use App\Nova\Options\Trade;
 use App\Nova\Options\Transportation;
 use App\Rules\BooleanHasToBeTrue;
 use App\Rules\CheckLoanDateAndPriceRange;
-
-;
-
 use Eibrahimli\MonthlyCreditPaymentReport\MonthlyCreditPaymentReport;
 use Eibrahimli\PercentageField\PercentageField;
 use Eminiarts\Tabs\Tabs;

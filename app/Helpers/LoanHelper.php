@@ -70,4 +70,55 @@ class LoanHelper
 
         return $loan;
     }
+
+    public static function findFifd() {
+        $amount = 13200;
+        $annuitet_percentage = 28;
+        $loan_period = 36;
+        $comission = 264;
+        $grace_period = 0;
+
+        $flow = [];
+        $gracePeriodAmount = 0;
+
+        $new_amount = static::calcPmt($amount, $annuitet_percentage, $loan_period);
+        $monthly_annuitet = round($new_amount, 2);
+        $totalAmount = round(($new_amount * $loan_period), 2);
+        $totalInterest = round(($totalAmount - $amount), 2);
+        $investment = (float) ($amount - $comission);
+
+        for ($n = 1; $n <= ($loan_period - $grace_period); $n++) {
+            array_push($flow,$monthly_annuitet);
+        }
+
+        $fifd = round((static::whatIsFifd($investment, $flow) * 12),1);
+
+        return $fifd;
+
+    }
+
+    public static function whatIsFifd($investment, $flow) {
+        for ($n = 0; $n < 100; $n += 0.0001) {
+            $pv = 0;
+            for ($i = 0; $i < count($flow); $i++) {
+                $pv = $pv + $flow[$i] / pow(1 + ($n / 100), $i + 1);
+            }
+    
+            if ($pv <= $investment) {
+                return $n;
+            }
+        }
+    }
+
+    public static function calcPmt($amount, $annuitet_percentage, $loan_period) {
+        $int = $annuitet_percentage / 1200;
+        $int1 = 1 + $int;
+        $r1 = pow($int1, $loan_period);
+
+        $r = $amount * ($int * $r1) / ($r1 - 1);
+
+        return is_finite($r) ? $r : 0;
+    }
+
+
 }

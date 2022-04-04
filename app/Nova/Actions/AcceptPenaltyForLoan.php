@@ -68,11 +68,11 @@ class AcceptPenaltyForLoan extends Action
     public function fields()
     {
         $penalty = $this->loan->loanPenalties()->unPaid()->first();
-
+     
         return [
             Currency::make('Cərimə məgləği', 'price')
                 ->readonly()
-                ->withMeta(['value' => round(@$penalty->price - @$penalty->price_remainder, '1')])
+                ->withMeta(['value' => @$this->loan->penalty])
                 ->currency('AZN'),
             Currency::make('Məbləğ', 'calculated_price')
                 ->currency('AZN')
