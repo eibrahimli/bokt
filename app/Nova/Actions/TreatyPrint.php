@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use App\Helpers\LoanHelper;
 
 class TreatyPrint extends Action
 {
@@ -35,7 +36,7 @@ class TreatyPrint extends Action
             .' '.$loan->customer->surname
             .' '.$loan->customer->fathername);
         $t->setValue('fin', $loan->customer->fin);
-        $t->setValue('FIFD', (($loan->price - $loan->loanReports->first()->service_fee) / $loan->loanReports->first()->totalDept) * 12);
+        $t->setValue('FIFD', LoanHelper::findFifd($loan));
         $t->setValue('whole_payable_balance', $loan->whole_payable_balance);
         $t->setValue('price', $loan->price);
         $t->setValue('price_to_word', $numberToWords->format($loan->price));

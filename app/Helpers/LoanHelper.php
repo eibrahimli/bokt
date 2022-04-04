@@ -71,11 +71,11 @@ class LoanHelper
         return $loan;
     }
 
-    public static function findFifd() {
-        $amount = 13200;
-        $annuitet_percentage = 28;
-        $loan_period = 36;
-        $comission = 264;
+    public static function findFifd(Loan $loan) {
+        $amount = $loan->price;
+        $annuitet_percentage = $loan->percentage;
+        $loan_period = $loan->month;
+        $comission = (float) $loan->loanReports->first()->service_fee;
         $grace_period = 0;
 
         $flow = [];
