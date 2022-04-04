@@ -8,11 +8,9 @@ use Laravel\Nova\Metrics\Value;
 
 class SummOfTransactions extends Value
 {
-
-
-    private $field;
-    private $uriKeyC;
-    private $nameC;
+    public $field;
+    public $uriKeyC;
+    public $nameC;
 
     public function __construct($component = null, $field = 'price', $uriKey, $name)
     {
@@ -30,6 +28,7 @@ class SummOfTransactions extends Value
      */
     public function calculate(NovaRequest $request)
     {
+
         return $this->sum($request, Transaction::class, $this->field);
     }
 

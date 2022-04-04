@@ -149,6 +149,10 @@ class TransactionObserver
             'current_report_entries' => $loan->loanReports->toJson()
         ]);
 
+        if($transaction->created_at == null) {
+            $transaction->created_at = now();
+        }
+
         $transaction->saveQuietly();
 
     }

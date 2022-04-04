@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use NumberToWords\NumberToWords;
+use App\Helpers\LoanHelper;
 
 class KendTeserrufati extends Action
 {
@@ -40,6 +41,7 @@ class KendTeserrufati extends Action
         $t->setValue('price_to_word', $numberToWords->format($loan->price));
         $t->setValue('month', $loan->month);
         $t->setValue('percentage', $loan->percentage);
+        $t->setValue('FIFD', LoanHelper::findFifd($loan));
         $t->setValue('firstMouth', $loan->loanReports->first()->shouldPay);
         $t->setValue('lastMouth', $loan->loanReports->last()->shouldPay);
         $t->setValue('service_fee_percent', $loan->product->service_fee);

@@ -18,6 +18,7 @@ use App\Nova\Actions\PortfelHesabat;
 use App\Nova\Filters\ClosedLoans;
 use App\Nova\Filters\KreditCreatedAtDay;
 use App\Nova\Filters\KreditCreatedEndDay;
+use App\Nova\Filters\KreditorFilter;
 use App\Nova\Metrics\LoanIsApproved;
 use App\Nova\Metrics\NewLoan;
 use App\Nova\Metrics\OverdueLoans;
@@ -70,7 +71,7 @@ class Loan extends Resource
 
     public static function indexQuery(NovaRequest $request, $query): Builder
     {
-        return $query->active()->unclosed();
+        return $query;
     }
 
     public static $searchRelations = [
@@ -226,6 +227,7 @@ class Loan extends Resource
             new KreditCreatedAtDay(),
             new KreditCreatedEndDay(),
             new ClosedLoans(),
+            new KreditorFilter,
         ];
     }
 

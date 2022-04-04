@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use App\Helpers\LoanHelper;
 
 class MikrobiznesMuqavilesi extends Action
 {
@@ -38,6 +39,7 @@ class MikrobiznesMuqavilesi extends Action
         $t->setValue('price_to_word', $numberToWords->format($loan->price));
         $t->setValue('month', $loan->month);
         $t->setValue('percentage', $loan->percentage);
+        $t->setValue('FIFD', LoanHelper::findFifd($loan));
         $t->setValue('firstMouth', $loan->loanReports->first()->shouldPay);
         $t->setValue('lastMouth', $loan->loanReports->last()->shouldPay);
         $file = $loan->id;
