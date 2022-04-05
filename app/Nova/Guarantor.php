@@ -65,6 +65,8 @@ class Guarantor extends Resource
                 ->keyUpDelay(100)
                 ->rules(['nullable', 'string', 'size:7',new CheckGuarantorIsRelatedAnyCustomer($this->model(),'fin')]),
             Text::make('Ş.V. Seriya №', 'identity_number')->sortable(),
+            Text::make('İş yeri','work_place'),
+            Text::make('Gəliri', 'income'),
             Textarea::make('Qeydiyyat ünvanı','registration_address')->hideFromIndex(),
             Textarea::make('Yaşayış ünvanı','residential_address')->hideFromIndex(),
             Files::make('Əlavələr','main')->hideFromIndex(),
