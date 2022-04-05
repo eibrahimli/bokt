@@ -122,6 +122,7 @@ class Transaction extends Resource
             Text::make('Ödəməli olduğu tarix','shouldPay' , function ($value) use($request) {
                 return $value ?: @$this->getReport($request->viaResourceId)->shouldPay;
             })->readonly(),
+            Date::make('Ödəniş tarixi','created_at')->onlyOnIndex(),
             BelongsTo::make('Kassir', 'user', User::class)->default(function () {
                 return Auth::id();
             })->displayUsing(function () { return Auth::user()->name .' '.Auth::user()->surname; })->readonly(),
