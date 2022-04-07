@@ -25,6 +25,7 @@ class Supplier extends Resource
      *
      * @var string
      */
+
     public static $model = \App\Models\Supplier::class;
 
     /**

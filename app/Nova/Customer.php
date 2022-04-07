@@ -14,6 +14,7 @@ use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Illuminate\Http\Request;
 use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
+use KossShtukert\LaravelNovaSelect2\Select2;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
@@ -62,6 +63,7 @@ class Customer extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+            Select2::make('Kreditor','kredit_id')->options(\App\Models\User::where('role', 'kreditor')->pluck('name', 'id')->toArray()),
             BelongsTo::make('İqtisadi rayon','adminUnit', AdminUnit::class)->showCreateRelationButton()->nullable(),
             BelongsTo::make('Hüquqi status','legalStatus', LegalStatus::class)->showCreateRelationButton()->nullable(),
             NovaDependencyContainer::make([
@@ -84,6 +86,9 @@ class Customer extends Resource
                 'male' => 'Kişi',
                 'female' => 'Qadın'
             ])->displayUsing(function () { return $this->maritial_status == 'female' ? 'Qadın' : 'Kişi'; }),
+            Text::make("Həyat Yoladşı Ad", 'wife_name')->rules(['required'])->sortable(),
+            Text::make('Həyat Yoldaşı Soyad','wife_surname')->showOnIndex()->sortable(),
+            Text::make('Həyat Yoladşı Ata Adı', 'wife_fathername')->showOnIndex()->sortable(),
             HiddenField::make('', 'contact_phone_1'),
             HiddenField::make('', 'contact_phone_2'),
             HiddenField::make('', 'contact_phone_3'),
@@ -113,32 +118,6 @@ class Customer extends Resource
 
             new NewCustomer(null,$this),
             new ModelPerDay(null,$this,'Aylıq statistika'),
-            (new DoughnutChart())
-                ->title('Müştərilər')
-                ->series(array([
-                    'data' => [10, 10, 10, 10, 10, 10, 10, 10],
-                    'backgroundColor' => ["#ffcc5c","#91e8e1","#ff6f69","#88d8b0","#b088d8","#d8b088", "#88b0d8", "#6f69ff"],
-                ]))
-                ->options([
-                    'xaxis' => [
-                        'categories' => ['Portion 1','Portion 2','Portion 3','Portion 4','Portion 5','Portion 6','Portion 7','Portion 8']
-                    ],
-                ]),
-            (new PolarAreaChart())
-                ->title('Müştərilər Statistika')
-                ->series(array([
-                    'data' => [170, 180, 130, 190, 121, 90, 180, 110],
-                    'backgroundColor' => ["#ffcc5c","#91e8e1","#ff6f69","#88d8b0","#b088d8","#d8b088", "#88b0d8", "#6f69ff"],
-                ]))
-                ->options([
-                    'xaxis' => [
-                        'categories' => ['Portion 1','Portion 2','Portion 3','Portion 4','Portion 5','Portion 6','Portion 7','Portion 8']
-                    ],
-                ]),
-            (new StackedChart())
-                ->title('Müştərilər')
-                ->model('\App\Models\Customer'),
-            new NovaBigFilter(),
         ];
     }
 

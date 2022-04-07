@@ -6,6 +6,7 @@ use App\Models\Options\AdminUnit;
 use App\Models\Options\LegalStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
@@ -34,6 +35,7 @@ class Customer extends Model implements HasMedia, Chartable
 
     protected $casts = [
         'date_of_birth' => 'date',
+        'intentity_given_date' => 'date',
     ];
 
     public function getTitleAttribute(): string
@@ -55,13 +57,18 @@ class Customer extends Model implements HasMedia, Chartable
         return $this->hasMany(Transaction::class);
     }
 
-    public function adminUnit(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function adminUnit(): BelongsTo
     {
         return $this->belongsTo(AdminUnit::class);
     }
 
-    public function legalStatus(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function legalStatus(): BelongsTo
     {
         return $this->belongsTo(LegalStatus::class);
+    }
+
+    public function kreditor(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id', 'kredit_id');
     }
 }

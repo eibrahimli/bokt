@@ -19,6 +19,9 @@ use App\Nova\Filters\ClosedLoans;
 use App\Nova\Filters\KreditCreatedAtDay;
 use App\Nova\Filters\KreditCreatedEndDay;
 use App\Nova\Filters\KreditorFilter;
+use App\Nova\Filters\ShouldPayDateEnd;
+use App\Nova\Filters\ShouldPayDateStart;
+use App\Nova\Lenses\KreditorLens;
 use App\Nova\Metrics\LoanIsApproved;
 use App\Nova\Metrics\NewLoan;
 use App\Nova\Metrics\OverdueLoans;
@@ -94,7 +97,7 @@ class Loan extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make(__('Filial'), function () {
-                return $this->id . ' - ' . $this->branch->name;
+                return $this->id . ' - ' . @$this->branch->name;
             })->exceptOnForms()->sortable(),
 
             BelongsTo::make('Müştəri', 'customer', Customer::class),
@@ -160,7 +163,7 @@ class Loan extends Resource
                             })
                             ->hideWhenCreating()
                             ->hideWhenUpdating()
-                            ->hideFromIndex($this->rescheduled)
+                            ->hideFromIndex()
                             ->currency('AZN'),
 
                         MonthlyCreditPaymentReport::make('credit_report')->hideFromIndex(),
@@ -194,7 +197,7 @@ class Loan extends Resource
                     ->nullable()
                     ->hideFromIndex()
                     ->showCreateRelationButton(),
-                Boolean::make("Kredit prosesini təsdiqləmək", 'status')
+                Boolean::make("Kredit prosesini təsdiqləmək", 'status')->hideFromIndex()
                     ->rules(['required', new BooleanHasToBeTrue('Kredit prosesini təsdiqləməlisiniz')]),
             ]),
             NestedForm::make('Girovlar', 'collaterals', Collateral::class),
@@ -217,7 +220,6 @@ class Loan extends Resource
             new SummOfTransactions(null, 'interested_price', 'faiz-cemi-odenisler', 'Faiz üzrə ödənişlər'),
             new RescheduledLoans(),
             new NovaBigFilter(),
-
         ];
     }
 
@@ -226,15 +228,17 @@ class Loan extends Resource
         return [
             new KreditCreatedAtDay(),
             new KreditCreatedEndDay(),
-            new ClosedLoans(),
+            new ShouldPayDateStart(),
+            new ShouldPayDateEnd(),
             new KreditorFilter,
+            new ClosedLoans(),
         ];
     }
 
     public function lenses(Request $request): array
     {
         return [
-            // new \App\Nova\Lenses\ClosedCreditsLens
+
         ];
     }
 
@@ -260,6 +264,7 @@ class Loan extends Resource
                     return !$loan->serviceFeePayed;
                 })
                 ->canRun(function () { return true;}),
+            (new DownloadExcel())->withHeadings()
         ];
     }
 
@@ -293,6 +298,7 @@ class Loan extends Resource
             Currency::make('Qalıq əsas məbləğ', function () {
                 return round(LoanHelper::findMainDept($this->model()),1);
             })
+                ->hideFromIndex()
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->currency('AZN'),

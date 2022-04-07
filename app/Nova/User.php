@@ -54,7 +54,8 @@ class User extends Resource
             Select::make("Vəzifə",'role')->options([
                 'admin' => 'Admin',
                 'supervisor' => 'Əməliyyatçı',
-                'cashier' => 'Kassir'
+                'cashier' => 'Kassir',
+                'kreditor' => 'Kreditor'
             ])->rules('required'),
 
             Password::make('Şifrə', 'password')

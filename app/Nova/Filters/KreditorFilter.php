@@ -15,18 +15,9 @@ class KreditorFilter extends Filter
      */
     public $component = 'select-filter';
 
-    /**
-     * Apply the filter to the given query.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  mixed  $value
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function apply(Request $request, $query, $value)
     {
-        
-        return $query->where('user_id', $value);
+        return $query->whereRelation('customer', 'kredit_id', $value);
     }
 
     /**
@@ -38,6 +29,6 @@ class KreditorFilter extends Filter
     public function options(Request $request)
     {
         // dd(User::where('role', 'spervisor')->pluck('id', 'name'));
-        return User::where('role', 'spervisor')->pluck('id', 'name')->toArray();
+        return User::where('role', 'kreditor')->pluck('id', 'name')->toArray();
     }
 }

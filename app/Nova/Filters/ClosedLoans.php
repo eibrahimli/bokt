@@ -7,14 +7,7 @@ use Laravel\Nova\Filters\BooleanFilter;
 
 class ClosedLoans extends BooleanFilter
 {
-    /**
-     * Apply the filter to the given query.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  mixed  $value
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
+    public $name = 'Başlanğıc';
     public function apply(Request $request, $query, $value)
     {
         if($value['closed']) {
