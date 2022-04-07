@@ -21,11 +21,16 @@ class CheckGuarantorIsRelatedAnyCustomer implements Rule
 
     public function passes($attribute, $value): bool
     {
-        return !Guarantor::where($attribute, $value)->count();
+        $query = Guarantor::query()->where($attribute, $value);
+        if(@$this->guarantor->customer->id) {
+            $query->where('customer_id', '!=', $this->guarantor->customer->id);
+        }
+
+        return !$query->count();
     }
 
     public function message(): string
     {
-        return 'Vətəndaş digər bir müştəriyə zamin durub.';
+        return 'Vətəndaş digər bir müştəriyə jhsdj('.$this->gurantor->customer->name.' '.$this->guarantor->customer->surname.') zamin durub.';
     }
 }
