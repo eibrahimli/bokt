@@ -15,6 +15,7 @@ use App\Nova\Actions\TreatyPrint;
 use App\Nova\Actions\YeniQirovMuqavilesi;
 use App\Nova\Actions\ZaminlikMuqavilesi;
 use App\Nova\Actions\PortfelHesabat;
+use App\Nova\Filters\BranchFilter;
 use App\Nova\Filters\ClosedLoans;
 use App\Nova\Filters\KreditCreatedAtDay;
 use App\Nova\Filters\KreditCreatedEndDay;
@@ -231,6 +232,7 @@ class Loan extends Resource
             new ShouldPayDateStart(),
             new ShouldPayDateEnd(),
             new KreditorFilter,
+            new BranchFilter(),
             new ClosedLoans(),
         ];
     }

@@ -7,7 +7,7 @@ use Laravel\Nova\Filters\BooleanFilter;
 
 class ClosedLoans extends BooleanFilter
 {
-    public $name = 'Başlanğıc';
+    public $name = 'Bağlanmış';
     public function apply(Request $request, $query, $value)
     {
         if($value['closed']) {
@@ -16,12 +16,6 @@ class ClosedLoans extends BooleanFilter
         return $query;
     }
 
-    /**
-     * Get the filter's available options.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
     public function options(Request $request)
     {
         return [

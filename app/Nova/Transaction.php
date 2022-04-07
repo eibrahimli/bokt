@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Helpers\TransactionHelper;
 use App\Models\LoanReport;
 use App\Nova\Metrics\NewTransaction;
+use App\Nova\Metrics\TotalTransactions;
 use App\Rules\CheckTransactionPaymentIsGreaterThanExpectedPrice;
 use Coroowicaksono\ChartJsIntegration\LineChart;
 use Eibrahimli\CustomerLoanField\CustomerLoanField;
@@ -132,7 +133,12 @@ class Transaction extends Resource
 
     public function cards(Request $request): array
     {
-       return [];
+       return [
+           new TotalTransactions(),
+           new TotalTransactions(null,'Əsas məbləğ üzrə ödənişlər','main-total-transactions', 'main_price'),
+           new TotalTransactions(null,'Faiz məbləğ üzrə ödənişlər','interested-total-transactions', 'interested_price'),
+           new TotalTransactions(null,'Cərimə üzrə ödənişlər','penalty-total-transactions', 'calculated_price'),
+       ];
     }
 
     public function filters(Request $request): array

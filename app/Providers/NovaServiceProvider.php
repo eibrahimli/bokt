@@ -55,47 +55,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             new SummOfTransactions(null, 'main_price', 'esas-cemi-odenisler', 'Əsas üzrə ödənişlər'),
             new SummOfTransactions(null, 'interested_price', 'faiz-cemi-odenisler', 'Faiz üzrə ödənişlər'),
             new RescheduledLoans(),
-
-            (new AreaChart())
-                ->title('Kreditlər')
-                ->animations([
-                    'enabled' => true,
-                    'easing' => 'easeinout',
-                ])
-                ->series(array([
-                    'barPercentage' => 0.5,
-                    'label' => 'Ortalama Kredit',
-                    'backgroundColor' => '#f7a35c',
-                    'data' => [80, 90, 80, 40, 62, 79, 79, 90, 90, 90, 92, 91],
-                ]))
-                ->options([
-                    'xaxis' => [
-                        'categories' => [ 'Jan', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct' ]
-                    ],
-                ]),
-            (new LineChart())
-                ->title('Tranzaksiyalar')
-                ->animations([
-                    'enabled' => true,
-                    'easing' => 'easeinout',
-                ])
-                ->series(array([
-                    'barPercentage' => 0.5,
-                    'label' => 'Oratala Satış #1',
-                    'borderColor' => '#f7a35c',
-                    'data' => [80, 90, 80, 40, 62, 79, 79, 90, 90, 90, 92, 91],
-                ],[
-                    'barPercentage' => 0.5,
-                    'label' => 'Ortalama Satış #2',
-                    'borderColor' => '#90ed7d',
-                    'data' => [90, 80, 40, 22, 79, 129, 30, 40, 90, 92, 91, 80],
-                ]))
-                ->options([
-                    'xaxis' => [
-                        'categories' => [ 'Jan', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct' ]
-                    ],
-                ]),
-
         ];
     }
 
