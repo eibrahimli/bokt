@@ -72,7 +72,7 @@ class AcceptPenaltyForLoan extends Action
         return [
             Currency::make('Cərimə məgləğ   i', 'price')
                 ->readonly()
-                ->withMeta(['value' => round($penalty->price - $penalty->price_remainder,1)])
+                ->withMeta(['value' => round(@$penalty->price - @$penalty->price_remainder,1)])
                 ->currency('AZN'),
             Currency::make('Məbləğ', 'calculated_price')
                 ->currency('AZN')
