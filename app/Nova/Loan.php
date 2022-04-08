@@ -117,7 +117,7 @@ class Loan extends Resource
                     $penalty = $this->model()->loanPenalties()->unPaid()->first();
                     return $penalty ? 'Günlərin sayı => '.$penalty->day : 'Günlərin sayı => 0';
                 })->extraClasses(['text-red-600']),
-            ])->hideFromIndex(),
+            ]),
 
             Tabs::make('Cədvəllər', array_merge(@$this->rescheduled ? [
                 new Panel('Yeni Cədvəl', array_merge($this->reScheduledFields($request), [

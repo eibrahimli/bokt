@@ -86,8 +86,12 @@ class Customer extends Resource
                 'female' => 'Qadın'
             ])->displayUsing(function () { return $this->maritial_status == 'female' ? 'Qadın' : 'Kişi'; }),
             Text::make("Həyat Yoladşı Ad", 'wife_name')->rules(['required'])->sortable(),
-            Text::make('Həyat Yoldaşı Soyad','wife_surname')->showOnIndex()->sortable(),
-            Text::make('Həyat Yoladşı Ata Adı', 'wife_fathername')->showOnIndex()->sortable(),
+            Text::make('Həyat Yoldaşı Soyad','wife_surname')->sortable(),
+            Text::make('Həyat Yoladşı Ata Adı', 'wife_fathername')->sortable(),
+
+            Text::make('Gecikmə günlərinin sayı', function () {
+                return $this->findCustomerPenaltyDay($this->model());
+            })->exceptOnForms(),
             HiddenField::make('', 'contact_phone_1'),
             HiddenField::make('', 'contact_phone_2'),
             HiddenField::make('', 'contact_phone_3'),
@@ -153,5 +157,15 @@ class Customer extends Resource
             HiddenField::make('', 'contact_phone_3'),
             ContactPhonesFields::make('Əlaqə telefonu', 'contact_phone')
         ];
+    }
+
+    protected function findCustomerPenaltyDay(\App\Models\Customer $customer) {
+        $loans = $customer->loans;
+
+        $sum = $loans->reduce(function ($carry, $loan) {
+           return $carry + $loan->loanPenalties->sum('day');
+        });
+
+        return $sum;
     }
 }

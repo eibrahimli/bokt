@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Branch;
 use App\Models\Customer;
 use App\Models\Options\Trade;
 use App\Models\Transaction;
 use App\Nova\Dashboards\LoanDashboards;
+use App\Nova\Metrics\BranchTransaction;
 use App\Nova\Metrics\FakeReceivedTransaction;
 use App\Nova\Metrics\FakeTotalTransaction;
 use App\Nova\Metrics\LoanIsApproved;
@@ -48,14 +50,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
     protected function cards(): array
     {
-        return [
-
-            new BranchsCard(),
+        return array_merge($this->branchCards(),[
             new SummOfTransactions(null, 'price', 'cemi-odenisler', 'Cəmi Ödənişlər'),
             new SummOfTransactions(null, 'main_price', 'esas-cemi-odenisler', 'Əsas üzrə ödənişlər'),
             new SummOfTransactions(null, 'interested_price', 'faiz-cemi-odenisler', 'Faiz üzrə ödənişlər'),
             new RescheduledLoans(),
-        ];
+        ]);
     }
 
     protected function dashboards(): array
@@ -77,5 +77,16 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function register()
     {
         //
+    }
+
+    protected function branchCards() {
+        $cards = [];
+        $branches = Branch::all();
+        foreach ($branches as $branch):
+            $cards[] = new BranchTransaction(null, $branch->name, $branch->id,$branch->name);
+        endforeach;
+
+        return $cards;
+
     }
 }

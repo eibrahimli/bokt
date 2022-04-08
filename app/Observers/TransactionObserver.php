@@ -248,8 +248,6 @@ class TransactionObserver
             case 'penalty':
                 $penalty = $loan->loanPenalties()->unPaid()->first();
 
-                
-
                 $penalty->price_remainder -= $transaction->price;
 
                 $penalty->saveQuietly();
@@ -261,36 +259,36 @@ class TransactionObserver
             case 'service_fee':
                 $loan->serviceFeePayed = false;
 
-                $loan = LoanHelper::decreaseLoanPayedBalance($loan, $transaction); 
-
-                break;
-            case 'loan':
-                
-                if($loan->rescheduled):
-                    $loan->loanReports()->forceDelete();
-        
-                    $loan->rescheduled_report = $history->old_report_entries;
-                    $loan->rescheduled_payed_balance -= $transaction->price;
-                else:
-                    
-                    $loan->loanReports()->forceDelete();
-                    $loan->credit_report = $history->old_report_entries;
-        
-                    $loan->payed_balance -= $transaction->price;
-                endif;   
-
-                $loan->loanReports()->createMany(json_decode($history->old_report_entries,true));
-
-                break;  
-                
-            case 'loan_closed';   
                 $loan = LoanHelper::decreaseLoanPayedBalance($loan, $transaction);
 
                 break;
-        }   
+            case 'loan':
+
+                if($loan->rescheduled):
+                    $loan->loanReports()->forceDelete();
+
+                    $loan->rescheduled_report = $history->old_report_entries;
+                    $loan->rescheduled_payed_balance -= $transaction->price;
+                else:
+
+                    $loan->loanReports()->forceDelete();
+                    $loan->credit_report = $history->old_report_entries;
+
+                    $loan->payed_balance -= $transaction->price;
+                endif;
+
+                $loan->loanReports()->createMany(json_decode($history->old_report_entries,true));
+
+                break;
+
+            case 'loan_closed';
+                $loan = LoanHelper::decreaseLoanPayedBalance($loan, $transaction);
+
+                break;
+        }
 
         $loan->saveQuietly();
-        
+
     }
 
     public function restored(Transaction $transaction)
@@ -325,5 +323,5 @@ class TransactionObserver
         $reyester->saveQuietly();
     }
 
-    
+
 }
