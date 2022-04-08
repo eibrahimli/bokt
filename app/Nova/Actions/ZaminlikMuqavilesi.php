@@ -35,10 +35,15 @@ class ZaminlikMuqavilesi extends Action
             .' '.$loan->customer->fathername);
         $t->setValue('ID', $loan->id);
         $t->setValue('identity_number', $loan->customer->identity_number);
+        $t->setValue('RPS', $loan->customer->indentity_agency);
+        $t->setValue('indentity_given_date',Carbon::parse($loan->customer->indentity_given_date)->toDateString());
+
         $t->setValue('guarantor', $loan->customer->guarantors->first()->name
             .' '.$loan->customer->guarantors->first()->surname
             .' '.$loan->customer->guarantors->first()->fathername);
         $t->setValue('guarantor_identity_number', $loan->customer->guarantors->first()->identity_number);
+        $t->setValue('guarantor_identity_given_date', $loan->customer->guarantors->first()->identity_given_date);
+        $t->setValue('guarantor_identity_agency', $loan->customer->guarantors->first()->identity_agency);
         $t->setValue('id', $loan->id);
         $t->setValue('percentage', $loan->percentage);
         $t->setValue('price', $loan->price);

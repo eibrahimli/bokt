@@ -36,6 +36,9 @@ class TreatyPrint extends Action
             .' '.$loan->customer->surname
             .' '.$loan->customer->fathername);
         $t->setValue('fin', $loan->customer->fin);
+        $t->setValue('RPS', $loan->customer->indentity_agency);
+        $t->setValue('indentity_given_date',Carbon::parse($loan->customer->indentity_given_date)->toDateString());
+        $t->setValue('identity_number', $loan->customer->identity_number);
         $t->setValue('FIFD', LoanHelper::findFifd($loan));
         $t->setValue('whole_payable_balance', $loan->whole_payable_balance);
         $t->setValue('price', $loan->price);

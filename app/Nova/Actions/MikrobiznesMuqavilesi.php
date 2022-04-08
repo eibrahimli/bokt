@@ -35,6 +35,8 @@ class MikrobiznesMuqavilesi extends Action
             .' '.$loan->customer->fathername);
         $t->setValue('director', $loan->branch->director);
         $t->setValue('identity_number', $loan->customer->identity_number);
+        $t->setValue('RPS', $loan->customer->indentity_agency);
+        $t->setValue('indentity_given_date',Carbon::parse($loan->customer->indentity_given_date)->toDateString());
         $t->setValue('price', $loan->price);
         $t->setValue('price_to_word', $numberToWords->format($loan->price));
         $t->setValue('month', $loan->month);
