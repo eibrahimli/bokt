@@ -252,6 +252,11 @@ class TransactionObserver
 
                 $penalty->saveQuietly();
 
+                $accounts = Account::first();
+                $accounts->balance -= $transaction->price;
+
+                $accounts->save();
+
                 $loan = LoanHelper::decreaseLoanPayedBalance($loan, $transaction);
 
                 break;
@@ -260,6 +265,11 @@ class TransactionObserver
                 $loan->serviceFeePayed = false;
 
                 $loan = LoanHelper::decreaseLoanPayedBalance($loan, $transaction);
+
+                $accounts = Account::first();
+                $accounts->balance -= $transaction->price;
+
+                $accounts->save();
 
                 break;
             case 'loan':
@@ -279,10 +289,19 @@ class TransactionObserver
 
                 $loan->loanReports()->createMany(json_decode($history->old_report_entries,true));
 
+                $accounts = Account::first();
+                $accounts->balance -= $transaction->price;
+
+                $accounts->save();
+
                 break;
 
             case 'loan_closed';
                 $loan = LoanHelper::decreaseLoanPayedBalance($loan, $transaction);
+                $accounts = Account::first();
+                $accounts->balance -= $transaction->price;
+
+                $accounts->save();
 
                 break;
         }

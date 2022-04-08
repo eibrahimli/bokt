@@ -2,6 +2,7 @@
 
 namespace App\Nova\Actions;
 
+use App\Models\Account;
 use App\Models\Loan;
 use App\Models\LoanReport;
 use Illuminate\Bus\Queueable;
@@ -57,6 +58,11 @@ class CloseLoan extends Action
         $transaction->description = 'Kredit bağlanması';
 
         $transaction->saveQuietly();
+
+        $accounts = Account::first();
+        $accounts->balance += $transaction->price;
+
+        $accounts->save();
 
         return Action::message('Kredit uğurlu şəkildə bağlanıldı');
     }

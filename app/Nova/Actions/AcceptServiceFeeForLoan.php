@@ -2,6 +2,7 @@
 
 namespace App\Nova\Actions;
 
+use App\Models\Account;
 use App\Models\Loan;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -43,6 +44,11 @@ class AcceptServiceFeeForLoan extends Action
         $model->serviceFeePayed = true;
 
         $model->saveQuietly();
+
+        $accounts = Account::first();
+        $accounts->balance += $report->service_fee;
+
+        $accounts->save();
 
         return Action::message('Xidmət haqqı ödənişi uğurla qəbul edildi');
     }

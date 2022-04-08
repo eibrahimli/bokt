@@ -3,6 +3,7 @@
 namespace App\Nova\Actions;
 
 use App\Helpers\LoanHelper;
+use App\Models\Account;
 use App\Models\Transaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -63,6 +64,11 @@ class AcceptPenaltyForLoan extends Action
         endif;
 
         $penalty->saveQuietly();
+
+        $accounts = Account::first();
+        $accounts->balance += $transaction->price;
+
+        $accounts->save();
     }
 
     public function fields()
